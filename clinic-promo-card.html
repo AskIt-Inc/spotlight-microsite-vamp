@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amyloidosis Program Spotlight Series — Clinic Promo Card</title>
+<style>
+
+  /* ── Screen preview ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .controls label { font-weight: 600; }
+
+  .controls button {
+    padding: 6px 16px;
+    border: 1px solid #8B1F2D;
+    border-radius: 4px;
+    background: #fff;
+    color: #8B1F2D;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .controls button.active {
+    background: #8B1F2D;
+    color: #fff;
+  }
+
+  .print-note {
+    font-size: 13px;
+    color: #666;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    padding: 10px 16px;
+    border-radius: 6px;
+    max-width: 600px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ── Card wrapper ── */
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .card-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── THE CARD ── */
+  .card {
+    width: 6in;
+    min-height: 4in;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .card.size-3x5 {
+    width: 5in;
+    min-height: 3in;
+  }
+
+  /* ── Logo bar ── */
+  .logo-bar {
+    background: #fff;
+    border-bottom: 1px solid #E8E8E8;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .logo-bar img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    max-width: 160px;
+  }
+
+  .logo-divider {
+    width: 1px;
+    height: 36px;
+    background: #DDD0D2;
+    flex-shrink: 0;
+  }
+
+  .logo-fallback {
+    font-weight: 700;
+    font-size: 13px;
+    color: #8B1F2D;
+  }
+
+  /* ── Title strip ── */
+  .title-strip {
+    background: #fff;
+    border-bottom: 1px solid #E8E8E8;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .coming-soon-badge {
+    display: inline-block;
+    background: #8B1F2D;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 3px 11px;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .program-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #8B1F2D;
+    letter-spacing: -0.2px;
+  }
+
+  .title-dot { color: #C0A0A4; }
+
+  .program-date {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6B7280;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Maroon featuring band ── */
+  .featuring-band {
+    background: linear-gradient(135deg, #8B1F2D 0%, #6E1A24 100%);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .featuring-left {
+    flex: 1;
+  }
+
+  .featuring-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .featuring-label span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #FFE8A3;
+  }
+
+  .featuring-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+
+  .uoc-pill {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .uoc-pill img {
+    height: 36px;
+    width: auto;
+    max-width: 160px;
+    display: block;
+  }
+
+  /* ── Subscribe section (white) ── */
+  .subscribe-section {
+    background: #fff;
+    padding: 18px 24px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tagline {
+    font-size: 13px;
+    font-weight: 400;
+    color: #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .tagline strong {
+    color: #8B1F2D;
+    font-weight: 600;
+  }
+
+  .subscribe-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .subscribe-text {
+    flex: 1;
+  }
+
+  .subscribe-cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8B1F2D;
+    margin-bottom: 4px;
+  }
+
+  .subscribe-url {
+    display: inline-block;
+    font-size: 11px;
+    color: #005EB8;
+    background: #F0F7FF;
+    border: 1px solid #C0D8F0;
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-family: monospace;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+
+  .receive-text {
+    font-size: 11px;
+    color: #4B5563;
+    line-height: 1.4;
+  }
+
+  /* ── QR code placeholder ── */
+  .qr-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .qr-box {
+    width: 76px;
+    height: 76px;
+    border: 2px dashed #C0A0A4;
+    border-radius: 6px;
+    background: #FBF0F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .qr-box svg { opacity: 0.5; }
+
+  .qr-label {
+    font-size: 8px;
+    color: #8B1F2D;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* ── Fine print ── */
+  .fine-print {
+    font-size: 9px;
+    color: #9CA3AF;
+    font-style: italic;
+    line-height: 1.4;
+    padding: 0 24px 14px;
+    border-top: 1px solid #F3F4F6;
+    padding-top: 10px;
+    margin-top: auto;
+  }
+
+  /* ── 3x5 size adjustments ── */
+  .card.size-3x5 .featuring-name { font-size: 17px; }
+  .card.size-3x5 .tagline { font-size: 12px; }
+  .card.size-3x5 .subscribe-section { padding: 12px 20px 10px; gap: 8px; }
+  .card.size-3x5 .uoc-pill img { height: 28px; }
+  .card.size-3x5 .featuring-band { padding: 12px 20px; }
+  .card.size-3x5 .qr-box { width: 64px; height: 64px; }
+
+  /* ── Print styles ── */
+  @media print {
+    body {
+      background: none;
+      padding: 0;
+      display: block;
+    }
+
+    .controls,
+    .print-note,
+    .card-label { display: none !important; }
+
+    .card-wrapper { align-items: flex-start; gap: 0; }
+
+    .card {
+      box-shadow: none;
+      border-radius: 0;
+      page-break-after: avoid;
+      border: 0.5px solid #ccc;
+    }
+
+    /* 4x6 card print size */
+    .card { width: 6in; min-height: 4in; }
+    .card.size-3x5 { width: 5in; min-height: 3in; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <label>Card size:</label>
+  <button class="active" id="btn-4x6" onclick="setSize('4x6')">4×6 inch</button>
+  <button id="btn-3x5" onclick="setSize('3x5')">3×5 inch</button>
+  <span style="margin-left:8px; color:#888;">|</span>
+  <button onclick="window.print()" style="background:#8B1F2D; color:#fff; border-color:#8B1F2D;">🖨 Print</button>
+</div>
+
+<div class="print-note">
+  <strong>Before printing:</strong> Replace the QR code placeholder and subscribe URL below with the actual link once confirmed.
+  Print at actual size (no scaling). Use card stock 80–110 lb for clinic use.
+</div>
+
+<div class="card-wrapper">
+  <div class="card-label" id="size-label">4 × 6 inch index card</div>
+
+  <!-- THE CARD -->
+  <div class="card" id="the-card">
+
+    <!-- Logo bar -->
+    <div class="logo-bar">
+      <img src="https://somebodytotalkto.com/sites/default/files/STTT%20Logo%20Basic.png"
+           alt="SomeBodyToTalkTo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="logo-fallback" style="display:none">SomeBodyToTalkTo</span>
+
+      <div class="logo-divider"></div>
+
+      <img src="https://oneamyloidosisvoice.com/sites/default/files/files/oneamyloidosisvoice-logo-red.svg"
+           alt="oneAMYLOIDOSISvoice"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="logo-fallback" style="display:none">oneAMYLOIDOSISvoice</span>
+    </div>
+
+    <!-- Title strip -->
+    <div class="title-strip">
+      <span class="coming-soon-badge">Coming Soon</span>
+      <span class="program-name">Amyloidosis Program Spotlight Series</span>
+      <span class="title-dot">·</span>
+      <span class="program-date">June 2026</span>
+    </div>
+
+    <!-- FEATURING band -->
+    <div class="featuring-band">
+      <div class="featuring-left">
+        <div class="featuring-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFE8A3" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="10" r="3"/>
+            <line x1="12" y1="1" x2="12" y2="4"/>
+            <line x1="4.22" y1="3.22" x2="6.34" y2="5.34"/>
+            <line x1="1" y1="10" x2="4" y2="10"/>
+            <line x1="19.78" y1="3.22" x2="17.66" y2="5.34"/>
+            <line x1="23" y1="10" x2="20" y2="10"/>
+            <path d="M7 17l1.5-4h7L17 17"/>
+            <line x1="5" y1="21" x2="19" y2="21"/>
+          </svg>
+          <span>Featuring</span>
+        </div>
+        <div class="featuring-name">University of Chicago<br>Amyloidosis Program</div>
+      </div>
+      <div class="uoc-pill">
+        <img src="https://edge.sitecorecloud.io/unichicagomc-81nbqnb3/media/images/ucmc/landing-pages/ucm-logo-horizontal.png"
+             alt="UChicago Medicine"
+             onerror="this.outerHTML='<span style=\'font-size:11px;font-weight:700;color:#8B1F2D\'>UChicago Medicine</span>'">
+      </div>
+    </div>
+
+    <!-- Subscribe section -->
+    <div class="subscribe-section">
+      <p class="tagline">
+        <strong>Free weekly online sessions</strong> with University of Chicago amyloidosis specialists —
+        expert insights, real answers, and the latest on treatments and research,
+        presented by your local experts at <strong>5PM Central</strong> every week.
+      </p>
+
+      <div class="subscribe-row">
+        <div class="subscribe-text">
+          <div class="subscribe-cta">Subscribe or scan the QR code to register</div>
+          <!-- ⚠️ Replace with actual subscribe URL before printing -->
+          <span class="subscribe-url">[ subscribe link — to be confirmed ]</span>
+          <p class="receive-text">
+            Receive session registration links and program updates directly to your inbox.
+          </p>
+        </div>
+        <div class="qr-block">
+          <!-- ⚠️ Replace with actual QR code image once URL is confirmed -->
+          <div class="qr-box">
+            <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+              <rect x="2" y="2" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
+              <rect x="7" y="7" width="8" height="8" fill="#8B1F2D"/>
+              <rect x="28" y="2" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
+              <rect x="33" y="7" width="8" height="8" fill="#8B1F2D"/>
+              <rect x="2" y="28" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
+              <rect x="7" y="33" width="8" height="8" fill="#8B1F2D"/>
+              <rect x="28" y="28" width="4" height="4" fill="#8B1F2D"/>
+              <rect x="34" y="28" width="4" height="4" fill="#8B1F2D"/>
+              <rect x="40" y="28" width="6" height="4" fill="#8B1F2D"/>
+              <rect x="28" y="34" width="6" height="4" fill="#8B1F2D"/>
+              <rect x="36" y="34" width="4" height="4" fill="#8B1F2D"/>
+              <rect x="28" y="40" width="4" height="6" fill="#8B1F2D"/>
+              <rect x="34" y="42" width="12" height="4" fill="#8B1F2D"/>
+            </svg>
+            <span class="qr-label">QR<br>placeholder</span>
+          </div>
+          <span style="font-size:9px;color:#9CA3AF;text-align:center">scan to<br>subscribe</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fine print -->
+    <div class="fine-print">
+      * Subscribing is free and your information is never shared with third parties.
+    </div>
+
+  </div>
+  <!-- end card -->
+
+</div>
+
+<script>
+  function setSize(size) {
+    const card = document.getElementById('the-card');
+    const label = document.getElementById('size-label');
+    const btn4x6 = document.getElementById('btn-4x6');
+    const btn3x5 = document.getElementById('btn-3x5');
+    if (size === '3x5') {
+      card.classList.add('size-3x5');
+      label.textContent = '3 × 5 inch index card';
+      btn3x5.classList.add('active');
+      btn4x6.classList.remove('active');
+    } else {
+      card.classList.remove('size-3x5');
+      label.textContent = '4 × 6 inch index card';
+      btn4x6.classList.add('active');
+      btn3x5.classList.remove('active');
+    }
+  }
+</script>
+
+</body>
+</html>
