@@ -268,24 +268,6 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
           >
             {clinician.specialty}
           </div>
-          {/* Type badge */}
-          <div style={{ marginTop: '4px' }}>
-            <span
-              style={{
-                background: '#FBF0F1',
-                color: '#8B1F2D',
-                border: '1px solid #F0D0D3',
-                borderRadius: '9999px',
-                padding: '1px 8px',
-                fontSize: '11px',
-                fontWeight: 300,
-                fontFamily: FONT,
-                display: 'inline-block',
-              }}
-            >
-              {clinician.type}
-            </span>
-          </div>
         </div>
 
         {/* CTAs — stacked on the right */}
@@ -440,7 +422,7 @@ export const TeamSection: React.FC = () => (
             Our multidisciplinary team also includes:{' '}
           </span>
           <span style={{ fontSize: '13px', color: '#000000', fontFamily: FONT }}>
-            Clinic Nursing · Medical Social Work · Physical and Occupational Therapy
+            Samantha De Santiago, RN, Heart Failure Clinic · Clinic Nursing · Medical Social Work · Physical and Occupational Therapy
           </span>
         </div>
       </div>
