@@ -1,47 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const FONT = 'gotham, sans-serif';
 const STTT_LOGO_URL = 'https://somebodytotalkto.com/sites/default/files/STTT%20Logo%20Basic.png';
+const CITY_OF_HOPE_LOGO_URL = 'https://www.cityofhope.org/sites/www/files/2022-03/coh_logo.svg';
 
 const CityOfHopeLogo = () => {
+  const [imgFailed, setImgFailed] = useState(false);
+
   return (
     <div
       style={{
         background: '#ffffff',
         borderRadius: '10px',
-        padding: '14px 26px',
+        padding: '12px 24px',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         minWidth: '250px',
+        minHeight: '76px',
         border: '1px solid #D9E8ED',
       }}
     >
-      <span
-        style={{
-          fontSize: '25px',
-          fontWeight: 700,
-          color: '#004F66',
-          fontFamily: FONT,
-          lineHeight: 1,
-        }}
-      >
-        City of Hope
-      </span>
-      <span
-        style={{
-          fontSize: '10px',
-          fontWeight: 700,
-          color: '#F58220',
-          fontFamily: FONT,
-          marginTop: '7px',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase' as const,
-        }}
-      >
-        Cancer Care + Research
-      </span>
+      {!imgFailed ? (
+        <img
+          src={CITY_OF_HOPE_LOGO_URL}
+          alt="City of Hope"
+          style={{ height: '52px', width: 'auto', maxWidth: '230px', display: 'block' }}
+          onError={() => setImgFailed(true)}
+        />
+      ) : (
+        <span
+          style={{
+            fontSize: '22px',
+            fontWeight: 700,
+            color: '#004F66',
+            fontFamily: FONT,
+            lineHeight: 1,
+          }}
+        >
+          City of Hope
+        </span>
+      )}
     </div>
   );
 };
