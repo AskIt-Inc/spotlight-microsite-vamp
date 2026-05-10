@@ -210,13 +210,16 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    width: 180px;
   }
 
   .uoc-pill img {
-    height: 36px;
+    max-height: 36px;
+    max-width: 148px;
     width: auto;
-    max-width: 160px;
+    height: auto;
     display: block;
+    object-fit: contain;
   }
 
   /* ── Subscribe section (white) ── */
@@ -327,7 +330,8 @@
   .card.size-3x5 .receive-text { font-size: 11px; }
   .card.size-3x5 .fine-print { font-size: 10px; }
   .card.size-3x5 .subscribe-section { padding: 12px 20px 10px; gap: 8px; }
-  .card.size-3x5 .uoc-pill img { height: 28px; }
+  .card.size-3x5 .uoc-pill { width: 150px; }
+  .card.size-3x5 .uoc-pill img { max-height: 28px; max-width: 120px; }
   .card.size-3x5 .featuring-band { padding: 12px 20px; }
   .card.size-3x5 .qr-box { width: 64px; height: 64px; }
 
