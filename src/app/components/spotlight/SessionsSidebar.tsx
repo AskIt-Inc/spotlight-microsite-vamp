@@ -34,7 +34,7 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
             fontSize: '9px',
             fontWeight: 700,
             textTransform: 'uppercase' as const,
-            color: '#8B1F2D',
+            color: '#006E8E',
             lineHeight: 1,
             fontFamily: FONT,
           }}
@@ -89,6 +89,20 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
         >
           {session.title}
         </div>
+        {session.description && (
+          <div
+            style={{
+              fontSize: '12px',
+              fontWeight: 300,
+              color: '#4B5563',
+              lineHeight: 1.45,
+              marginTop: '5px',
+              fontFamily: FONT,
+            }}
+          >
+            {session.description}
+          </div>
+        )}
         <div
           style={{
             display: 'flex',
@@ -111,7 +125,7 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
             style={{
               marginTop: '8px',
               padding: '5px 12px',
-              background: hovered ? '#6E1A24' : '#8B1F2D',
+              background: hovered ? '#004F66' : '#006E8E',
               color: '#ffffff',
               border: 'none',
               borderRadius: '4px',
@@ -176,7 +190,7 @@ export const SessionsSidebar: React.FC = () => {
         style={{
           padding: '14px 16px',
           borderBottom: '1px solid var(--oav-border)',
-          background: '#8B1F2D',
+          background: '#006E8E',
         }}
       >
         <div

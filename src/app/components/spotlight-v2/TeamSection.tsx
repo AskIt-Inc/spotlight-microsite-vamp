@@ -63,13 +63,13 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              border: '3px solid #8B1F2D',
+              border: '3px solid #006E8E',
               overflow: 'hidden',
               flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#8B1F2D',
+              background: '#006E8E',
             }}
           >
             {clinician.photo && !imgError ? (
@@ -94,7 +94,7 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
             <div style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT, marginTop: '2px' }}>
               {clinician.credentials} · {clinician.title}
             </div>
-            <div style={{ fontSize: '13px', color: '#8B1F2D', fontFamily: FONT, marginTop: '2px' }}>
+            <div style={{ fontSize: '13px', color: '#006E8E', fontFamily: FONT, marginTop: '2px' }}>
               {clinician.specialty}
             </div>
           </div>
@@ -143,7 +143,7 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
                   alignItems: 'center',
                   gap: '8px',
                   padding: '10px 16px',
-                  background: '#8B1F2D',
+                  background: '#006E8E',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '4px',
@@ -226,8 +226,8 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
             width: '60px',
             height: '60px',
             borderRadius: '50%',
-            border: '2px solid #8B1F2D',
-            background: '#8B1F2D',
+            border: '2px solid #006E8E',
+            background: '#006E8E',
             flexShrink: 0,
             overflow: 'hidden',
             display: 'flex',
@@ -310,7 +310,7 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
                 alignItems: 'center',
                 gap: '5px',
                 padding: '5px 12px',
-                background: registerHovered ? '#6E1A24' : '#8B1F2D',
+                background: registerHovered ? '#004F66' : '#006E8E',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
@@ -392,7 +392,7 @@ export const TeamSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          The multidisciplinary team behind the University of Chicago Amyloidosis Program
+          City of Hope presenters featured in the July amyloidosis spotlight series
         </p>
       </div>
 
@@ -403,32 +403,7 @@ export const TeamSection: React.FC = () => (
         ))}
       </div>
 
-      {/* Ancillary staff */}
-      <div
-        style={{
-          marginTop: '24px',
-          padding: '14px 18px',
-          background: 'var(--oav-card-bg)',
-          border: '1px solid var(--oav-border)',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '10px',
-        }}
-      >
-        <Users size={16} color="#8B1F2D" style={{ flexShrink: 0, marginTop: '2px' }} />
-        <div>
-          <span style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT }}>
-            Our multidisciplinary team also includes:{' '}
-          </span>
-          <span style={{ fontSize: '13px', color: '#000000', fontFamily: FONT }}>
-            Samantha De Santiago, RN, Heart Failure Clinic · Clinic Nursing · Medical Social Work · Physical and Occupational Therapy
-          </span>
-        </div>
-      </div>
-
-      {/* ── Affiliate Team Members ── */}
-      {/* 11-hospital network across UChicago Medicine + Endeavor Health affiliate sites */}
+      {/* ── Presenter Intro Status ── */}
       <div style={{ marginTop: '40px' }}>
         <h2
           style={{
@@ -440,7 +415,7 @@ export const TeamSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          Affiliate Team Members
+          Presenter Intros
         </h2>
         <p
           style={{
@@ -450,37 +425,34 @@ export const TeamSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          Together with our affiliate and satellite sites, the University of Chicago
-          Amyloidosis Program serves patients across{' '}
-          <strong style={{ color: '#8B1F2D' }}>11 hospitals</strong> — including Endeavor Health.
+          The source document leaves each presenter intro blank. Add approved City of Hope bios here when provided.
         </p>
 
-        {/* Placeholder cards — names to be provided by UChicago/Endeavor Health team */}
         <div
           style={{
-            border: '1px dashed #F0D0D3',
+            border: '1px dashed #B9DEE6',
             borderRadius: '8px',
             padding: '20px',
-            background: '#FBF0F1',
+            background: '#E7F5F8',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '12px',
           }}
         >
-          <Users size={18} color="#8B1F2D" style={{ flexShrink: 0, marginTop: '2px', opacity: 0.6 }} />
+          <Users size={18} color="#006E8E" style={{ flexShrink: 0, marginTop: '2px', opacity: 0.6 }} />
           <div>
             <div
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#8B1F2D',
+                color: '#006E8E',
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.5px',
                 fontFamily: FONT,
                 marginBottom: '6px',
               }}
             >
-              Content needed — Endeavor Health affiliate team
+              Content needed — City of Hope presenter intros
             </div>
             <p
               style={{
@@ -492,8 +464,7 @@ export const TeamSection: React.FC = () => (
                 lineHeight: 1.6,
               }}
             >
-              Awaiting names and roles from Dr. Sarswat / Endeavor Health team.
-              Once received, each affiliate member will appear as a card here.
+              Presenter names, session titles, and descriptions are loaded from the July document. Full bios and headshots should be added only after City of Hope approves them.
             </p>
           </div>
         </div>

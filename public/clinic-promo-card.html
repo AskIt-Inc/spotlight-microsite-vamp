@@ -35,17 +35,17 @@
 
   .controls button {
     padding: 6px 16px;
-    border: 1px solid #8B1F2D;
+    border: 1px solid #006E8E;
     border-radius: 4px;
     background: #fff;
-    color: #8B1F2D;
+    color: #006E8E;
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
   }
 
   .controls button.active {
-    background: #8B1F2D;
+    background: #006E8E;
     color: #fff;
   }
 
@@ -116,14 +116,14 @@
   .logo-divider {
     width: 1px;
     height: 36px;
-    background: #DDD0D2;
+    background: #B9DEE6;
     flex-shrink: 0;
   }
 
   .logo-fallback {
     font-weight: 700;
     font-size: 13px;
-    color: #8B1F2D;
+    color: #006E8E;
   }
 
   /* ── Title strip ── */
@@ -139,7 +139,7 @@
 
   .coming-soon-badge {
     display: inline-block;
-    background: #8B1F2D;
+    background: #006E8E;
     color: #fff;
     font-size: 9px;
     font-weight: 700;
@@ -153,11 +153,11 @@
   .program-name {
     font-size: 15px;
     font-weight: 700;
-    color: #8B1F2D;
+    color: #006E8E;
     letter-spacing: -0.2px;
   }
 
-  .title-dot { color: #C0A0A4; }
+  .title-dot { color: #70B8C8; }
 
   .program-date {
     font-size: 13px;
@@ -168,7 +168,7 @@
 
   /* ── Maroon featuring band ── */
   .featuring-band {
-    background: linear-gradient(135deg, #8B1F2D 0%, #6E1A24 100%);
+    background: linear-gradient(135deg, #006E8E 0%, #004F66 100%);
     padding: 16px 24px;
     display: flex;
     align-items: center;
@@ -237,7 +237,7 @@
   }
 
   .tagline strong {
-    color: #8B1F2D;
+    color: #006E8E;
     font-weight: 600;
   }
 
@@ -254,7 +254,7 @@
   .subscribe-cta {
     font-size: 13px;
     font-weight: 600;
-    color: #8B1F2D;
+    color: #006E8E;
     margin-bottom: 4px;
   }
 
@@ -289,9 +289,9 @@
   .qr-box {
     width: 76px;
     height: 76px;
-    border: 2px dashed #C0A0A4;
+    border: 2px dashed #70B8C8;
     border-radius: 6px;
-    background: #FBF0F1;
+    background: #E7F5F8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -303,7 +303,7 @@
 
   .qr-label {
     font-size: 8px;
-    color: #8B1F2D;
+    color: #006E8E;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     text-align: center;
@@ -364,7 +364,7 @@
   <button class="active" id="btn-4x6" onclick="setSize('4x6')">4×6 inch</button>
   <button id="btn-3x5" onclick="setSize('3x5')">3×5 inch</button>
   <span style="margin-left:8px; color:#888;">|</span>
-  <button onclick="window.print()" style="background:#8B1F2D; color:#fff; border-color:#8B1F2D;">🖨 Print</button>
+  <button onclick="window.print()" style="background:#006E8E; color:#fff; border-color:#006E8E;">🖨 Print</button>
 </div>
 
 <div class="print-note">
@@ -398,7 +398,7 @@
       <span class="coming-soon-badge">Coming Soon</span>
       <span class="program-name">Amyloidosis Program Spotlight Series</span>
       <span class="title-dot">·</span>
-      <span class="program-date">June 2026</span>
+      <span class="program-date">July 2026</span>
     </div>
 
     <!-- FEATURING band -->
@@ -417,19 +417,19 @@
           </svg>
           <span>Featuring</span>
         </div>
-        <div class="featuring-name">University of Chicago<br>Amyloidosis Program</div>
+        <div class="featuring-name">City of Hope<br>Amyloidosis Program</div>
       </div>
       <div class="uoc-pill">
         <img src="https://edge.sitecorecloud.io/unichicagomc-81nbqnb3/media/images/ucmc/landing-pages/ucm-logo-horizontal.png"
-             alt="UChicago Medicine"
-             onerror="this.outerHTML='<span style=\'font-size:11px;font-weight:700;color:#8B1F2D\'>UChicago Medicine</span>'">
+             alt="City of Hope"
+             onerror="this.outerHTML='<span style=\'font-size:11px;font-weight:700;color:#006E8E\'>City of Hope</span>'">
       </div>
     </div>
 
     <!-- Subscribe section -->
     <div class="subscribe-section">
       <p class="tagline">
-        <strong>Free weekly online sessions</strong> with University of Chicago amyloidosis specialists —
+        <strong>Free weekly online sessions</strong> with City of Hope amyloidosis presenters —
         expert insights, real answers, and the latest on treatments and research,
         presented by your local experts at <strong>5PM Central</strong> every week.
       </p>
@@ -447,19 +447,19 @@
           <!-- ⚠️ Replace with actual QR code image once URL is confirmed -->
           <div class="qr-box">
             <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-              <rect x="2" y="2" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
-              <rect x="7" y="7" width="8" height="8" fill="#8B1F2D"/>
-              <rect x="28" y="2" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
-              <rect x="33" y="7" width="8" height="8" fill="#8B1F2D"/>
-              <rect x="2" y="28" width="18" height="18" rx="2" stroke="#8B1F2D" stroke-width="2" fill="none"/>
-              <rect x="7" y="33" width="8" height="8" fill="#8B1F2D"/>
-              <rect x="28" y="28" width="4" height="4" fill="#8B1F2D"/>
-              <rect x="34" y="28" width="4" height="4" fill="#8B1F2D"/>
-              <rect x="40" y="28" width="6" height="4" fill="#8B1F2D"/>
-              <rect x="28" y="34" width="6" height="4" fill="#8B1F2D"/>
-              <rect x="36" y="34" width="4" height="4" fill="#8B1F2D"/>
-              <rect x="28" y="40" width="4" height="6" fill="#8B1F2D"/>
-              <rect x="34" y="42" width="12" height="4" fill="#8B1F2D"/>
+              <rect x="2" y="2" width="18" height="18" rx="2" stroke="#006E8E" stroke-width="2" fill="none"/>
+              <rect x="7" y="7" width="8" height="8" fill="#006E8E"/>
+              <rect x="28" y="2" width="18" height="18" rx="2" stroke="#006E8E" stroke-width="2" fill="none"/>
+              <rect x="33" y="7" width="8" height="8" fill="#006E8E"/>
+              <rect x="2" y="28" width="18" height="18" rx="2" stroke="#006E8E" stroke-width="2" fill="none"/>
+              <rect x="7" y="33" width="8" height="8" fill="#006E8E"/>
+              <rect x="28" y="28" width="4" height="4" fill="#006E8E"/>
+              <rect x="34" y="28" width="4" height="4" fill="#006E8E"/>
+              <rect x="40" y="28" width="6" height="4" fill="#006E8E"/>
+              <rect x="28" y="34" width="6" height="4" fill="#006E8E"/>
+              <rect x="36" y="34" width="4" height="4" fill="#006E8E"/>
+              <rect x="28" y="40" width="4" height="6" fill="#006E8E"/>
+              <rect x="34" y="42" width="12" height="4" fill="#006E8E"/>
             </svg>
             <span class="qr-label">QR<br>placeholder</span>
           </div>

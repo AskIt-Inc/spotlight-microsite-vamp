@@ -39,11 +39,19 @@ export const router = createHashRouter([
       { path: 'reporting', element: <PlaceholderPage title="Reporting" /> },
     ],
   },
-  // ── Public microsite shell — v1 (original, untouched) ──
+  // ── Public microsite shell — current City of Hope version ──
   {
     path: '/spotlight',
     Component: SpotlightLayout,
-    children: [{ index: true, Component: SpotlightPage }],
+    children: [
+      { index: true, Component: SpotlightPageV3 },
+    ],
+  },
+  // ── City of Hope microsite — versioned clean URL ──
+  {
+    path: '/spotlight/coh/v1',
+    element: <SpotlightLayout />,
+    children: [{ index: true, element: <SpotlightPageV3 /> }],
   },
   // ── Public microsite shell — v2 (client feedback applied) ──
   {

@@ -1,52 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const FONT = 'gotham, sans-serif';
 const STTT_LOGO_URL = 'https://somebodytotalkto.com/sites/default/files/STTT%20Logo%20Basic.png';
-const UOC_LOGO_URL =
-  'https://edge.sitecorecloud.io/unichicagomc-81nbqnb3/media/images/ucmc/landing-pages/ucm-logo-horizontal.png';
 
-// ─── UoC logo — white pill, bigger to avoid squishing ────────────────────────
-const UoCLogo = () => {
-  const [imgFailed, setImgFailed] = useState(false);
+const CityOfHopeLogo = () => {
   return (
     <div
       style={{
         background: '#ffffff',
         borderRadius: '10px',
-        padding: '10px 24px',
+        padding: '14px 26px',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minWidth: '240px',
+        minWidth: '250px',
+        border: '1px solid #D9E8ED',
       }}
     >
-      {!imgFailed ? (
-        <img
-          src={UOC_LOGO_URL}
-          alt="University of Chicago Medicine"
-          style={{ height: '52px', width: 'auto', display: 'block' }}
-          onError={() => setImgFailed(true)}
-        />
-      ) : (
-        <span
-          style={{
-            fontSize: '15px',
-            fontWeight: 700,
-            color: '#8B1F2D',
-            fontFamily: FONT,
-            textAlign: 'center' as const,
-            lineHeight: 1.3,
-          }}
-        >
-          University of Chicago Medicine
-        </span>
-      )}
+      <span
+        style={{
+          fontSize: '25px',
+          fontWeight: 700,
+          color: '#004F66',
+          fontFamily: FONT,
+          lineHeight: 1,
+        }}
+      >
+        City of Hope
+      </span>
+      <span
+        style={{
+          fontSize: '10px',
+          fontWeight: 700,
+          color: '#F58220',
+          fontFamily: FONT,
+          marginTop: '7px',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase' as const,
+        }}
+      >
+        Cancer Care + Research
+      </span>
     </div>
   );
 };
 
 // ─── Series strip (upper band — 40% of total hero height) ────────────────────
-// Format: [STTT logo] | [Amyloidosis Program Spotlight Series] [June 2026]
+// Format: [STTT logo] | [Amyloidosis Program Spotlight Series] [July 2026]
 // Disease-first naming enables: "Sickle Cell Disease Program Spotlight Series" etc.
 const SeriesStrip: React.FC = () => (
   <div
@@ -78,7 +79,7 @@ const SeriesStrip: React.FC = () => (
       {/* Vertical rule — hidden on mobile */}
       <div
         className="series-strip-divider"
-        style={{ width: '1px', height: '42px', background: '#DDD0D2', flexShrink: 0 }}
+        style={{ width: '1px', height: '42px', background: '#B9DEE6', flexShrink: 0 }}
       />
 
       {/* Program identity: disease-first name + date */}
@@ -88,7 +89,7 @@ const SeriesStrip: React.FC = () => (
           style={{
             fontSize: '28px',
             fontWeight: 700,
-            color: '#8B1F2D',
+            color: '#006E8E',
             letterSpacing: '-0.2px',
             lineHeight: 1.1,
           }}
@@ -99,12 +100,12 @@ const SeriesStrip: React.FC = () => (
           style={{
             fontSize: '14px',
             fontWeight: 600,
-            color: '#8B1F2D',
+            color: '#006E8E',
             marginTop: '4px',
             letterSpacing: '0.04em',
           }}
         >
-          June 2026
+          July 2026
         </div>
       </div>
     </div>
@@ -118,8 +119,8 @@ export const HeroSection: React.FC = () => (
 
     <section
       style={{
-        background: 'linear-gradient(135deg, #8B1F2D 0%, #6E1A24 100%)',
-        borderBottom: '3px solid #6E1A24',
+        background: 'linear-gradient(135deg, #006E8E 0%, #004F66 74%, #F58220 160%)',
+        borderBottom: '3px solid #F58220',
         padding: '28px 24px',
       }}
     >
@@ -183,13 +184,13 @@ export const HeroSection: React.FC = () => (
               fontFamily: FONT,
             }}
           >
-            University of Chicago Amyloidosis Program
+            City of Hope Amyloidosis Program
           </h1>
         </div>
 
-        {/* Right column — UoC logo */}
+        {/* Right column — partner identity */}
         <div className="hero-logo-col" style={{ flexShrink: 0 }}>
-          <UoCLogo />
+          <CityOfHopeLogo />
         </div>
       </div>
     </section>

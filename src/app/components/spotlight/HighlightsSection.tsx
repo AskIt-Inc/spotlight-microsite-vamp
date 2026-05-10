@@ -5,7 +5,7 @@ const FONT = 'gotham, sans-serif';
 const highlights = [
   {
     label: 'One Program, Nine Specialists',
-    text: 'The UChicago Medicine Amyloidosis Program brings together nine dedicated specialists across cardiology, hematology and oncology, nephrology, neurology, gastroenterology, orthopedic surgery, and cardiovascular genetics — one of the most comprehensive amyloidosis teams in the Midwest. Each case is reviewed collaboratively, ensuring no organ system is managed in isolation.*',
+    text: 'The City of Hope Amyloidosis Program brings together nine dedicated specialists across cardiology, hematology and oncology, nephrology, neurology, gastroenterology, orthopedic surgery, and cardiovascular genetics — one of the most comprehensive amyloidosis teams in the Midwest. Each case is reviewed collaboratively, ensuring no organ system is managed in isolation.*',
   },
   {
     label: 'Advanced Cardiac Imaging for Precise Diagnosis',
@@ -105,7 +105,7 @@ export const HighlightsSection: React.FC = () => {
             fontStyle: 'italic',
           }}
         >
-          * Content generated for review purposes. Requires authentication and approval from University of Chicago Medicine before publication.
+          * Content generated for review purposes. Requires authentication and approval from City of Hope before publication.
         </p>
       </div>
     </section>

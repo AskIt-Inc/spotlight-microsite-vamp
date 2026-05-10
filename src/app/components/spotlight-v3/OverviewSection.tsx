@@ -9,19 +9,19 @@ const FONT = 'gotham, sans-serif';
 
 const pillars = [
   {
-    icon: '🫀',
-    label: 'Multidisciplinary Care',
-    text: 'Nine specialists across cardiology, hematology, neurology, nephrology, GI, orthopaedics & genetics — one coordinated care plan.',
+    icon: '01',
+    label: 'AL Amyloidosis Treatment',
+    text: 'Second-line treatment options for relapsed/refractory disease, including City of Hope experience with venetoclax and bispecific antibodies.',
   },
   {
-    icon: '🧬',
-    label: 'Genetics & Prevention',
-    text: 'Hereditary ATTR counselling, family screening, and access to prevention trials before symptoms develop.',
+    icon: '02',
+    label: 'Earlier Diagnosis',
+    text: 'A dedicated July session on the SAVE trial and how new findings may support earlier diagnosis of AL amyloidosis.',
   },
   {
-    icon: '🔬',
-    label: 'Active Research',
-    text: 'Landmark Phase 3 and global observational trials — giving patients access to emerging therapies.',
+    icon: '03',
+    label: 'Cardiac Amyloidosis + SCT',
+    text: 'Current AI diagnostic tools for cardiac amyloidosis and the evolving role of upfront autologous SCT in primary AL amyloidosis.',
   },
 ];
 
@@ -39,7 +39,7 @@ export const OverviewSection: React.FC = () => (
       <blockquote
         style={{
           margin: '0 0 32px 0',
-          borderLeft: '4px solid #8B1F2D',
+          borderLeft: '4px solid #006E8E',
           paddingLeft: '20px',
         }}
       >
@@ -53,9 +53,8 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          "One of the Midwest's most comprehensive amyloidosis programs — integrating cardiology,
-          hematology, neurology, and genetics under one roof to diagnose, treat, and prevent this
-          complex disease."
+          "A July spotlight series featuring City of Hope presenters on AL amyloidosis treatment,
+          earlier diagnosis, cardiac amyloidosis diagnostics, and upfront autologous SCT."
         </p>
       </blockquote>
 
@@ -78,14 +77,24 @@ export const OverviewSection: React.FC = () => (
               padding: '20px',
             }}
           >
-            <div style={{ fontSize: '24px', marginBottom: '8px' }}>{p.icon}</div>
+            <div
+              style={{
+                fontSize: '18px',
+                fontWeight: 700,
+                color: '#F58220',
+                marginBottom: '10px',
+                fontFamily: FONT,
+              }}
+            >
+              {p.icon}
+            </div>
             <div
               style={{
                 fontSize: '13px',
                 fontWeight: 700,
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.5px',
-                color: '#8B1F2D',
+                color: '#006E8E',
                 fontFamily: FONT,
                 marginBottom: '6px',
               }}

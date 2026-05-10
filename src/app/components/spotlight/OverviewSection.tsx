@@ -38,7 +38,7 @@ export const OverviewSection: React.FC = () => {
             fontFamily: FONT,
           }}
         >
-          The University of Chicago Amyloidosis Program is a multidisciplinary team of experts with the dedication
+          The City of Hope Amyloidosis Program is a multidisciplinary team of experts with the dedication
           and experience to diagnose and manage this complex condition. Our mission is to provide our patients the
           best quality of life during and after treatment, and to continually pursue groundbreaking research into
           the disease and its causes — helping identify high-risk patients and develop effective, long-term
@@ -61,7 +61,7 @@ export const OverviewSection: React.FC = () => {
             fontFamily: FONT,
           }}
         >
-          What sets the UChicago Medicine Amyloidosis Program apart is its integrated, whole-patient approach. Rather than treating each organ system in isolation, our multidisciplinary team — spanning cardiology, hematology, nephrology, neurology, gastroenterology, and orthopedic surgery — collaborates closely to ensure every patient receives a coordinated care plan tailored to their specific type and stage of amyloidosis. We are also committed to advancing the science: our clinicians actively participate in clinical trials and translational research, giving patients access to emerging therapies not yet widely available.*
+          What sets the City of Hope Amyloidosis Program apart is its integrated, whole-patient approach. Rather than treating each organ system in isolation, our multidisciplinary team — spanning cardiology, hematology, nephrology, neurology, gastroenterology, and orthopedic surgery — collaborates closely to ensure every patient receives a coordinated care plan tailored to their specific type and stage of amyloidosis. We are also committed to advancing the science: our clinicians actively participate in clinical trials and translational research, giving patients access to emerging therapies not yet widely available.*
         </p>
 
         {/* Asterisk disclaimer */}
@@ -75,7 +75,7 @@ export const OverviewSection: React.FC = () => {
             fontStyle: 'italic',
           }}
         >
-          * Content generated for review purposes. Requires authentication and approval from University of Chicago Medicine before publication.
+          * Content generated for review purposes. Requires authentication and approval from City of Hope before publication.
         </p>
       </div>
     </section>

@@ -313,7 +313,7 @@ export const TeamSection: React.FC = () => {
               lineHeight: 1.5,
             }}
           >
-            The multidisciplinary team behind the University of Chicago Amyloidosis Program
+            The multidisciplinary team behind the City of Hope Amyloidosis Program
           </p>
         </div>
 

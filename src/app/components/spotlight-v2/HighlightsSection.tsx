@@ -8,28 +8,20 @@ const FONT = 'gotham, sans-serif';
 
 const highlights = [
   {
-    label: 'One Program, Nine Specialists',
-    text: 'Nine specialists across cardiology, hematology, neurology, nephrology, GI, orthopaedics, and cardiovascular genetics — one of the Midwest\'s most comprehensive amyloidosis teams.*',
+    label: 'Second-Line AL Amyloidosis Treatment',
+    text: 'Two sessions focus on relapsed/refractory AL amyloidosis, including the City of Hope experience with venetoclax and bispecific antibodies.',
   },
   {
-    label: 'Advanced Cardiac Imaging',
-    text: 'State-of-the-art cardiac MRI, CT, and echocardiography for accurate early detection, diagnosis, and ongoing monitoring of cardiac amyloidosis.*',
+    label: 'SAVE Trial and Earlier Diagnosis',
+    text: 'Dr. Lisa Lee reviews the SAVE trial and how results may point toward earlier AL amyloidosis diagnosis.',
   },
   {
-    label: 'CAR T-Cell & Stem Cell Therapy',
-    text: 'Patients with AL amyloidosis have access to CAR T-cell therapy and autologous stem cell transplantation, with a research focus on MRD and racial disparities.*',
+    label: 'AI Tools for Cardiac Amyloidosis',
+    text: 'Dr. Faizi Jamal covers current and evolving AI tools for cardiac amyloidosis diagnosis.',
   },
   {
-    label: 'Hereditary ATTR & Genetic Counselling',
-    text: 'A dedicated cardiovascular genetic counsellor provides hereditary ATTR testing, pedigree analysis, and personalised guidance for patients and at-risk family members.*',
-  },
-  {
-    label: 'Kidney Transplantation',
-    text: 'Specialist nephrology care including evaluation for kidney and pancreas transplantation and management of amyloid-related kidney disease.*',
-  },
-  {
-    label: 'Active in Landmark Clinical Research',
-    text: 'Participation in ACT-EARLY (Phase 3, acoramidis) and MaesTTRo (global observational, eplontersen) — giving patients access to emerging therapies.*',
+    label: 'Upfront Autologous SCT',
+    text: 'Dr. Tibor Kovacsovics discusses the past, present, and future role of upfront autologous SCT for primary AL amyloidosis.',
   },
 ];
 
@@ -51,7 +43,7 @@ export const HighlightsSection: React.FC = () => (
           fontWeight: 700,
           textTransform: 'uppercase' as const,
           letterSpacing: '1px',
-          color: '#8B1F2D',
+          color: '#006E8E',
           marginBottom: '20px',
           fontFamily: FONT,
         }}
@@ -65,7 +57,7 @@ export const HighlightsSection: React.FC = () => (
           <div
             key={h.label}
             style={{
-              borderLeft: '3px solid #8B1F2D',
+              borderLeft: '3px solid #006E8E',
               paddingLeft: '14px',
               display: 'flex',
               flexDirection: 'column',
@@ -111,7 +103,7 @@ export const HighlightsSection: React.FC = () => (
           fontStyle: 'italic',
         }}
       >
-        * Content generated for review purposes. Requires approval from University of Chicago Medicine before publication.
+        * Session summaries are based on the supplied City of Hope July session document. Presenter intros and final publication copy still require client approval.
       </p>
     </div>
   </section>

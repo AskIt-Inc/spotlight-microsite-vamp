@@ -20,7 +20,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
   const inputStyle = (fieldName: string) => ({
     width: '100%',
     padding: '8px 12px',
-    border: `1px solid ${focusedField === fieldName ? '#8B1F2D' : '#E5E5E5'}`,
+    border: `1px solid ${focusedField === fieldName ? '#006E8E' : '#E5E5E5'}`,
     borderRadius: '4px',
     fontSize: '14px',
     color: '#000000',
@@ -83,9 +83,9 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
           {/* Status badge */}
           <span
             style={{
-              background: '#FBF0F1',
-              color: '#8B1F2D',
-              border: '1px solid #F0D0D3',
+              background: '#E7F5F8',
+              color: '#006E8E',
+              border: '1px solid #B9DEE6',
               borderRadius: '9999px',
               padding: '2px 10px',
               fontSize: '11px',
@@ -134,9 +134,9 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             onClick={() => setFormState(formState === 'open' ? 'idle' : 'open')}
             style={{
               padding: '8px 16px',
-              background: formState === 'open' ? '#FBF0F1' : 'transparent',
-              border: '1px solid #8B1F2D',
-              color: '#8B1F2D',
+              background: formState === 'open' ? '#E7F5F8' : 'transparent',
+              border: '1px solid #006E8E',
+              color: '#006E8E',
               borderRadius: '4px',
               fontSize: '13px',
               fontWeight: 300,
@@ -147,7 +147,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             }}
             onMouseEnter={(e) => {
               if (formState !== 'open') {
-                (e.currentTarget as HTMLButtonElement).style.background = '#FBF0F1';
+                (e.currentTarget as HTMLButtonElement).style.background = '#E7F5F8';
               }
             }}
             onMouseLeave={(e) => {
@@ -165,8 +165,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
       {formState === 'open' && (
         <div
           style={{
-            background: '#FBF0F1',
-            border: '1px solid #F0D0D3',
+            background: '#E7F5F8',
+            border: '1px solid #B9DEE6',
             borderTop: 'none',
             borderRadius: '0 0 8px 8px',
             marginTop: '-8px',
@@ -279,7 +279,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
                 fontFamily: FONT,
               }}
             >
-              Your details will only be shared with the University of Chicago research team.
+              Your details will only be shared with the City of Hope research team.
             </p>
 
             <button
@@ -287,7 +287,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
               style={{
                 width: '100%',
                 padding: '10px 16px',
-                background: '#8B1F2D',
+                background: '#006E8E',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
@@ -298,8 +298,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
                 marginTop: '4px',
                 transition: 'background 0.15s ease',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#6E1A24'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#8B1F2D'; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#004F66'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#006E8E'; }}
             >
               Submit Interest
             </button>
@@ -328,8 +328,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
       {formState === 'submitted' && (
         <div
           style={{
-            background: '#FBF0F1',
-            border: '1px solid #F0D0D3',
+            background: '#E7F5F8',
+            border: '1px solid #B9DEE6',
             borderTop: 'none',
             borderRadius: '0 0 8px 8px',
             marginTop: '-8px',
@@ -378,7 +378,7 @@ export const TrialsSection: React.FC = () => {
                 fontFamily: FONT,
               }}
             >
-              Open Clinical Trials
+              Clinical Trials
             </h2>
             <p
               style={{
@@ -390,7 +390,7 @@ export const TrialsSection: React.FC = () => {
                 lineHeight: 1.5,
               }}
             >
-              Active trials at University of Chicago — Amyloidosis
+              City of Hope amyloidosis trial details can be added once approved.
             </p>
             <a
               href="https://clinicaltrials.gov"
@@ -438,7 +438,7 @@ export const TrialsSection: React.FC = () => {
                   fontStyle: 'italic',
                 }}
               >
-                * Trial descriptions generated for review purposes. Requires authentication and approval from University of Chicago Medicine before publication.
+                * Trial descriptions require City of Hope approval before publication.
               </p>
             </>
           ) : (
@@ -456,10 +456,10 @@ export const TrialsSection: React.FC = () => {
               <Edit3 size={18} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400E', fontFamily: FONT, marginBottom: '8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }}>
-                  Content needed from University of Chicago
+                  Content needed from City of Hope
                 </div>
                 <p style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', fontFamily: FONT, lineHeight: 1.6 }}>
-                  Please provide the list of open clinical trials currently recruiting at UChicago Medicine — Amyloidosis Program. For each trial include:
+                  Please provide the list of open clinical trials currently recruiting through the City of Hope Amyloidosis Program. For each trial include:
                 </p>
                 <ul style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', paddingLeft: '18px', fontFamily: FONT, lineHeight: 1.7 }}>
                   <li>ClinicalTrials.gov identifier (NCT number)</li>
@@ -473,7 +473,7 @@ export const TrialsSection: React.FC = () => {
                   <a href="https://clinicaltrials.gov" target="_blank" rel="noopener noreferrer" style={{ color: '#92400E', fontWeight: 700 }}>
                     clinicaltrials.gov
                   </a>{' '}
-                  and search "University of Chicago" + "amyloidosis".
+                  and search "City of Hope" + "amyloidosis".
                 </p>
               </div>
             </div>

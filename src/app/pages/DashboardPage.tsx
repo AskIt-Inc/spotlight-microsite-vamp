@@ -8,11 +8,11 @@ const tiles = [
   {
     icon: Zap,
     title: 'Spotlight Series',
-    description: 'View the University of Chicago Amyloidosis Program microsite for June 2025.',
+    description: 'View the City of Hope Amyloidosis Program microsite for July 2026.',
     cta: 'View Microsite',
-    path: '/spotlight',
-    accent: '#8B1F2D',
-    bg: '#FBF0F1',
+    path: '/spotlight/coh/v1',
+    accent: '#006E8E',
+    bg: '#E7F5F8',
   },
   {
     icon: Calendar,
@@ -78,7 +78,7 @@ export const DashboardPage: React.FC = () => {
           lineHeight: 1.7,
         }}
       >
-        University of Chicago Medicine · STTT Partner Portal
+        City of Hope · STTT Partner Portal
       </p>
 
       <div
