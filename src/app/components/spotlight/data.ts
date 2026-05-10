@@ -97,7 +97,7 @@ export const clinicians: Clinician[] = [
     title: 'Assistant Professor of Neurology',
     specialty: 'Neuromuscular Medicine · EMG · Amyloidosis',
     type: 'Medical Doctor',
-    photo: 'https://edge.sitecorecloud.io/unichicagomc-81nbqnb3/media/images/ucmc/physician-photos/j-l/lara-carlos-bio-261x347.jpg',
+    photo: 'lara-carlos-bio-261x347.png',
     bio: 'Carlos Lara, MD, is a board-certified neurologist who specializes in the diagnosis and treatment of a broad spectrum of neurological conditions. With a deep emphasis on muscular dystrophies, myopathies, myasthenia gravis, hereditary neuropathies, chronic inflammatory demyelinating polyneuropathy, and neuromuscular medicine, Dr. Lara is dedicated to improving the lives of patients through leading-edge diagnostic and therapeutic techniques. He is particularly recognized for his advanced skills in neuromuscular ultrasound and electromyography (EMG), which help precisely diagnose and manage complex neuromuscular disorders.',
     hasVideo: false,
     hasSession: false,
