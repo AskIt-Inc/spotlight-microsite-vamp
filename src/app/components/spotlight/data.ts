@@ -167,7 +167,7 @@ export const clinicians: Clinician[] = [
     title: 'Assistant Professor of Medicine',
     specialty: 'Hematology & Oncology · Multiple Myeloma',
     type: 'Medical Doctor',
-    photo: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-05/jennifer-cooperrider.webp',
+    photo: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-05/120122-Jennifer-Cooperrider-MD.jpg',
     bio: 'Dr. Jennifer Cooperrider is an assistant professor of medicine specializing in hematology and oncology at UChicago Medicine. Dr. Cooperrider is an expert in Multiple Myeloma and provides comprehensive care for patients with plasma cell disorders.',
     hasVideo: false,
     hasSession: false,
