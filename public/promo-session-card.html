@@ -568,47 +568,105 @@ function handlePrint() {
   setTimeout(() => window.print(), 50);
 }
 
+/* ══════════════════════════════════════════════════
+   SHARED EXPORT HELPER
+   Renders .print-surface to a PNG data URL at 300 DPI.
+   Applies a scale transform during capture so output
+   pixels = 300 DPI without altering the live DOM size.
+   ══════════════════════════════════════════════════ */
 async function renderToPng() {
   const surface = document.getElementById('print-surface');
   const config  = CARD_CONFIG[currentSize];
   const scale   = config.pxWidth / surface.offsetWidth;
+
   return domtoimage.toPng(surface, {
     width:  config.pxWidth,
     height: config.pxHeight,
-    style:  { transform: 'scale(' + scale + ')', transformOrigin: 'top left', borderRadius: '0', boxShadow: 'none' }
+    style: {
+      // Scale the clone inside dom-to-image; does NOT touch live DOM
+      transform:       'scale(' + scale + ')',
+      transformOrigin: 'top left',
+      // Strip screen-only decoration from the exported image
+      borderRadius:    '0',
+      boxShadow:       'none'
+    }
   });
 }
 
+/* ══════════════════════════════════════════════════
+   PNG EXPORT
+   Exports exact 1800×1200 (4×6) or 1500×900 (3×5) PNG.
+   ══════════════════════════════════════════════════ */
 async function downloadPNG() {
-  const btn = document.getElementById('btn-download-png');
-  btn.textContent = '⏳ Generating…'; btn.disabled = true;
+  const btn    = document.getElementById('btn-download-png');
+  btn.textContent = '⏳ Generating…';
+  btn.disabled    = true;
+
   try {
     const dataUrl = await renderToPng();
-    const link = document.createElement('a');
+    const link    = document.createElement('a');
     link.download = 'campagna-may27-session-promo-' + currentSize + '.png';
-    link.href = dataUrl; link.click();
+    link.href     = dataUrl;
+    link.click();
   } catch (err) {
     console.error('PNG export failed:', err);
-    alert('PNG export failed — check browser console.');
-  } finally { btn.textContent = '↗ PNG'; btn.disabled = false; }
+    alert('PNG export failed — check browser console for details.');
+  } finally {
+    btn.textContent = '⬇ PNG';
+    btn.disabled    = false;
+  }
 }
 
+/* ══════════════════════════════════════════════════
+   PDF EXPORT
+   Renders PNG first (same pixel-perfect path as PNG
+   export), then embeds into jsPDF at exact card size.
+   Does NOT rely on browser print-to-PDF.
+   ══════════════════════════════════════════════════ */
 async function downloadPDF() {
-  const btn = document.getElementById('btn-download-pdf');
+  const btn    = document.getElementById('btn-download-pdf');
   const config = CARD_CONFIG[currentSize];
-  btn.textContent = '⏳ Generating…'; btn.disabled = true;
+  btn.textContent = '⏳ Generating…';
+  btn.disabled    = true;
+
   try {
+    // Step 1 — identical render path as PNG export
     const dataUrl = await renderToPng();
+
+    // Step 2 — create PDF with exact physical card dimensions
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: [config.widthIn, config.heightIn] });
-    pdf.addImage(dataUrl, 'PNG', 0, 0, config.widthIn, config.heightIn, undefined, 'FAST');
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit:        'in',
+      // jsPDF format: [width, height] — landscape, so pass [w, h]
+      format:      [config.widthIn, config.heightIn]
+    });
+
+    // Step 3 — embed PNG edge-to-edge, zero margins
+    pdf.addImage(
+      dataUrl,
+      'PNG',
+      0, 0,                            // x, y — top-left corner
+      config.widthIn, config.heightIn, // fill entire page
+      undefined,
+      'FAST'                           // no recompression
+    );
+
+    // Step 4 — download
     pdf.save('campagna-may27-session-promo-' + currentSize + '.pdf');
+
   } catch (err) {
     console.error('PDF export failed:', err);
-    alert('PDF export failed — check browser console.');
-  } finally { btn.textContent = '↗ PDF'; btn.disabled = false; }
+    alert('PDF export failed — check browser console for details.');
+  } finally {
+    btn.textContent = '⬇ PDF';
+    btn.disabled    = false;
+  }
 }
 
+/* ══════════════════════════════════════════════════
+   INIT — apply correct @page on first load
+   ══════════════════════════════════════════════════ */
 updatePageStyle(currentSize);
 </script>
 </body>
