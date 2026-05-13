@@ -206,9 +206,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          "A multi-institutional center of excellence with seamless support and collaboration
-          amongst specialists at both University of Chicago Medicine and Endeavor Health — integrating
-          cardiology, hematology, neurology, and genetics to diagnose, treat, and prevent amyloidosis."
+          "The University of Chicago Multi-Institutional Amyloid Center of Excellence brings together world-class specialists across cardiology, hematology, neurology, nephrology, gastroenterology, genetics, and orthopedics — providing seamless, coordinated care for patients with all forms of amyloidosis. With active involvement in landmark clinical trials, cutting-edge AI-based diagnostics, and deep community advocacy through the Amyloidosis Support Group and Research Consortium, our program represents one of the most comprehensive amyloidosis centers in the Midwest."
         </p>
       </blockquote>
 

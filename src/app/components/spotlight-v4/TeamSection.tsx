@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Calendar, X, Users, MapPin } from 'lucide-react';
 import {
-  mainSitePresenters,
-  endeavorTeam,
+  mainSiteProviders,
+  endeavorProviders,
   supportStaff,
   type ClinicianV4,
 } from './data';
@@ -78,7 +78,7 @@ const CompactCard: React.FC<{ c: ClinicianV4 }> = ({ c }) => {
           {c.hasSession && (
             <div style={{ fontSize:'12px', color:MAROON, fontFamily:FONT, marginTop:'4px', display:'flex', alignItems:'center', gap:'4px' }}>
               <Calendar size={11} color={MAROON} />
-              <span>{c.sessionDate} · {c.status === 'confirmed' ? '✓ Confirmed' : 'Pending'}</span>
+              <span>{c.sessionDate}</span>
             </div>
           )}
         </div>
@@ -141,10 +141,10 @@ export const TeamSection: React.FC = () => (
           </h2>
         </div>
         <p style={{ fontSize:'14px', color:'#9CA3AF', margin:'0 0 20px 0', fontFamily:FONT }}>
-          University of Chicago Medicine — Amyloidosis Program presenters &amp; specialists
+          University of Chicago Medicine — the multidisciplinary team behind the Amyloidosis Program
         </p>
         <div style={{ display:'flex', flexDirection:'column' as const, gap:'12px' }}>
-          {mainSitePresenters.map(c => <CompactCard key={c.id} c={c} />)}
+          {mainSiteProviders.map(c => <CompactCard key={c.id} c={c} />)}
         </div>
         <StaffList site="main" />
       </div>
@@ -161,7 +161,7 @@ export const TeamSection: React.FC = () => (
           Endeavor Health — Amyloidosis Program team members
         </p>
         <div style={{ display:'flex', flexDirection:'column' as const, gap:'10px' }}>
-          {endeavorTeam.filter(c => c.site === 'endeavor').map(c => <PlaceholderCard key={c.id} c={c} />)}
+          {endeavorProviders.map(c => <PlaceholderCard key={c.id} c={c} />)}
         </div>
         <StaffList site="endeavor" />
 

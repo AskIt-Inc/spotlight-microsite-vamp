@@ -1,6 +1,6 @@
 import React from 'react';
-import { ExternalLink, FlaskConical, Clock, AlertCircle } from 'lucide-react';
-import { trialsV4, bestPracticeSessions, type TrialV4 } from './data';
+import { ExternalLink, FlaskConical, AlertCircle } from 'lucide-react';
+import { trialsV4, type TrialV4 } from './data';
 
 const FONT = 'gotham, sans-serif';
 const MAROON = '#8B1F2D';
@@ -85,23 +85,18 @@ export const TrialsSection: React.FC = () => {
           </div>
         )}
 
-        {/* ── Monday Best Practice Sessions ── */}
-        <div style={{ marginTop:'40px' }}>
-          <h2 style={{ fontSize:'24px', fontWeight:300, color:'#000', margin:'0 0 4px 0', fontFamily:FONT, display:'flex', alignItems:'center', gap:'8px' }}>
-            <Clock size={20} color={MAROON} />
-            Monday Best Practice Sessions — June
-          </h2>
-          <p style={{ fontSize:'14px', color:'#9CA3AF', margin:'0 0 16px 0', fontFamily:FONT }}>
-            Additional sessions for team members and support staff to present
+        {/* Interest CTA */}
+        <div style={{ marginTop:'32px', background:'var(--oav-card-bg)', border:'1px solid var(--oav-border)', borderRadius:'8px', padding:'24px' }}>
+          <div style={{ fontSize:'16px', fontWeight:700, color:'#000', fontFamily:FONT, marginBottom:'8px' }}>Interested in a Clinical Trial?</div>
+          <p style={{ fontSize:'14px', color:'#000', fontFamily:FONT, lineHeight:1.6, margin:'0 0 12px 0' }}>
+            If you or a loved one are interested in learning more about any of our clinical trials, please contact the research team. A coordinator will follow up with eligibility details.
           </p>
-          <div style={{ background:'var(--oav-card-bg)', border:'1px solid var(--oav-border)', borderRadius:'8px', overflow:'hidden' }}>
-            {bestPracticeSessions.map((s, i) => (
-              <div key={s.id} style={{ padding:'12px 16px', borderBottom: i < bestPracticeSessions.length - 1 ? '1px solid var(--oav-border)' : 'none', display:'flex', gap:'12px', alignItems:'center' }}>
-                <div style={{ width:'90px', flexShrink:0, fontSize:'13px', fontWeight:600, color:MAROON, fontFamily:FONT }}>{s.date.replace('Monday, ','')}</div>
-                <div style={{ fontSize:'14px', color:'#000', fontFamily:FONT, lineHeight:1.4 }}>{s.title}</div>
-              </div>
-            ))}
-          </div>
+          <a
+            href="mailto:nsarswat@uchicagomedicine.org"
+            style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'10px 20px', background:MAROON, color:'#fff', borderRadius:'4px', fontSize:'14px', fontWeight:500, fontFamily:FONT, textDecoration:'none' }}
+          >
+            Contact the Research Team
+          </a>
         </div>
 
       </div>
