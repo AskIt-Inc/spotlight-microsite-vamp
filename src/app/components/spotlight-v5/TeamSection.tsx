@@ -130,18 +130,28 @@ const PlaceholderCard: React.FC<{ c: ClinicianV4 }> = ({ c }) => (
   </div>
 );
 
-// ─── Staff Chip ─────────────────────────────────────────────────────────────
+// ─── Staff Cards ────────────────────────────────────────────────────────────
 const StaffList: React.FC<{ site: 'main' | 'endeavor' }> = ({ site }) => {
   const staff = supportStaff.filter(s => s.site === site);
   if (staff.length === 0) return null;
   return (
-    <div style={{ marginTop:'16px', padding:'14px 18px', background:'var(--oav-card-bg)', border:'1px solid var(--oav-border)', borderRadius:'8px', display:'flex', alignItems:'flex-start', gap:'10px' }}>
-      <Users size={16} color={MAROON} style={{ flexShrink:0, marginTop:'2px' }} />
-      <div>
-        <span style={{ fontSize:'13px', fontWeight:700, color:MAROON, fontFamily:FONT }}>Support Staff: </span>
-        <span style={{ fontSize:'13px', color:'#000', fontFamily:FONT }}>
-          {staff.map(s => `${s.name} — ${s.role}`).join(' · ')}
-        </span>
+    <div style={{ marginTop:'20px' }}>
+      <div style={{ fontSize:'13px', fontWeight:700, textTransform:'uppercase' as const, letterSpacing:'0.08em', color:MAROON, fontFamily:FONT, marginBottom:'12px', display:'flex', alignItems:'center', gap:'8px' }}>
+        <Users size={15} color={MAROON} />
+        Support Staff
+      </div>
+      <div style={{ display:'flex', flexDirection:'column' as const, gap:'10px' }}>
+        {staff.map(s => (
+          <div key={s.id} style={{ background:'var(--oav-card-bg)', border:'1px solid var(--oav-border)', borderRadius:'8px', padding:'14px 20px', display:'flex', alignItems:'center', gap:'14px' }}>
+            <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:MAROON, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+              <span style={{ fontSize:'15px', fontWeight:600, color:'#fff', fontFamily:FONT }}>{s.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}</span>
+            </div>
+            <div>
+              <div style={{ fontSize:'15px', fontWeight:700, color:'#000', fontFamily:FONT }}>{s.name}</div>
+              <div style={{ fontSize:'13px', color:'#374151', fontFamily:FONT, marginTop:'2px' }}>{s.role}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
