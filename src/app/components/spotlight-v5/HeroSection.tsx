@@ -93,7 +93,8 @@ const SeriesStrip: React.FC = () => (
             lineHeight: 1.1,
           }}
         >
-          Amyloidosis Program Spotlight Series · June 2026
+          <span>Amyloidosis Program Spotlight Series</span>
+          <span style={{ color: '#000000' }}> · June 2026</span>
         </div>
       </div>
     </div>
