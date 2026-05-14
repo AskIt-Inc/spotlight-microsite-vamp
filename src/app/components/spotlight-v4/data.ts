@@ -151,7 +151,7 @@ export const mainSiteProviders: ClinicianV4[] = [
     specialty: 'Neuromuscular Medicine · EMG · Amyloidosis',
     specialtyGroup: 'neurology',
     site: 'main',
-    photo: '',
+    photo: 'lara-carlos-bio-261x347.png',
     bio: 'Dr. Carlos Lara is an assistant professor of neurology who specializes in the diagnosis and treatment of a broad spectrum of neurological conditions, including amyloidosis, muscular dystrophies, myopathies, myasthenia gravis, hereditary neuropathies, chronic inflammatory demyelinating polyneuropathy, and neuromuscular medicine. He is recognized for his work with neuromuscular ultrasound and electromyography (EMG), which help diagnose and manage complex neuromuscular disorders.',
     hasSession: false,
     sessionDate: '',

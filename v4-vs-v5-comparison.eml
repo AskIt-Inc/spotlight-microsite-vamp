@@ -7,56 +7,67 @@ X-Unsent: 1
 <head>
 <style>
 body { font-family: Calibri, Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; }
-h2 { color: #8B1F2D; font-size: 16px; margin: 20px 0 8px 0; }
-h3 { color: #333; font-size: 14px; margin: 16px 0 6px 0; }
+h2 { color: #8B1F2D; font-size: 16px; margin: 20px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 6px; }
 ul { margin: 4px 0 16px 0; padding-left: 24px; }
 li { margin-bottom: 4px; }
-.link { color: #005EB8; }
-.recommend { background: #F0FFF4; border-left: 4px solid #38A169; padding: 12px 16px; margin: 16px 0; }
+a { color: #005EB8; }
+.recommend { background: #f9f9f9; border-left: 3px solid #8B1F2D; padding: 12px 16px; margin: 16px 0; }
 table { border-collapse: collapse; width: 100%; margin: 12px 0; }
-td, th { border: 1px solid #ddd; padding: 10px 14px; text-align: left; font-size: 13px; }
-th { background: #8B1F2D; color: #fff; font-weight: 600; }
+td, th { border: 1px solid #ddd; padding: 8px 12px; text-align: left; font-size: 13px; }
+th { background: #f5f5f5; font-weight: 600; }
 </style>
 </head>
 <body>
 
 <p>Hi team,</p>
 
-<p>We have two layout options for how the <strong>Meet the Team</strong> section is organized. Everything else on the page (Hero, Overview, Trials, Sidebar) is identical between the two versions.</p>
+<p>We have two layout options for how the <strong>Meet the Team</strong> section is organized. Everything else on the page is identical between the two versions. Both are now mobile and iPad friendly.</p>
 
-<h2>V4 &mdash; Stacked Sections</h2>
-<p><a class="link" href="https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4">https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4</a></p>
+<h2>V4 - Stacked Sections</h2>
+<p><a href="https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4">https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4</a></p>
 <ul>
-<li>Team is shown as <strong>two stacked sections</strong> on one page</li>
-<li>&ldquo;Meet the Team &mdash; Main Site&rdquo; appears first, then &ldquo;Meet the Team &mdash; Endeavor Site&rdquo; below</li>
+<li>Team is shown as two stacked sections on one page</li>
+<li>"Meet the Team - Main Site" appears first, then "Meet the Team - Endeavor Site" below</li>
 <li>User scrolls through all providers in one long list</li>
 </ul>
 
-<h2>V5 &mdash; Equal Tabs (Recommended)</h2>
-<p><a class="link" href="https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v5">https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v5</a></p>
+<h2>V5 - Equal Tabs (Recommended)</h2>
+<p><a href="https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v5">https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v5</a></p>
 <ul>
-<li>Team uses <strong>two equal tabs</strong> with institution logos: <strong>UChicago Medicine</strong> | <strong>Endeavor Health</strong></li>
-<li>Tabs are visually equal &mdash; no hierarchy implied, neither site appears &ldquo;above&rdquo; the other</li>
+<li>Team uses two equal tabs with institution logos: <strong>UChicago Medicine</strong> | <strong>Endeavor Health</strong></li>
+<li>Tabs are visually equal - no hierarchy implied, neither site appears "above" the other</li>
 <li>User clicks a tab to switch between teams (no extra scrolling)</li>
 <li>Dr. Sarswat appears in both tabs since she leads across both institutions</li>
 </ul>
 
-<h2>Side-by-Side Comparison</h2>
+<h2>Comparison</h2>
 <table>
 <tr><th>Feature</th><th>V4 (Stacked)</th><th>V5 (Tabs)</th></tr>
 <tr><td>Layout</td><td>Two sections, one below the other</td><td>Two equal tabs, click to switch</td></tr>
-<tr><td>Hierarchy</td><td>UChicago appears first (top), Endeavor below</td><td>Equal &mdash; neither is &ldquo;above&rdquo; the other</td></tr>
-<tr><td>Scrolling</td><td>Long page, scroll through both teams</td><td>Compact &mdash; only one team visible at a time</td></tr>
-<tr><td>Branding</td><td>Text labels only</td><td>Institution favicon icons + text</td></tr>
+<tr><td>Hierarchy</td><td>UChicago appears first (top), Endeavor below</td><td>Equal - neither is "above" the other</td></tr>
+<tr><td>Scrolling</td><td>Long page, scroll through both teams</td><td>Compact - only one team visible at a time</td></tr>
+<tr><td>Branding</td><td>Text labels only</td><td>Institution logos + text</td></tr>
 <tr><td>Dr. Sarswat</td><td>Listed in both sections</td><td>Listed in both tabs</td></tr>
 <tr><td>Partnership signal</td><td>Could imply Endeavor is secondary</td><td>Presents as equal partners</td></tr>
 </table>
 
+<h2>Other Updates in This Build</h2>
+<ul>
+<li>"June 2026" now appears inline next to the program title (same size, black color for differentiation)</li>
+<li>All gray subtitle text darkened for better readability</li>
+<li>"Nine specialists" changed to "Nine specialties"</li>
+<li>Director highlights now use checkmark icons instead of plain bullets</li>
+<li>Pillar icons (heart, DNA, microscope) now inline with their titles</li>
+<li>Education section uses collapsible dropdown grouped by institution</li>
+<li>Responsive: mobile and iPad layouts fully working</li>
+<li>Dr. Goodman removed from Endeavor listing per request</li>
+</ul>
+
 <div class="recommend">
-<strong>&#9989; Recommendation:</strong> V5 (Tabs) presents Endeavor as an equal partner rather than a sub-section listed below UChicago. It&rsquo;s cleaner, requires less scrolling, and patients can quickly find their location&rsquo;s team. This aligns with the &ldquo;shared site&rdquo; approach discussed.
+<strong>Recommendation:</strong> V5 (Tabs) presents Endeavor as an equal partner rather than a sub-section listed below UChicago. It is cleaner, requires less scrolling, and patients can quickly find their location's team. This aligns with the "shared site" approach discussed.
 </div>
 
-<p>Please review both and let me know which direction you&rsquo;d like to go with.</p>
+<p>Please review both and let me know which direction you'd like to go with.</p>
 
 <p>Thanks,<br>Sukh</p>
 
