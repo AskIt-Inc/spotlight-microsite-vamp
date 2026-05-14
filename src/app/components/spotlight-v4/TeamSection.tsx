@@ -29,9 +29,9 @@ const PresenterModal: React.FC<{ c: ClinicianV4; onClose: () => void }> = ({ c, 
     >
       <div style={{ background:'#fff', borderRadius:'12px', maxWidth:'620px', width:'100%', maxHeight:'80vh', overflowY:'auto', boxShadow:'0 20px 60px rgba(0,0,0,0.25)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:'16px', padding:'20px 24px', borderBottom:'1px solid #E8E8E8' }}>
-          <div style={{ width:'72px', height:'72px', borderRadius:'50%', border:`3px solid ${MAROON}`, overflow:'hidden', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', background:MAROON }}>
+          <div style={{ width:'72px', height:'72px', borderRadius:'50%', border:`3px solid ${MAROON}`, overflow:'hidden', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', background: (c.photo && !imgErr) ? '#F3F4F6' : MAROON }}>
             {c.photo && !imgErr ? (
-              <img src={c.photo} alt={c.name} onError={() => setImgErr(true)} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+              <img src={c.photo} alt={c.name} onError={() => setImgErr(true)} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center' }} />
             ) : (
               <span style={{ fontSize:'24px', fontWeight:600, color:'#fff', fontFamily:FONT }}>{getInitials(c.name)}</span>
             )}
@@ -45,6 +45,16 @@ const PresenterModal: React.FC<{ c: ClinicianV4; onClose: () => void }> = ({ c, 
         </div>
         <div style={{ padding:'24px' }}>
           {c.bio && <p style={{ fontSize:'15px', fontWeight:300, color:'#000', lineHeight:1.7, margin:'0 0 16px 0', fontFamily:FONT, whiteSpace:'pre-line' as const }}>{c.bio}</p>}
+          {c.education && (
+            <div style={{ marginBottom:'16px' }}>
+              <div style={{ fontSize:'11px', fontWeight:700, textTransform:'uppercase' as const, letterSpacing:'0.1em', color:'#6B7280', fontFamily:FONT, marginBottom:'6px' }}>Education & Training</div>
+              <ul style={{ margin:0, paddingLeft:'18px', listStyle:'disc' }}>
+                {c.education.split(', ').map((item, i) => (
+                  <li key={i} style={{ fontSize:'13px', color:'#374151', fontFamily:FONT, lineHeight:1.8 }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {c.hasSession && (
             <div style={{ background:'#FBF0F1', border:'1px solid #F0D0D3', borderRadius:'8px', padding:'16px', marginBottom:'16px' }}>
               <div style={{ fontSize:'11px', fontWeight:700, textTransform:'uppercase' as const, letterSpacing:'0.1em', color:MAROON, fontFamily:FONT, marginBottom:'4px' }}>Session: {c.sessionDate}</div>
@@ -65,9 +75,9 @@ const CompactCard: React.FC<{ c: ClinicianV4 }> = ({ c }) => {
   return (
     <>
       <div style={{ background:'var(--oav-card-bg)', border:'1px solid var(--oav-border)', borderRadius:'8px', boxShadow:'var(--oav-card-shadow)', padding:'16px 20px', display:'flex', alignItems:'center', gap:'16px' }}>
-        <div style={{ width:'60px', height:'60px', borderRadius:'50%', border:`2px solid ${MAROON}`, background:MAROON, flexShrink:0, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <div style={{ width:'60px', height:'60px', borderRadius:'50%', border:`2px solid ${MAROON}`, background: (c.photo && !imgErr) ? '#F3F4F6' : MAROON, flexShrink:0, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
           {c.photo && !imgErr ? (
-            <img src={c.photo} alt={c.name} onError={() => setImgErr(true)} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            <img src={c.photo} alt={c.name} onError={() => setImgErr(true)} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center' }} />
           ) : (
             <span style={{ fontSize:'20px', fontWeight:600, color:'#fff', fontFamily:FONT }}>{getInitials(c.name)}</span>
           )}
@@ -161,12 +171,12 @@ export const TeamSection: React.FC = () => (
           Endeavor Health — Amyloidosis Program team members
         </p>
         <div style={{ display:'flex', flexDirection:'column' as const, gap:'10px' }}>
-          {endeavorProviders.map(c => <PlaceholderCard key={c.id} c={c} />)}
+          {endeavorProviders.map(c => c.bio ? <CompactCard key={c.id} c={c} /> : <PlaceholderCard key={c.id} c={c} />)}
         </div>
         <StaffList site="endeavor" />
 
         <div style={{ marginTop:'16px', border:'1px dashed #F0D0D3', borderRadius:'8px', padding:'16px 20px', background:'#FBF0F1', fontSize:'13px', color:'#6B7280', fontFamily:FONT, lineHeight:1.6 }}>
-          <strong style={{ color:MAROON }}>Note:</strong> Endeavor Health marketing committee is reviewing the microsite. Full bios and headshots will be added once approved.
+          <strong style={{ color:MAROON }}>Note:</strong> Some Endeavor Health provider photos and details are pending marketing committee approval.
         </div>
       </div>
 
