@@ -49,7 +49,7 @@ const TrialRow: React.FC<{ t: TrialV4 }> = ({ t }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid var(--oav-border)' }}>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '14px', fontWeight: 400, color: '#000', fontFamily: FONT }}>{t.name}</span>
-          {t.note && <span style={{ fontSize: '12px', color: '#6B7280', fontFamily: FONT, marginLeft: '8px' }}>({t.note})</span>}
+          {t.note && <span style={{ fontSize: '12px', color: '#374151', fontFamily: FONT, marginLeft: '8px' }}>({t.note})</span>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
           <span style={{ background: sc.bg, color: sc.text, border: `1px solid ${sc.border}`, borderRadius: '9999px', padding: '2px 10px', fontSize: '11px', fontWeight: 500, fontFamily: FONT, whiteSpace: 'nowrap' as const }}>{t.status}</span>
@@ -106,7 +106,7 @@ const TrialRow: React.FC<{ t: TrialV4 }> = ({ t }) => {
               </label>
               <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)} placeholder="+1 (555) 000-0000" style={inputStyle('phone')} />
             </div>
-            <p style={{ fontSize: '12px', color: '#9CA3AF', margin: '0 0 12px 0', fontFamily: FONT }}>
+            <p style={{ fontSize: '12px', color: '#4B5563', margin: '0 0 12px 0', fontFamily: FONT }}>
               Your details will only be shared with the University of Chicago research team.
             </p>
             <button
@@ -118,7 +118,7 @@ const TrialRow: React.FC<{ t: TrialV4 }> = ({ t }) => {
               Submit Interest
             </button>
             <div style={{ textAlign: 'center' as const, marginTop: '8px' }}>
-              <button type="button" onClick={() => setFormState('idle')} style={{ fontSize: '12px', color: '#9CA3AF', background: 'none', border: 'none', cursor: 'pointer', fontFamily: FONT }}>
+              <button type="button" onClick={() => setFormState('idle')} style={{ fontSize: '12px', color: '#4B5563', background: 'none', border: 'none', cursor: 'pointer', fontFamily: FONT }}>
                 Cancel
               </button>
             </div>
@@ -145,7 +145,7 @@ const TrialGroup: React.FC<{ title: string; subtitle?: string; trials: TrialV4[]
   return (
     <div style={{ marginBottom: '28px' }}>
       <div style={{ fontSize: '15px', fontWeight: 700, color: MAROON, fontFamily: FONT, marginBottom: '4px' }}>{title}</div>
-      {subtitle && <div style={{ fontSize: '12px', color: '#9CA3AF', fontFamily: FONT, marginBottom: '8px' }}>{subtitle}</div>}
+      {subtitle && <div style={{ fontSize: '12px', color: '#4B5563', fontFamily: FONT, marginBottom: '8px' }}>{subtitle}</div>}
       <div style={{ background: 'var(--oav-card-bg)', border: '1px solid var(--oav-border)', borderRadius: '8px', overflow: 'hidden' }}>
         {trials.map(t => <TrialRow key={t.id} t={t} />)}
       </div>
@@ -171,7 +171,7 @@ export const TrialsSection: React.FC = () => {
             <FlaskConical size={24} color={MAROON} />
             Clinical Trials
           </h2>
-          <p style={{ fontSize: '14px', color: '#9CA3AF', marginTop: '8px', marginBottom: 0, fontFamily: FONT }}>
+          <p style={{ fontSize: '14px', color: '#4B5563', marginTop: '8px', marginBottom: 0, fontFamily: FONT }}>
             TTR perspective — past, current, and upcoming trials across both sites
           </p>
           <a

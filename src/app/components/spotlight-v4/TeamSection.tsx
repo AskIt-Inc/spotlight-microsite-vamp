@@ -41,19 +41,29 @@ const PresenterModal: React.FC<{ c: ClinicianV4; onClose: () => void }> = ({ c, 
             {c.credentials && <div style={{ fontSize:'13px', color:'#000', fontFamily:FONT, marginTop:'2px' }}>{c.credentials} · {c.title}</div>}
             <div style={{ fontSize:'13px', color:MAROON, fontFamily:FONT, marginTop:'2px' }}>{c.specialty}</div>
           </div>
-          <button onClick={onClose} style={{ background:'none', border:'none', cursor:'pointer', padding:'4px', color:'#9CA3AF' }} aria-label="Close"><X size={20}/></button>
+          <button onClick={onClose} style={{ background:'none', border:'none', cursor:'pointer', padding:'4px', color:'#4B5563' }} aria-label="Close"><X size={20}/></button>
         </div>
         <div style={{ padding:'24px' }}>
           {c.bio && <p style={{ fontSize:'15px', fontWeight:300, color:'#000', lineHeight:1.7, margin:'0 0 16px 0', fontFamily:FONT, whiteSpace:'pre-line' as const }}>{c.bio}</p>}
           {c.education && (
-            <div style={{ marginBottom:'16px' }}>
-              <div style={{ fontSize:'11px', fontWeight:700, textTransform:'uppercase' as const, letterSpacing:'0.1em', color:'#6B7280', fontFamily:FONT, marginBottom:'6px' }}>Education & Training</div>
-              <ul style={{ margin:0, paddingLeft:'18px', listStyle:'disc' }}>
-                {c.education.split(', ').map((item, i) => (
-                  <li key={i} style={{ fontSize:'13px', color:'#374151', fontFamily:FONT, lineHeight:1.8 }}>{item}</li>
-                ))}
-              </ul>
-            </div>
+            <details style={{ marginBottom:'16px' }}>
+              <summary style={{ fontSize:'13px', fontWeight:700, color:MAROON, fontFamily:FONT, cursor:'pointer', marginBottom:'6px' }}>
+                Education & Training
+              </summary>
+              <div style={{ paddingLeft:'12px', marginTop:'8px', borderLeft:`2px solid ${MAROON}20` }}>
+                {c.education.split(' | ').map((group, i) => {
+                  const lines = group.split(', ');
+                  return (
+                    <div key={i} style={{ marginBottom:'8px' }}>
+                      <div style={{ fontSize:'13px', fontWeight:600, color:'#1F2937', fontFamily:FONT, lineHeight:1.6 }}>{lines[0]}</div>
+                      {lines.slice(1).map((sub, j) => (
+                        <div key={j} style={{ fontSize:'12px', color:'#374151', fontFamily:FONT, lineHeight:1.6, paddingLeft:'12px' }}>— {sub}</div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </details>
           )}
           {c.hasSession && (
             <div style={{ background:'#FBF0F1', border:'1px solid #F0D0D3', borderRadius:'8px', padding:'16px', marginBottom:'16px' }}>
@@ -110,13 +120,13 @@ const CompactCard: React.FC<{ c: ClinicianV4 }> = ({ c }) => {
 const PlaceholderCard: React.FC<{ c: ClinicianV4 }> = ({ c }) => (
   <div style={{ background:'var(--oav-card-bg)', border:'1px dashed var(--oav-border)', borderRadius:'8px', padding:'14px 20px', display:'flex', alignItems:'center', gap:'16px', opacity:0.85 }}>
     <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:'#F3F4F6', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, border:'2px solid #E5E5E5' }}>
-      <span style={{ fontSize:'16px', fontWeight:600, color:'#9CA3AF', fontFamily:FONT }}>{getInitials(c.name)}</span>
+      <span style={{ fontSize:'16px', fontWeight:600, color:'#4B5563', fontFamily:FONT }}>{getInitials(c.name)}</span>
     </div>
     <div style={{ flex:1 }}>
       <div style={{ fontSize:'15px', fontWeight:700, color:'#000', fontFamily:FONT }}>{c.name}</div>
-      <div style={{ fontSize:'13px', color:'#6B7280', fontFamily:FONT, marginTop:'2px' }}>{c.title} · {c.specialty}</div>
+      <div style={{ fontSize:'13px', color:'#374151', fontFamily:FONT, marginTop:'2px' }}>{c.title} · {c.specialty}</div>
     </div>
-    <span style={{ fontSize:'11px', color:'#9CA3AF', fontFamily:FONT, fontStyle:'italic' }}>Bio pending</span>
+    <span style={{ fontSize:'11px', color:'#4B5563', fontFamily:FONT, fontStyle:'italic' }}>Bio pending</span>
   </div>
 );
 
@@ -150,7 +160,7 @@ export const TeamSection: React.FC = () => (
             Meet the Team — Main Site
           </h2>
         </div>
-        <p style={{ fontSize:'14px', color:'#9CA3AF', margin:'0 0 20px 0', fontFamily:FONT }}>
+        <p style={{ fontSize:'14px', color:'#4B5563', margin:'0 0 20px 0', fontFamily:FONT }}>
           University of Chicago Medicine — the multidisciplinary team behind the Amyloidosis Program
         </p>
         <div style={{ display:'flex', flexDirection:'column' as const, gap:'12px' }}>
@@ -167,7 +177,7 @@ export const TeamSection: React.FC = () => (
             Meet the Team — Endeavor Site
           </h2>
         </div>
-        <p style={{ fontSize:'14px', color:'#9CA3AF', margin:'0 0 20px 0', fontFamily:FONT }}>
+        <p style={{ fontSize:'14px', color:'#4B5563', margin:'0 0 20px 0', fontFamily:FONT }}>
           Endeavor Health — Amyloidosis Program team members
         </p>
         <div style={{ display:'flex', flexDirection:'column' as const, gap:'10px' }}>
@@ -175,7 +185,7 @@ export const TeamSection: React.FC = () => (
         </div>
         <StaffList site="endeavor" />
 
-        <div style={{ marginTop:'16px', border:'1px dashed #F0D0D3', borderRadius:'8px', padding:'16px 20px', background:'#FBF0F1', fontSize:'13px', color:'#6B7280', fontFamily:FONT, lineHeight:1.6 }}>
+        <div style={{ marginTop:'16px', border:'1px dashed #F0D0D3', borderRadius:'8px', padding:'16px 20px', background:'#FBF0F1', fontSize:'13px', color:'#374151', fontFamily:FONT, lineHeight:1.6 }}>
           <strong style={{ color:MAROON }}>Note:</strong> Some Endeavor Health provider photos and details are pending marketing committee approval.
         </div>
       </div>
