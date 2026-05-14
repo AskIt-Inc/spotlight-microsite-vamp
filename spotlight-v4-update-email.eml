@@ -1,0 +1,72 @@
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Subject: Spotlight V4 Microsite Update - Endeavor Health Team Bios & Photos Added
+X-Unsent: 1
+
+<html>
+<head>
+<style>
+body { font-family: Calibri, Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; }
+h2 { color: #8B1F2D; font-size: 16px; margin: 20px 0 8px 0; }
+ul { margin: 4px 0 16px 0; padding-left: 24px; }
+li { margin-bottom: 4px; }
+.section { margin-bottom: 20px; }
+.link { color: #005EB8; }
+.pending { background: #FFF8E1; border-left: 4px solid #FFC107; padding: 10px 14px; margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<p>Hi team,</p>
+
+<p>The Spotlight V4 microsite has been updated with the Endeavor Health provider information. Here&rsquo;s what&rsquo;s now live:</p>
+
+<div class="section">
+<h2>&#10024; New Addition</h2>
+<ul>
+<li><strong>Dr. Amit K. Pursnani</strong> &mdash; Added as the Cardiac Imaging specialist (replacing the TBD placeholder). Full bio, education, credentials, and headshot included.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>&#9989; Updated Endeavor Providers</h2>
+<p>All now have full interactive cards with &ldquo;View more&rdquo; modals:</p>
+<ul>
+<li><strong>Dr. Nitasha Sarswat</strong> &mdash; Bio and photo added</li>
+<li><strong>Dr. Robert Eisner</strong> &mdash; Bio, education, credentials, headshot</li>
+<li><strong>Dr. Amy Wang</strong> &mdash; Bio, education, credentials, headshot</li>
+<li><strong>Dr. David Grinblatt</strong> &mdash; Bio, education, credentials, headshot</li>
+<li><strong>Dr. Richard Wlodarski</strong> &mdash; Bio, education, credentials, headshot</li>
+<li><strong>Dr. Larry Zeidman</strong> &mdash; Bio, education, credentials, headshot</li>
+<li><strong>Dr. Robert Gray</strong> &mdash; Bio, education, credentials, headshot</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>&#128736; Other Updates</h2>
+<ul>
+<li><strong>Tracey Silverstein</strong> &mdash; Role now shows &ldquo;Amyloid Navigator RN &middot; Trial Coordinator&rdquo;</li>
+<li><strong>Education &amp; Training</strong> &mdash; Now displays in each provider&rsquo;s detail modal as a dropdown list</li>
+<li><strong>Profile photo styling</strong> &mdash; Fixed consistent circular crop across both Main Site and Endeavor sections</li>
+</ul>
+</div>
+
+<div class="pending">
+<strong>&#9888; Still Pending:</strong>
+<ul style="margin-bottom:0;">
+<li>Dr. Robert Eisner education details (currently showing: Midwest University School of Medicine 2000, Loyola 2004, Hem/Onc 2007 &mdash; please confirm)</li>
+<li>Any additional corrections to bios or credentials</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>&#128279; Live URL</h2>
+<p><a class="link" href="https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4">https://askit-inc.github.io/spotlight-series-microsite/#/spotlight-v4</a></p>
+</div>
+
+<p>Please review and let me know if any changes are needed.</p>
+
+<p>Thanks,<br>[Your name]</p>
+
+</body>
+</html>

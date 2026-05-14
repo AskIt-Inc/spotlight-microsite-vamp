@@ -237,6 +237,20 @@ export const mainSiteProviders: ClinicianV4[] = [
 export const endeavorProviders: ClinicianV4[] = [
   // ── CARDIOLOGY ──
   {
+    id: 109,
+    name: 'Dr. Stacey Goodman',
+    credentials: 'MD',
+    title: 'Cardiology Lead, Endeavor Health Amyloidosis Program',
+    specialty: 'Cardiology · Amyloidosis · Hematology',
+    specialtyGroup: 'cardiology',
+    site: 'endeavor',
+    photo: 'data:image/jpeg;base64,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',
+    bio: 'Dr. Stacey Goodman completed her hematology training at the NIH and Vanderbilt University before joining the faculty in 1993. She helped create and lead the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) until her retirement in 2021. She currently serves as a member of the board of directors at the Amyloidosis Foundation.',
+    education: 'NIH Hematology Training, Vanderbilt University',
+    hasSession: false, sessionDate: '', sessionTitle: '', sessionDescription: '',
+    hasVideo: false, appointmentUrl: '',
+  },
+  {
     id: 101,
     name: 'Dr. Nitasha Sarswat',
     credentials: 'MD',
