@@ -110,22 +110,35 @@ const DirectorSection: React.FC = () => {
       </div>
 
       {/* Highlight bullets */}
-      <ul style={{ margin: '0 0 12px 0', paddingLeft: '20px' }}>
+      <div style={{ margin: '0 0 12px 0' }}>
         {highlights.map((h, i) => (
-          <li
+          <div
             key={i}
             style={{
-              fontSize: '14px',
-              fontWeight: 400,
-              color: '#000',
-              lineHeight: 1.7,
-              fontFamily: FONT,
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '10px',
+              marginBottom: '8px',
             }}
           >
-            {h}
-          </li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: '3px' }}>
+              <circle cx="8" cy="8" r="8" fill="#8B1F2D" opacity="0.1"/>
+              <path d="M4.5 8L7 10.5L11.5 5.5" stroke="#8B1F2D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span
+              style={{
+                fontSize: '14px',
+                fontWeight: 400,
+                color: '#000',
+                lineHeight: 1.6,
+                fontFamily: FONT,
+              }}
+            >
+              {h}
+            </span>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {/* Expandable "Learn More" */}
       <button
