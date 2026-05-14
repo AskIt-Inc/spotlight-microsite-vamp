@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, X, Users, MapPin } from 'lucide-react';
+import { Calendar, X, Users } from 'lucide-react';
 import {
   mainSiteProviders,
   endeavorProviders,
@@ -171,7 +171,7 @@ export const TeamSection: React.FC = () => {
               transition:'all 0.2s ease',
             }}
           >
-            <MapPin size={14} style={{ marginRight:'6px', verticalAlign:'middle' }} />
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAFKADAAQAAAABAAAAFAAAAACy3fD9AAAEMklEQVQ4EW1UW28bRRg9u+v1+h7biZ2kJLQJobkSSrgEtRE3laICQpXoAwIJKvEAVaVU6kt54qFP3KS+QFX4B5SniraoQkGkJEJtU1FuJQSSxsGOkzhxfI29l9nlm0nthJax1rszO9+Z853vfCvhzvgEHU85wAEJ0i4Go43BitFzSILsARyZb6O5xWCXHdh5GcqKKnuStJyQ3e7xE9Xpcb7Hxf/4cCC9o4K9rsNAvHcAoc42hDt3ItrTicwv09DzRTQ91I1yahnFVFrcF6d+gkYQDM45ArhCJzp1QAbd3rVvH6SwF+0jw2h7ehjVbF4A9bz2CnyxKIrJJTiPMLhDQbCqjmsfnUXu1xnkV1btTVrbGPIFS9ehWBqYaaG8lIFtWHCYDaNUhrlRobkJi4CsqgFFdcHTGKYYAxCCbEJuewQUt0q5U/KKLIIklwzV7wWjID1XgM0sinJozkGrkF0uuAM+oM7vP9gci8BUBVo4hOjuDriDAcFQkiQomiokUDQN/pYYsYuivLyG6nqeULZ41TVU4Ebqx+uoQkcbtS98jOzOLyloOjd0PwLYZ8nP/QCVGjd1dQobExAQ89JN5ZnfGFjQtkEXoUuBriqL/rVfR+vgeaFSA3YdfxPDJo/BEw4gP9mJo9Ajan30SvnATCbAtX8KoA5IylEYEe0+O4tD5L9B9+CC8VFmX14PEtxOI7+lDqH0H/K1x7Ny/FyOnTuC50++L91z32qgD2nRStKsDHQefEawqq+uwqdpDx95EhLxoljYQH+pH86MDlMpmWPPQALpefh6MmTW8LWPLRFYLB6E1BMVLzm7/Z6dQSi2BkV34et8bhxAb7BHv+WG2aSLQGqNKB7hegma9KJKqCjGyf87BoQZzB/3wkJYczKpU4Yk0CPtwtMraOhYnbyDQ1gKJClIt5KhZCHJ7p5hmKWmWK0hNTBGrZcpKFqC+lobhwUJiEarPCy7F6q2/kJ9Piqo7dKDscifvYUi2ubo2Ow9LAVqfeFh4jpuXm5pVdNGCub/nsU5XOb0i2GV+/gPTX56H6vFeR0kosVVlP+zJXHpxtjCTwPKN3+DYNu4beQwuSsnXHENjXxd1jW8zbYnalA4pL6SRX15a0PwNP2zCUbfVHi6hWDmAqCIZ1gupqZvEIoPG3i7RKV7qWV4MbuCZr77B9LmvMXdhDBvUALYtfThauHm5hlO3DV9ogPG5bhgXZfoo8PRuX76C2Yvf0VcmDaNQAk+RGbooikM2KucLY+GO2Kc1MH6vM+STCyiaLyEyZkHuh1F9kBeAp52bW0D21iw2MlmsEWhxPkEfPnXMHQ4cOZqcWuWxtUFq3Ds+xqBfQvG4DXbMH4nsgKoKDVPj16gpWFp2qWcbws2n316dLN4d/b+AtU0foPN+CeZx6vF3aY0psnLG1Lxn3qv8vlDbc/f9X2fZ2nAu+iMDAAAAAElFTkSuQmCC" alt="" style={{ width:'18px', height:'18px', marginRight:'8px', verticalAlign:'middle', borderRadius:'3px' }} />
             UChicago Medicine
           </button>
           <button
@@ -190,7 +190,7 @@ export const TeamSection: React.FC = () => {
               transition:'all 0.2s ease',
             }}
           >
-            <MapPin size={14} style={{ marginRight:'6px', verticalAlign:'middle' }} />
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAFKADAAQAAAABAAAAFAAAAACy3fD9AAABwklEQVQ4Ee1Sy0ocQRS953ZXz4hJJIsgATURZyPZCIIb8x+BEHQEdekyEAgyhkA+QkJERdF/cCHJB2QTXJj4iIKKoCY6sR/VdVM90qPt9OBCl9am+t5z6tSp05foft02AdwkUBo5fWKk8JwpbiW4ksvXmgygINhvKtj1Wh4rL3xHhFck8pRInFwx24TjscThmhEuu3mk0qh0SBQssld4KbFl5PuqHYW1JHH0HYQ3m7Pej0bBijBt+mMEVTCB/zXvwrQH4oMYWAmd8+Xdz21HST9HEMaU/8yzcXYE/IzIpOcbdouHRHGxVR5FKdgg2FMOxwCeJIc7kLwnb9l2CplIv3/gkp/S6oL946JOAv8tu+pjAkqSW7PsjFjfZpd09OHXXMt0KpbsdcEzTUUBqkbrSRLtXSVlv5nseGwLn69uzLWtZ7ErglX8VR61+BAzaI21Xyde1oaEVZHF66SKTFEFmZBrDkvDwQuKMQ9H9SVPbZJcDYCdRhME30gVp6+LJZeieygcYJgZO5y9djgzt126qlFj+yf2bLBLUeh9+r2A4yx+Ubks8s+amkAURHDrkWa5ou27uMoItn5+eXiYBe+ru07gP+aZpKUZgW0NAAAAAElFTkSuQmCC" alt="" style={{ width:'18px', height:'18px', marginRight:'8px', verticalAlign:'middle', borderRadius:'3px' }} />
             Endeavor Health
           </button>
         </div>
