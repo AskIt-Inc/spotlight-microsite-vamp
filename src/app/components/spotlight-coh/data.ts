@@ -11,6 +11,16 @@ export interface Clinician {
   hasSession: boolean;
   sessionLabel: string;
   appointmentUrl: string;
+  videoUrl?: string;
+  appointmentLabel?: string;
+}
+
+export interface SupportStaff {
+  id: number;
+  name: string;
+  credentials: string;
+  role: string;
+  note?: string;
 }
 
 export interface Trial {
@@ -40,71 +50,124 @@ export const clinicians: Clinician[] = [
     id: 1,
     name: 'Dr. Michael Rosenzweig',
     credentials: 'MD',
-    title: 'City of Hope presenter',
-    specialty: 'AL Amyloidosis · Relapsed/Refractory Disease · Venetoclax',
+    title: 'Associate Professor, Hematology & Hematopoietic Cell Transplantation · Director, COH Amyloidosis Program',
+    specialty: 'AL Amyloidosis · Relapsed/Refractory Disease · Venetoclax · TTR · AA · LECT2',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Presenter introduction to be provided by City of Hope. This July session focuses on second-line treatment of AL amyloidosis and the City of Hope experience with venetoclax.',
-    hasVideo: false,
+    bio: 'Dr. Rosenzweig is an associate professor in the department of Hematology & Hematopoietic Cell Transplantation and is an expert in plasma cell disorders, including Multiple Myeloma, AL amyloidosis, Waldenström macroglobulinemia, and POEMS. He is the director of the City of Hope Amyloidosis Program and is interested in caring for patients with all forms of amyloidosis—light chain (AL), transthyretin (TTR), secondary amyloidosis (AA), and LECT2. He works closely with a multidisciplinary team, including cardiology, nephrology, and neurology, to care for patients with amyloidosis. His research interests include finding new treatments for amyloidosis at various stages of the disease process.',
+    hasVideo: true,
     hasSession: true,
-    sessionLabel: 'Register: Second-line options for relapsed/refractory disease',
+    sessionLabel: 'Register: Second-line options for relapsed/refractory disease — the COH experience with venetoclax for AL amyloidosis',
     appointmentUrl: CITY_OF_HOPE_URL,
+    appointmentLabel: 'Schedule with Dr. Rosenzweig',
   },
   {
     id: 2,
     name: 'Dr. Lisa Lee',
     credentials: 'MD',
-    title: 'City of Hope presenter',
-    specialty: 'AL Amyloidosis · Earlier Diagnosis · SAVE Trial',
+    title: 'Associate Clinical Professor, Hematology & Hematopoietic Cell Transplantation',
+    specialty: 'AL Amyloidosis · Earlier Diagnosis · Precision Medicine · SAVE Trial',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Presenter introduction to be provided by City of Hope. This July session reviews the SAVE trial and how its results could support earlier diagnosis of AL amyloidosis.',
-    hasVideo: false,
+    bio: 'Dr. Lisa Lee is an associate clinical professor in the department of Hematology and Hematopoietic Cell Transplantation. Dr. Lee is interested in precision medicine and the understanding of how the immune system can be enhanced to fight cancer. She is a patient-centric physician who works closely with her patients to understand their perspectives and help guide them through their journey. She sees amyloidosis patients at the City of Hope affiliate site in Irvine, CA, and is the principal investigator leading the SAVE trial at City of Hope—a study that may support earlier diagnosis of AL amyloidosis.',
+    hasVideo: true,
     hasSession: true,
-    sessionLabel: 'Register: SAVE trial and earlier diagnosis of AL amyloidosis',
+    sessionLabel: 'Register: SAVE trial — towards earlier diagnosis of AL amyloidosis',
     appointmentUrl: CITY_OF_HOPE_URL,
+    appointmentLabel: 'Schedule with Dr. Lisa Lee',
   },
   {
     id: 3,
     name: 'Dr. Sarah Lee',
     credentials: 'MD',
-    title: 'City of Hope presenter',
-    specialty: 'AL Amyloidosis · Relapsed/Refractory Disease · Bispecific Antibodies',
+    title: 'Assistant Professor, Hematology/Oncology',
+    specialty: 'AL Amyloidosis · Plasma Cell Disorders · Multiple Myeloma · Bispecific Antibodies',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Presenter introduction to be provided by City of Hope. This July session focuses on second-line treatment of AL amyloidosis and the City of Hope experience with bispecific antibodies.',
-    hasVideo: false,
+    bio: 'Dr. Sarah Lee is an assistant professor in the department of Hematology/Oncology, specializing in plasma cell disorders, multiple myeloma, and AL amyloidosis. She is a patient-centered physician who focuses on listening to her patients\' needs and helping them define their own medical treatment goals. Her clinical expertise includes second-line treatment options for relapsed/refractory AL amyloidosis, with a focus on the City of Hope experience with bispecific antibodies.',
+    hasVideo: true,
     hasSession: true,
-    sessionLabel: 'Register: Bispecific antibodies for AL amyloidosis',
+    sessionLabel: 'Register: Second-line treatment options — the COH experience with bispecific antibodies for AL amyloidosis',
     appointmentUrl: CITY_OF_HOPE_URL,
+    appointmentLabel: 'Schedule with Dr. Sarah Lee',
   },
   {
     id: 4,
     name: 'Dr. Faizi Jamal',
     credentials: 'MD',
-    title: 'City of Hope presenter',
-    specialty: 'Cardiac Amyloidosis · Diagnosis · AI Tools',
+    title: 'Associate Clinical Professor · Chief, Division of Cardiology',
+    specialty: 'Cardiac Amyloidosis · Cardiovascular Disease · Cardiac Imaging · AI Diagnostics',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Presenter introduction to be provided by City of Hope. This July session covers current and evolving AI tools for the diagnosis of cardiac amyloidosis.',
-    hasVideo: false,
+    bio: 'Dr. Jamal is an associate clinical professor in the Division of Cardiology and Chief, Division of Cardiology at City of Hope. He is an expert in cardiovascular disease, cardiac imaging, and in managing heart failure including cardiomyopathy associated with amyloidosis. His research focuses on earlier detection of cardiotoxicity and the application of artificial intelligence algorithms to measure cardiac function—a rapidly evolving area with significant implications for diagnosing cardiac amyloidosis.',
+    hasVideo: true,
     hasSession: true,
-    sessionLabel: 'Register: AI tools for cardiac amyloidosis diagnosis',
+    sessionLabel: 'Register: AI tools for the diagnosis of cardiac amyloidosis',
     appointmentUrl: CITY_OF_HOPE_URL,
+    appointmentLabel: 'Schedule with Dr. Jamal',
   },
   {
     id: 5,
     name: 'Dr. Tibor Kovacsovics',
     credentials: 'MD',
-    title: 'City of Hope presenter',
-    specialty: 'Primary AL Amyloidosis · Autologous SCT · Upfront Treatment',
+    title: 'Professor, Hematology & Hematopoietic Cell Transplantation · Medical Director, Leukemia — COH Phoenix',
+    specialty: 'Primary AL Amyloidosis · Autologous SCT · AML · ALL · COH Goodyear AZ',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Presenter introduction to be provided by City of Hope. This July session discusses autologous SCT for primary AL amyloidosis, including past, present, and future treatment considerations.',
-    hasVideo: false,
+    bio: 'Dr. Kovacsovics is a professor in the department of Hematology and Hematopoietic Cell Transplantation, and the Medical Director of Leukemia at COH Phoenix. He is an expert in the clinical management of acute myeloid leukemia (AML), acute lymphoblastic leukemia (ALL), and hematopoietic stem cell transplantation. He is also an expert in amyloidosis and an active member of the City of Hope Amyloidosis Program, managing patients at the Goodyear, AZ site. His session explores how first-line treatment for AL amyloidosis has evolved and where upfront autologous SCT remains a key consideration.',
+    hasVideo: true,
     hasSession: true,
-    sessionLabel: 'Register: Upfront autologous SCT for primary AL amyloidosis',
+    sessionLabel: 'Register: The role of upfront autologous SCT for primary AL amyloidosis',
     appointmentUrl: CITY_OF_HOPE_URL,
+    appointmentLabel: 'Schedule with Dr. Kovacsovics',
+  },
+];
+
+export const supportStaff: SupportStaff[] = [
+  {
+    id: 1,
+    name: 'Eve Celestial',
+    credentials: 'RN',
+    role: 'Multi-disciplinary Amyloid Clinic Registered Nurse',
+  },
+  {
+    id: 2,
+    name: 'Tricia Walker',
+    credentials: 'NP',
+    role: 'Amyloidosis Nurse Practitioner',
+    note: 'Expertise in Smoldering Multiple Myeloma, Relapsed/Refractory Multiple Myeloma, Myeloproliferative Neoplasms, and Febrile Neutropenia.',
+  },
+  {
+    id: 3,
+    name: 'Justine Buchholz',
+    credentials: 'NP',
+    role: 'Amyloidosis Nurse Practitioner',
+    note: 'Family nurse practitioner in advanced practice nursing with a certification in family care.',
+  },
+  {
+    id: 4,
+    name: 'Edelyn Whip',
+    credentials: '',
+    role: 'Nurse Navigator, Amyloid Clinic',
+  },
+  {
+    id: 5,
+    name: 'Gloria Higuera',
+    credentials: '',
+    role: 'Senior Site Liaison for Patient Scheduling',
+  },
+  {
+    id: 6,
+    name: 'Stephanie Goral',
+    credentials: 'RN',
+    role: 'Clinical Research Nurse for Amyloid Trials',
+  },
+  {
+    id: 7,
+    name: 'James Sanchez',
+    credentials: 'PhD',
+    role: 'Staff Scientist, Clinical & Translational Research',
+    note: 'Leading research initiatives in healthcare delivery through scientific project development within City of Hope.',
   },
 ];
 

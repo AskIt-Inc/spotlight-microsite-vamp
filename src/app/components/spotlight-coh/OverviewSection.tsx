@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const FONT = 'gotham, sans-serif';
 
-// ─── Overview v2 ──────────────────────────────────────────────────────────────
-// Client feedback: "too much text at the top", "I don't think this is a good way to lead"
-// Decision: one impactful hero quote + three visual program pillars → straight to team.
-// No dense paragraphs. Content stays high-level and scannable.
+// ─── Overview — COH ───────────────────────────────────────────────────────────
+// Layout:
+//   1. Impactful hero quote
+//   2. Three visual program pillars (scannable)
+//   3. Collapsible "About the Program" — earmarked for COH to provide copy
 
 const pillars = [
   {
@@ -24,6 +26,93 @@ const pillars = [
     text: 'Current AI diagnostic tools for cardiac amyloidosis and the evolving role of upfront autologous SCT in primary AL amyloidosis.',
   },
 ];
+
+// Placeholder copy — awaiting City of Hope to provide approved programme description.
+const PROGRAM_ABOUT_PLACEHOLDER = `City of Hope's Amyloidosis Program brings together experts across hematology, cardiology, nephrology, and neurology to provide multidisciplinary care for patients with all forms of amyloidosis. The program spans multiple sites across Southern California and Arizona, making expert amyloidosis care accessible across the region.
+
+[City of Hope to provide: programme history, team focus, goals, and what makes this programme unique — including the significance of operating across multiple sites.]`;
+
+const AboutProgramAccordion: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div
+      style={{
+        marginTop: '28px',
+        border: '1px solid var(--oav-border)',
+        borderRadius: '8px',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Accordion trigger */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '14px 20px',
+          background: 'var(--oav-card-bg)',
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: FONT,
+          textAlign: 'left' as const,
+          borderBottom: open ? '1px solid var(--oav-border)' : 'none',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#006E8E',
+            textTransform: 'uppercase' as const,
+            letterSpacing: '0.06em',
+            fontFamily: FONT,
+          }}
+        >
+          About the City of Hope Amyloidosis Program
+        </span>
+        <ChevronDown
+          size={16}
+          color="#006E8E"
+          style={{
+            flexShrink: 0,
+            transition: 'transform 0.2s ease',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        />
+      </button>
+
+      {/* Accordion body */}
+      {open && (
+        <div
+          style={{
+            padding: '20px',
+            background: 'var(--oav-page-bg)',
+          }}
+        >
+          {PROGRAM_ABOUT_PLACEHOLDER.split('\n\n').map((para, i) => (
+            <p
+              key={i}
+              style={{
+                fontSize: '14px',
+                fontWeight: 300,
+                color: i === 1 ? '#9CA3AF' : '#000000',
+                fontStyle: i === 1 ? 'italic' : 'normal',
+                lineHeight: 1.7,
+                margin: i === 0 ? '0 0 14px 0' : 0,
+                fontFamily: FONT,
+              }}
+            >
+              {para}
+            </p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const OverviewSection: React.FC = () => (
   <section
@@ -116,6 +205,9 @@ export const OverviewSection: React.FC = () => (
           </div>
         ))}
       </div>
+
+      {/* Collapsible programme description — earmarked for COH copy */}
+      <AboutProgramAccordion />
     </div>
   </section>
 );

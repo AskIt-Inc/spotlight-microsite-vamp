@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { PlayCircle, Calendar, ExternalLink, X, Users } from 'lucide-react';
-import { clinicians, type Clinician } from './data';
+import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
+import { clinicians, supportStaff, type Clinician, type SupportStaff } from './data';
 
 const FONT = 'gotham, sans-serif';
 
@@ -360,6 +360,47 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
   );
 };
 
+// ─── Support Staff Card ───────────────────────────────────────────────────────
+interface SupportStaffCardProps {
+  staff: SupportStaff;
+}
+
+const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => (
+  <div
+    style={{
+      background: 'var(--oav-card-bg)',
+      border: '1px solid var(--oav-border)',
+      borderRadius: '8px',
+      padding: '16px 18px',
+      display: 'flex',
+      flexDirection: 'column' as const,
+      gap: '4px',
+    }}
+  >
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', flexWrap: 'wrap' as const }}>
+      <span style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
+        {staff.name}
+      </span>
+      {staff.credentials && (
+        <span style={{ fontSize: '12px', fontWeight: 300, color: '#006E8E', fontFamily: FONT }}>
+          {staff.credentials}
+        </span>
+      )}
+    </div>
+    <div
+      style={{
+        fontSize: '13px',
+        fontWeight: 300,
+        color: '#4B5563',
+        fontFamily: FONT,
+        lineHeight: 1.5,
+      }}
+    >
+      {staff.role}
+    </div>
+  </div>
+);
+
 // ─── TeamSection v2 ───────────────────────────────────────────────────────────
 export const TeamSection: React.FC = () => (
   <section
@@ -403,8 +444,8 @@ export const TeamSection: React.FC = () => (
         ))}
       </div>
 
-      {/* ── Presenter Intro Status ── */}
-      <div style={{ marginTop: '40px' }}>
+      {/* ── Critical Supportive Staff ── */}
+      <div style={{ marginTop: '48px' }}>
         <h2
           style={{
             fontSize: '24px',
@@ -415,58 +456,29 @@ export const TeamSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          Presenter Intros
+          Critical Supportive Staff
         </h2>
         <p
           style={{
             fontSize: '14px',
             color: '#9CA3AF',
-            margin: '0 0 16px 0',
+            margin: '0 0 20px 0',
             fontFamily: FONT,
           }}
         >
-          The source document leaves each presenter intro blank. Add approved City of Hope bios here when provided.
+          The dedicated clinical and research team supporting the City of Hope Amyloidosis Program
         </p>
 
         <div
           style={{
-            border: '1px dashed #B9DEE6',
-            borderRadius: '8px',
-            padding: '20px',
-            background: '#E7F5F8',
-            display: 'flex',
-            alignItems: 'flex-start',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
             gap: '12px',
           }}
         >
-          <Users size={18} color="#006E8E" style={{ flexShrink: 0, marginTop: '2px', opacity: 0.6 }} />
-          <div>
-            <div
-              style={{
-                fontSize: '12px',
-                fontWeight: 700,
-                color: '#006E8E',
-                textTransform: 'uppercase' as const,
-                letterSpacing: '0.5px',
-                fontFamily: FONT,
-                marginBottom: '6px',
-              }}
-            >
-              Content needed — City of Hope presenter intros
-            </div>
-            <p
-              style={{
-                fontSize: '13px',
-                fontWeight: 300,
-                color: '#6B7280',
-                margin: 0,
-                fontFamily: FONT,
-                lineHeight: 1.6,
-              }}
-            >
-              Presenter names, session titles, and descriptions are loaded from the July document. Full bios and headshots should be added only after City of Hope approves them.
-            </p>
-          </div>
+          {supportStaff.map((staff) => (
+            <SupportStaffCard key={staff.id} staff={staff} />
+          ))}
         </div>
       </div>
 
