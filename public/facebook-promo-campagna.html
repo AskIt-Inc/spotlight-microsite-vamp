@@ -326,12 +326,95 @@ body {
 /* ══════════════════════════════════════════════════
    PRINT MEDIA
    ══════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════
+   SEARCH PANEL — hidden at print/export
+   ══════════════════════════════════════════════════ */
+.search-panel {
+  width: 100%;
+  max-width: 640px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.search-panel h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--maroon);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.search-row input[type="text"] {
+  flex: 1;
+  padding: 7px 12px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-family: inherit;
+}
+.search-row input[type="text"]:focus {
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 2px rgba(139,31,45,0.15);
+}
+.btn-search {
+  padding: 7px 18px;
+  background: var(--maroon);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-search:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.search-results {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+.search-results.visible { display: flex; }
+.search-result-item {
+  padding: 8px 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.4;
+  background: #fafafa;
+  transition: background 0.12s;
+}
+.search-result-item:hover { background: #f5eaec; border-color: var(--border-rose); }
+.search-result-item strong { display: block; color: #111; font-size: 12.5px; }
+.search-result-item span  { color: #777; font-size: 11px; }
+.search-status {
+  font-size: 11.5px;
+  color: #888;
+  font-style: italic;
+  min-height: 16px;
+}
+.search-status.error { color: #c0392b; font-style: normal; font-weight: 600; }
+
 @media print {
   body {
     background: none !important; padding: 0 !important;
     margin: 0 !important; display: block !important;
   }
-  .controls, .card-label { display: none !important; }
+  .controls, .card-label, .search-panel { display: none !important; }
   .print-surface {
     box-shadow: none !important; border-radius: 0 !important;
     width: var(--card-width) !important; height: var(--card-height) !important;
@@ -348,6 +431,22 @@ body {
 <body>
 
 <!-- ── Controls ── -->
+<!-- ══ SESSION SEARCH PANEL ══════════════════════════════════════════════════
+     Hidden at print/export via @media print. Fetches session data from the
+     STTT Drupal API and populates the promo card DOM nodes below.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="search-panel" id="search-panel">
+  <h3>🔍 Find Session</h3>
+  <div class="search-row">
+    <input type="text" id="session-search-input"
+           placeholder="Type session title (e.g. TTR Inheritance)…"
+           autocomplete="off" spellcheck="false" />
+    <button class="btn-search" id="btn-search">Search</button>
+  </div>
+  <div class="search-status" id="search-status"></div>
+  <div class="search-results" id="search-results"></div>
+</div>
+
 <div class="controls">
   <label>Card size:</label>
   <button class="active" id="btn-4x6" onclick="setSize('4x6')">4&times;6 inch</button>
@@ -548,6 +647,216 @@ async function downloadPDF() {
   } catch(e) { alert('PDF export failed: ' + e.message); }
   btn.textContent = '↓ PDF'; btn.disabled = false;
 }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SESSION SEARCH + CARD POPULATE
+   Endpoint: GET /api/spotlight/microsite/session/search?q={title}
+   Hosted on the STTT Drupal server. Update SEARCH_API_BASE if domain changes.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const SEARCH_API_BASE = 'https://www.somebodytotalkto.com/api/spotlight/microsite/session/search';
+
+const searchInput   = document.getElementById('session-search-input');
+const btnSearch     = document.getElementById('btn-search');
+const searchStatus  = document.getElementById('search-status');
+const searchResults = document.getElementById('search-results');
+
+let searchDebounce = null;
+
+function setStatus(msg, isError = false) {
+  searchStatus.textContent = msg;
+  searchStatus.className = 'search-status' + (isError ? ' error' : '');
+}
+
+function clearResults() {
+  searchResults.innerHTML = '';
+  searchResults.classList.remove('visible');
+}
+
+async function runSearch() {
+  const q = searchInput.value.trim();
+  if (q.length < 2) {
+    setStatus('Enter at least 2 characters.');
+    clearResults();
+    return;
+  }
+
+  btnSearch.disabled = true;
+  setStatus('Searching…');
+  clearResults();
+
+  try {
+    const url = `${SEARCH_API_BASE}?q=${encodeURIComponent(q)}`;
+    const res  = await fetch(url, { headers: { 'Accept': 'application/json' } });
+
+    if (!res.ok) {
+      throw new Error(`Server returned ${res.status}`);
+    }
+
+    const json = await res.json();
+    const rows = json.data || [];
+
+    if (rows.length === 0) {
+      setStatus('No upcoming sessions found for that title.');
+      return;
+    }
+
+    setStatus(`${rows.length} session${rows.length > 1 ? 's' : ''} found — click to populate card.`);
+
+    rows.forEach(row => {
+      const item = document.createElement('div');
+      item.className = 'search-result-item';
+      item.innerHTML = `
+        <strong>${escapeHtml(row.title)}</strong>
+        <span>${escapeHtml(row.date)}${row.time ? ' · ' + escapeHtml(row.time) : ''}${row.partner ? ' · ' + escapeHtml(row.partner) : ''}</span>
+      `;
+      item.addEventListener('click', () => populateCard(row));
+      searchResults.appendChild(item);
+    });
+
+    searchResults.classList.add('visible');
+
+    // Auto-populate if only one result.
+    if (rows.length === 1) {
+      populateCard(rows[0]);
+      setStatus('Card populated automatically — only one match found.');
+    }
+
+  } catch (err) {
+    setStatus('Search failed: ' + err.message, true);
+  } finally {
+    btnSearch.disabled = false;
+  }
+}
+
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/**
+ * Populates all card DOM nodes from a search result row.
+ *
+ * DOM targets (per handoff doc):
+ *   .band-type           ← row.session_type
+ *   .band-title          ← row.title (strips "session_type: " prefix if present)
+ *   .presenter-name      ← row.presenters[0].display_name
+ *   .presenter-cred      ← row.presenters[0].title  (credential / taxo_title)
+ *   .presenter-role      ← row.partner               (institution)
+ *   .date-pill span      ← row.date + ' · ' + row.time
+ *   .session-desc        ← row.description
+ *   .register-url        ← 'somebodytotalkto.com/register' (static alias)
+ *   .headshot-wrap img   ← row.headshot_base64
+ *   .qr-box img          ← row.qr_base64
+ */
+function populateCard(row) {
+  const ps = document.getElementById('print-surface');
+  if (!ps) return;
+
+  // ── band-type (session type label, uppercase strip of prefix from title)
+  const bandTypeEl = ps.querySelector('.band-type');
+  if (bandTypeEl) {
+    bandTypeEl.textContent = row.session_type || '';
+  }
+
+  // ── band-title (full title; if session_type is a prefix "Type: Rest of title"
+  //    strip the prefix so the band-title shows just the descriptive part)
+  const bandTitleEl = ps.querySelector('.band-title');
+  if (bandTitleEl) {
+    let displayTitle = row.title || '';
+    if (row.session_type && displayTitle.startsWith(row.session_type + ': ')) {
+      displayTitle = displayTitle.slice(row.session_type.length + 2);
+    }
+    bandTitleEl.innerHTML = displayTitle;
+  }
+
+  // ── presenter identity
+  const presenter = row.presenters?.[0] ?? {};
+  const presNameEl = ps.querySelector('.presenter-name');
+  if (presNameEl) {
+    // Build "FirstName LastName,\nSuffix" format to match card style
+    const suffix = presenter.name_suffix || '';
+    const baseName = [presenter.first_name, presenter.last_name]
+      .filter(Boolean).join(' ');
+    presNameEl.innerHTML = suffix
+      ? `${escapeHtml(baseName)},<br>${escapeHtml(suffix)}`
+      : escapeHtml(baseName);
+  }
+
+  const presCredEl = ps.querySelector('.presenter-cred');
+  if (presCredEl) {
+    presCredEl.textContent = presenter.title || '';
+  }
+
+  const presRoleEl = ps.querySelector('.presenter-role');
+  if (presRoleEl) {
+    presRoleEl.textContent = row.partner || '';
+  }
+
+  // ── date pill
+  const datePillSpan = ps.querySelector('.date-pill span');
+  if (datePillSpan) {
+    const dateStr = [row.date, row.time].filter(Boolean).join(' · ');
+    datePillSpan.textContent = dateStr;
+  }
+
+  // ── description
+  const descEl = ps.querySelector('.session-desc');
+  if (descEl) {
+    descEl.textContent = row.description || '';
+  }
+
+  // ── register URL (display alias stays static; the QR encodes the full URL)
+  // Leave .register-url as-is — the QR code IS the functional link.
+  // Only update if a custom display URL comes back from the API.
+  // (Currently always 'somebodytotalkto.com/register')
+
+  // ── headshot
+  const headshotImg = ps.querySelector('.headshot-wrap img');
+  const headshotFallback = ps.querySelector('.headshot-fallback');
+  if (headshotImg) {
+    if (row.headshot_base64) {
+      headshotImg.src = row.headshot_base64;
+      headshotImg.style.display = 'block';
+      if (headshotFallback) headshotFallback.style.display = 'none';
+    } else {
+      headshotImg.style.display = 'none';
+      if (headshotFallback) headshotFallback.style.display = '';
+    }
+  }
+
+  // ── QR code
+  const qrImg = ps.querySelector('.qr-box img');
+  if (qrImg) {
+    if (row.qr_base64) {
+      qrImg.src = row.qr_base64;
+      qrImg.style.display = 'block';
+    }
+  }
+
+  // Collapse results after selection
+  clearResults();
+  setStatus(`✓ Card populated: ${row.date}${row.time ? ' ' + row.time : ''}`);
+}
+
+// ── Event bindings
+btnSearch.addEventListener('click', runSearch);
+
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') runSearch();
+});
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    if (searchInput.value.trim().length >= 3) runSearch();
+  }, 400);
+});
+
 </script>
 </body>
 </html>
