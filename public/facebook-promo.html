@@ -716,7 +716,12 @@ function populateCard(row) {
   const shortUrl = (row.short_url || '').trim();
   const rawUrl   = (row.reg_link && row.reg_link.url) ? row.reg_link.url.trim() : '';
   const displayUrl = shortUrl || rawUrl || 'somebodytotalkto.com/register';
-  regUrlEl.textContent = displayUrl.replace(/^https?:\/\//, '');
+  let displayText = displayUrl.replace(/^https?:\/\//, '');
+  // If no short URL and raw Zoom URL, truncate for readability on card
+  if (!shortUrl && displayText.length > 36) {
+    displayText = displayText.substring(0, 33) + '…';
+  }
+  regUrlEl.textContent = displayText;
 
   // Reveal the card and controls on first load.
   document.getElementById('controls-bar').style.display = '';
