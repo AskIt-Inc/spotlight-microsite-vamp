@@ -523,7 +523,15 @@ async function downloadPNG() {
   try {
     const dataUrl = await domtoimage.toPng(surface, {
       width: cfg.pxW, height: cfg.pxH,
-      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' }
+      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' },
+      filter: (node) => {
+        // Skip chrome-extension and non-http resources that dom-to-image cannot embed
+        if (node.tagName === 'LINK' || node.tagName === 'STYLE') {
+          const href = node.href || '';
+          if (href.startsWith('chrome-extension://') || href.startsWith('moz-extension://')) return false;
+        }
+        return true;
+      }
     });
     const a = document.createElement('a');
     a.download = `facebook-promo-${cfg.tag}.png`;
@@ -544,7 +552,14 @@ async function downloadPDF() {
   try {
     const dataUrl = await domtoimage.toPng(surface, {
       width: cfg.pxW, height: cfg.pxH,
-      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' }
+      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' },
+      filter: (node) => {
+        if (node.tagName === 'LINK' || node.tagName === 'STYLE') {
+          const href = node.href || '';
+          if (href.startsWith('chrome-extension://') || href.startsWith('moz-extension://')) return false;
+        }
+        return true;
+      }
     });
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: [cfg.wIn, cfg.hIn] });
