@@ -512,6 +512,46 @@ function handlePrint() {
 }
 
 /* ── PNG export ── */
+async function captureCard(scale, pxW, pxH) {
+  // Neutralise any extension-injected fonts before capture — dom-to-image-more
+  // tries to embed @font-face rules from ALL stylesheets including those
+  // injected by Chrome extensions, which fail with ERR_FILE_NOT_FOUND.
+  // We temporarily force the card to use only system fonts during capture.
+  const shield = document.createElement('style');
+  shield.id = '__font-shield';
+  shield.textContent = '#print-surface, #print-surface * { font-family: Helvetica, Arial, sans-serif !important; }';
+  document.head.appendChild(shield);
+  try {
+    return await domtoimage.toPng(surface, {
+      width: pxW, height: pxH,
+      style: {
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+        width: surface.offsetWidth + 'px',
+        height: surface.offsetHeight + 'px'
+      },
+      filter: (node) => {
+        // Drop LINK/STYLE nodes referencing browser extension URLs
+        const href = (node.href || node.src || '');
+        if (/^(chrome|moz|safari)-extension:\/\//i.test(href)) return false;
+        if (node.tagName === 'STYLE' || node.tagName === 'LINK') {
+          const sheet = Array.from(document.styleSheets).find(s => s.ownerNode === node);
+          if (sheet) {
+            try {
+              const rules = Array.from(sheet.cssRules || []);
+              if (rules.some(r => r.cssText && /chrome-extension|moz-extension/i.test(r.cssText))) return false;
+            } catch(e) { /* cross-origin sheet — skip it */ return false; }
+          }
+        }
+        return true;
+      }
+    });
+  } finally {
+    const s = document.getElementById('__font-shield');
+    if (s) s.remove();
+  }
+}
+
 async function downloadPNG() {
   const btn   = document.getElementById('btn-download-png');
   const is3x5 = surface.classList.contains('size-3x5');
@@ -521,18 +561,7 @@ async function downloadPNG() {
   const scale = cfg.pxW / surface.offsetWidth;
   btn.textContent = 'Exporting…'; btn.disabled = true;
   try {
-    const dataUrl = await domtoimage.toPng(surface, {
-      width: cfg.pxW, height: cfg.pxH,
-      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' },
-      filter: (node) => {
-        // Skip chrome-extension and non-http resources that dom-to-image cannot embed
-        if (node.tagName === 'LINK' || node.tagName === 'STYLE') {
-          const href = node.href || '';
-          if (href.startsWith('chrome-extension://') || href.startsWith('moz-extension://')) return false;
-        }
-        return true;
-      }
-    });
+    const dataUrl = await captureCard(scale, cfg.pxW, cfg.pxH);
     const a = document.createElement('a');
     a.download = `facebook-promo-${cfg.tag}.png`;
     a.href = dataUrl; a.click();
@@ -550,17 +579,7 @@ async function downloadPDF() {
   const scale = cfg.pxW / surface.offsetWidth;
   btn.textContent = 'Exporting…'; btn.disabled = true;
   try {
-    const dataUrl = await domtoimage.toPng(surface, {
-      width: cfg.pxW, height: cfg.pxH,
-      style: { transform: `scale(${scale})`, transformOrigin: 'top left', width: surface.offsetWidth + 'px', height: surface.offsetHeight + 'px' },
-      filter: (node) => {
-        if (node.tagName === 'LINK' || node.tagName === 'STYLE') {
-          const href = node.href || '';
-          if (href.startsWith('chrome-extension://') || href.startsWith('moz-extension://')) return false;
-        }
-        return true;
-      }
-    });
+    const dataUrl = await captureCard(scale, cfg.pxW, cfg.pxH);
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: [cfg.wIn, cfg.hIn] });
     pdf.addImage(dataUrl, 'PNG', 0, 0, cfg.wIn, cfg.hIn);
