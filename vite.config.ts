@@ -25,5 +25,5 @@ export default defineConfig({
 
   // Netlify: serves from root (/). GitHub Pages: serves from /<repo-name>/.
   // GITHUB_PAGES=true is set in the CI workflow — do not hardcode here.
-  base: process.env.GITHUB_PAGES === 'true' ? '/spotlight-series-microsite/' : '/',
+  base: process.env.GITHUB_PAGES === 'true' ? '/spotlight-microsite-vamp/' : '/',
 })
