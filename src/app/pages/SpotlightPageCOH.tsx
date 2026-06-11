@@ -6,12 +6,7 @@ import { HighlightsSection } from '../components/spotlight-coh/HighlightsSection
 import { TrialsSection }    from '../components/spotlight-coh/TrialsSection';
 import { SessionsSidebar }  from '../components/spotlight-coh/SessionsSidebar';
 
-// ─── Spotlight Page — v3 (Stacey feedback: COMING SOON hero, subscribe CTA) ───
-// Changes from v2:
-//   Hero:     Both STTT + OAV logos centred | COMING SOON + program name/date
-//             | FEATURING block unchanged
-//   Overview: Blockquote replaced with session tagline + subscribe CTA + QR code
-//   Team / Highlights / Trials / Sessions: unchanged from v2
+// ─── Spotlight Page — cloned COH layout, VAMP content ─────────────────────────
 
 export const SpotlightPageCOH: React.FC = () => {
   return (

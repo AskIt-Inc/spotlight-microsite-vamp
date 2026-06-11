@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
 import { clinicians, supportStaff, type Clinician, type SupportStaff } from './data';
+import { useSpotlightSessions, buildRegUrlMap } from './useSpotlightSessions';
+import { useSpotlightProfiles } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
+
+function formatApiSessionDate(month?: string, day?: string): string | undefined {
+  if (!month || !day) return undefined;
+  const lower = month.toLowerCase();
+  return `${lower.charAt(0).toUpperCase()}${lower.slice(1)} ${day}`;
+}
 
 function getInitials(name: string): string {
   const words = name.replace(/^Dr\.?\s+/i, '').split(/\s+/).filter(Boolean);
@@ -16,10 +24,25 @@ function getInitials(name: string): string {
 // ─── Bio Modal ────────────────────────────────────────────────────────────────
 interface BioModalProps {
   clinician: Clinician;
+  name: string;                   // resolved name — sessions API presenter preferred, data.ts as fallback
+  photoUrl: string;              // resolved photo — API live URL preferred, data.ts as fallback
+  bio: string;                   // resolved bio — API profile bio preferred, data.ts as fallback
+  sessionDate: string;           // resolved session date — API sessions preferred, data.ts as fallback
+  sessionTitle: string;          // resolved session title — API sessions preferred, data.ts as fallback
+  apiSessionDescription?: string; // session description from Drupal API — overrides data.ts copy
   onClose: () => void;
 }
 
-const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
+const BioModal: React.FC<BioModalProps> = ({
+  clinician,
+  name,
+  photoUrl,
+  bio,
+  sessionDate,
+  sessionTitle,
+  apiSessionDescription,
+  onClose,
+}) => {
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -72,16 +95,16 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
               background: '#006E8E',
             }}
           >
-            {clinician.photo && !imgError ? (
+            {photoUrl && !imgError ? (
               <img
-                src={clinician.photo}
-                alt={clinician.name}
+                src={photoUrl}
+                alt={name}
                 onError={() => setImgError(true)}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
               />
             ) : (
               <span style={{ fontSize: '24px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
-                {getInitials(clinician.name)}
+                {getInitials(name)}
               </span>
             )}
           </div>
@@ -89,7 +112,7 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
           {/* Identity */}
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
-              {clinician.name}
+              {name}
             </div>
             <div style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT, marginTop: '2px' }}>
               {clinician.credentials} · {clinician.title}
@@ -111,7 +134,7 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#9CA3AF',
+              color: '#4B5563',
             }}
             aria-label="Close"
           >
@@ -131,62 +154,85 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
               fontFamily: FONT,
             }}
           >
-            {clinician.bio}
+            {bio}
           </p>
 
-          {/* CTAs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {clinician.hasSession && (
-              <button
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 16px',
-                  background: '#006E8E',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontWeight: 300,
-                  cursor: 'pointer',
-                  fontFamily: FONT,
-                  width: '100%',
-                  justifyContent: 'center',
-                }}
-              >
-                <Calendar size={14} />
-                {clinician.sessionLabel}
-              </button>
-            )}
-
-            <a
-              href={clinician.appointmentUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+          {/* Session info box */}
+          {clinician.hasSession && (
+            <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 16px',
-                background: 'transparent',
-                border: '1px solid #E8E8E8',
-                borderRadius: '4px',
-                fontSize: '13px',
-                fontWeight: 300,
-                cursor: 'pointer',
-                fontFamily: FONT,
-                width: '100%',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                color: '#000000',
-                boxSizing: 'border-box' as const,
+                background: '#E7F5F8',
+                border: '1px solid #B9DEE6',
+                borderRadius: '8px',
+                padding: '16px',
+                marginBottom: '16px',
               }}
             >
-              Schedule an appointment
-              <ExternalLink size={13} color="#9CA3AF" />
-            </a>
-          </div>
+              <div
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase' as const,
+                  letterSpacing: '0.1em',
+                  color: '#006E8E',
+                  fontFamily: FONT,
+                  marginBottom: '4px',
+                }}
+              >
+                Session: {sessionDate}
+              </div>
+              <div
+                style={{
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  color: '#000000',
+                  fontFamily: FONT,
+                  marginBottom: '6px',
+                }}
+              >
+                {sessionTitle}
+              </div>
+              <p
+                style={{
+                  fontSize: '14px',
+                  color: '#000000',
+                  lineHeight: 1.6,
+                  margin: 0,
+                  fontFamily: FONT,
+                }}
+              >
+                {apiSessionDescription ?? clinician.sessionDescription}
+              </p>
+            </div>
+          )}
+
+          {/* Appointment CTA */}
+          <a
+            href={clinician.appointmentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 16px',
+              background: 'transparent',
+              border: '1px solid #E8E8E8',
+              borderRadius: '4px',
+              fontSize: '13px',
+              fontWeight: 300,
+              cursor: 'pointer',
+              fontFamily: FONT,
+              width: '100%',
+              justifyContent: 'center',
+              textDecoration: 'none',
+              color: '#000000',
+              boxSizing: 'border-box' as const,
+            }}
+          >
+            Schedule an appointment
+            <ExternalLink size={13} color="#4B5563" />
+          </a>
         </div>
       </div>
     </div>
@@ -194,16 +240,37 @@ const BioModal: React.FC<BioModalProps> = ({ clinician, onClose }) => {
 };
 
 // ─── Compact horizontal card ──────────────────────────────────────────────────
-// Client feedback: cards too tall, too much text.
-// v2: horizontal layout, photo + name + specialty left, CTAs right, modal for full bio.
 interface CompactCardProps {
   clinician: Clinician;
+  regLink?: string;
+  apiPhotoUrl?: string;           // live photo from profiles API — preferred over data.ts photo
+  apiPresenterName?: string;      // live presenter name from sessions API
+  apiBio?: string;                // live bio from profiles API — preferred over data.ts bio
+  apiSessionDate?: string;        // live date from sessions API
+  apiSessionTitle?: string;       // live title from sessions API
+  apiSessionDescription?: string; // session description from Drupal API
 }
 
-const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
+const CompactCard: React.FC<CompactCardProps> = ({
+  clinician,
+  regLink,
+  apiPhotoUrl,
+  apiPresenterName,
+  apiBio,
+  apiSessionDate,
+  apiSessionTitle,
+  apiSessionDescription,
+}) => {
   const [imgError, setImgError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [registerHovered, setRegisterHovered] = useState(false);
+
+  // API photo preferred; fall back to data.ts CDN photo
+  const resolvedName = apiPresenterName?.trim() || clinician.name;
+  const resolvedPhoto = apiPhotoUrl ?? clinician.photo;
+  const resolvedBio = apiBio?.trim() || clinician.bio;
+  const resolvedSessionDate = apiSessionDate || clinician.sessionDate;
+  const resolvedSessionTitle = apiSessionTitle || clinician.sessionTitle;
 
   return (
     <>
@@ -220,7 +287,7 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
           gap: '16px',
         }}
       >
-        {/* Photo — smaller than v1 (60px vs 80px) */}
+        {/* Photo */}
         <div
           style={{
             width: '60px',
@@ -235,42 +302,58 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
             justifyContent: 'center',
           }}
         >
-          {clinician.photo && !imgError ? (
+          {resolvedPhoto && !imgError ? (
             <img
-              src={clinician.photo}
-              alt={clinician.name}
+              src={resolvedPhoto}
+              alt={resolvedName}
               onError={() => setImgError(true)}
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
             />
           ) : (
             <span style={{ fontSize: '20px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
-              {getInitials(clinician.name)}
+              {getInitials(resolvedName)}
             </span>
           )}
         </div>
 
-        {/* Identity — flex-grows to fill space */}
+        {/* Identity */}
         <div className="compact-card-identity" style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: '16px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
-            {clinician.name}
+            {resolvedName}
+          </div>
+          <div
+            style={{
+              fontSize: '13px',
+              fontWeight: 300,
+              color: '#000000',
+              fontFamily: FONT,
+              marginTop: '3px',
+              lineHeight: 1.4,
+            }}
+          >
+            {clinician.title}
           </div>
           <div
             style={{
               fontSize: '14px',
               fontWeight: 300,
-              color: '#000000',
+              color: '#006E8E',
               fontFamily: FONT,
-              marginTop: '3px',
-              whiteSpace: 'nowrap' as const,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              marginTop: '4px',
+              lineHeight: 1.4,
             }}
           >
             {clinician.specialty}
           </div>
+          {clinician.hasSession && (
+            <div style={{ fontSize: '12px', color: '#006E8E', fontFamily: FONT, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Calendar size={11} color="#006E8E" />
+              <span>{resolvedSessionDate}</span>
+            </div>
+          )}
         </div>
 
-        {/* CTAs — stacked on the right */}
+        {/* CTAs */}
         <div
           className="compact-card-ctas"
           style={{
@@ -300,9 +383,12 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
             View more
           </button>
 
-          {/* Register CTA — only if has session */}
-          {clinician.hasSession && (
-            <button
+          {/* Register CTA — only if has session and regLink available */}
+          {clinician.hasSession && regLink && (
+            <a
+              href={regLink}
+              target="_blank"
+              rel="noopener noreferrer"
               onMouseEnter={() => setRegisterHovered(true)}
               onMouseLeave={() => setRegisterHovered(false)}
               style={{
@@ -320,11 +406,12 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
                 fontFamily: FONT,
                 whiteSpace: 'nowrap' as const,
                 transition: 'background 0.15s ease',
+                textDecoration: 'none',
               }}
             >
               <Calendar size={11} color="#ffffff" />
               Register
-            </button>
+            </a>
           )}
 
           {/* Watch video — if available */}
@@ -354,7 +441,16 @@ const CompactCard: React.FC<CompactCardProps> = ({ clinician }) => {
 
       {/* Bio modal */}
       {modalOpen && (
-        <BioModal clinician={clinician} onClose={() => setModalOpen(false)} />
+        <BioModal
+          clinician={clinician}
+          name={resolvedName}
+          photoUrl={resolvedPhoto}
+          bio={resolvedBio}
+          sessionDate={resolvedSessionDate}
+          sessionTitle={resolvedSessionTitle}
+          apiSessionDescription={apiSessionDescription}
+          onClose={() => setModalOpen(false)}
+        />
       )}
     </>
   );
@@ -371,38 +467,61 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => (
       background: 'var(--oav-card-bg)',
       border: '1px solid var(--oav-border)',
       borderRadius: '8px',
-      padding: '16px 18px',
+      padding: '14px 20px',
       display: 'flex',
-      flexDirection: 'column' as const,
-      gap: '4px',
+      alignItems: 'center',
+      gap: '14px',
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', flexWrap: 'wrap' as const }}>
-      <span style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
-        {staff.name}
-      </span>
-      {staff.credentials && (
-        <span style={{ fontSize: '12px', fontWeight: 300, color: '#006E8E', fontFamily: FONT }}>
-          {staff.credentials}
-        </span>
-      )}
-    </div>
+    {/* Avatar */}
     <div
       style={{
-        fontSize: '13px',
-        fontWeight: 300,
-        color: '#4B5563',
-        fontFamily: FONT,
-        lineHeight: 1.5,
+        width: '44px',
+        height: '44px',
+        borderRadius: '50%',
+        background: '#006E8E',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
       }}
     >
-      {staff.role}
+      <span style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
+        {staff.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
+      </span>
+    </div>
+
+    {/* Info */}
+    <div>
+      <div style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
+        {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
+      </div>
+      <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
+        {staff.role}
+      </div>
     </div>
   </div>
 );
 
-// ─── TeamSection v2 ───────────────────────────────────────────────────────────
-export const TeamSection: React.FC = () => (
+// ─── TeamSection ──────────────────────────────────────────────────────────────
+export const TeamSection: React.FC = () => {
+  const { sessions } = useSpotlightSessions();
+  const { profileMap } = useSpotlightProfiles();
+
+  // uuid → regUrl — memoised to avoid rebuilding on every render
+  const regUrlMap  = useMemo(() => buildRegUrlMap(sessions), [sessions]);
+  // uuid → full session data from Drupal API for team card/modal copy.
+  const sessionMap = useMemo(
+    () => new Map(sessions.map(s => [s.id, s])),
+    [sessions],
+  );
+  // uuid → session description (Drupal API copy overrides data.ts)
+  const descMap    = useMemo(
+    () => new Map(sessions.map(s => [s.id, s.description])),
+    [sessions],
+  );
+
+  return (
   <section
     style={{
       background: 'var(--oav-page-bg)',
@@ -427,20 +546,37 @@ export const TeamSection: React.FC = () => (
         <p
           style={{
             fontSize: '14px',
-            color: '#9CA3AF',
+            color: '#4B5563',
             marginTop: '6px',
             marginBottom: 0,
             fontFamily: FONT,
           }}
         >
-          City of Hope presenters featured in the July amyloidosis spotlight series
+          Vanderbilt presenters featured in the August amyloidosis spotlight series
         </p>
       </div>
 
-      {/* Compact card list — single column for scannability */}
+      {/* Compact card list */}
       <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '12px' }}>
         {clinicians.map((clinician) => (
-          <CompactCard key={clinician.id} clinician={clinician} />
+          <CompactCard
+            key={clinician.id}
+            clinician={clinician}
+            regLink={clinician.sessionUuid ? regUrlMap.get(clinician.sessionUuid) : undefined}
+            apiPhotoUrl={clinician.profileUid ? profileMap.get(clinician.profileUid)?.photoUrl : undefined}
+            apiPresenterName={clinician.sessionUuid ? sessionMap.get(clinician.sessionUuid)?.presenter : undefined}
+            apiBio={clinician.profileUid ? profileMap.get(clinician.profileUid)?.bio : undefined}
+            apiSessionDate={
+              clinician.sessionUuid
+                ? formatApiSessionDate(
+                    sessionMap.get(clinician.sessionUuid)?.month,
+                    sessionMap.get(clinician.sessionUuid)?.day,
+                  )
+                : undefined
+            }
+            apiSessionTitle={clinician.sessionUuid ? sessionMap.get(clinician.sessionUuid)?.title : undefined}
+            apiSessionDescription={clinician.sessionUuid ? descMap.get(clinician.sessionUuid) : undefined}
+          />
         ))}
       </div>
 
@@ -461,19 +597,19 @@ export const TeamSection: React.FC = () => (
         <p
           style={{
             fontSize: '14px',
-            color: '#9CA3AF',
+            color: '#4B5563',
             margin: '0 0 20px 0',
             fontFamily: FONT,
           }}
         >
-          The dedicated clinical and research team supporting the City of Hope Amyloidosis Program
+          The dedicated clinical and support team for the Vanderbilt Amyloidosis Multidisciplinary Program
         </p>
 
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '12px',
+            display: 'flex',
+            flexDirection: 'column' as const,
+            gap: '10px',
           }}
         >
           {supportStaff.map((staff) => (
@@ -484,4 +620,5 @@ export const TeamSection: React.FC = () => (
 
     </div>
   </section>
-);
+  );
+};

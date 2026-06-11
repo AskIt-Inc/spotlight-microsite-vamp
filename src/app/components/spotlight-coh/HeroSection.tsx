@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 const FONT = 'gotham, sans-serif';
 const STTT_LOGO_URL = 'https://somebodytotalkto.com/sites/default/files/STTT%20Logo%20Basic.png';
-const CITY_OF_HOPE_LOGO_URL = 'https://www.cityofhope.org/sites/www/files/2022-03/coh_logo.svg';
+const VAMP_LOGO_URL = '/vamp-logo.png';
 
-const CityOfHopeLogo = () => {
+const VanderbiltIdentity = () => {
   const [imgFailed, setImgFailed] = useState(false);
 
   return (
@@ -23,9 +23,9 @@ const CityOfHopeLogo = () => {
     >
       {!imgFailed ? (
         <img
-          src={CITY_OF_HOPE_LOGO_URL}
-          alt="City of Hope"
-          style={{ height: '52px', width: 'auto', maxWidth: '230px', display: 'block' }}
+          src={VAMP_LOGO_URL}
+          alt="Vanderbilt Amyloidosis Multidisciplinary Program"
+          style={{ width: '230px', maxWidth: '100%', height: 'auto', display: 'block' }}
           onError={() => setImgFailed(true)}
         />
       ) : (
@@ -38,7 +38,7 @@ const CityOfHopeLogo = () => {
             lineHeight: 1,
           }}
         >
-          City of Hope
+          VAMP
         </span>
       )}
     </div>
@@ -46,7 +46,7 @@ const CityOfHopeLogo = () => {
 };
 
 // ─── Series strip (upper band — 40% of total hero height) ────────────────────
-// Format: [STTT logo] | [Amyloidosis Program Spotlight Series] [July 2026]
+// Format: [STTT logo] | [Amyloidosis Program Spotlight Series] [August 2026]
 // Disease-first naming enables: "Sickle Cell Disease Program Spotlight Series" etc.
 const SeriesStrip: React.FC = () => (
   <div
@@ -94,14 +94,14 @@ const SeriesStrip: React.FC = () => (
           }}
         >
           <span>Amyloidosis Program Spotlight Series</span>
-          <span style={{ color: '#000000' }}> · July 2026</span>
+          <span style={{ color: '#000000' }}> · August 2026</span>
         </div>
       </div>
     </div>
   </div>
 );
 
-// ─── Hero section (lower maroon band — 60% of total hero height) ──────────────
+// ─── Hero section (lower brand band — 60% of total hero height) ───────────────
 export const HeroSection: React.FC = () => (
   <>
     <SeriesStrip />
@@ -173,13 +173,13 @@ export const HeroSection: React.FC = () => (
               fontFamily: FONT,
             }}
           >
-            City of Hope Amyloidosis Program
+            Vanderbilt Amyloidosis Multidisciplinary Program
           </h1>
         </div>
 
         {/* Right column — partner identity */}
         <div className="hero-logo-col" style={{ flexShrink: 0 }}>
-          <CityOfHopeLogo />
+          <VanderbiltIdentity />
         </div>
       </div>
     </section>

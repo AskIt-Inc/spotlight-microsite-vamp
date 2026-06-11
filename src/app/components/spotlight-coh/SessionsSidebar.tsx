@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { User, Calendar, Download } from 'lucide-react';
-import { sessions, type Session } from './data';
+import { User, Calendar, Loader, AlertCircle } from 'lucide-react';
+import { type NormalizedSession, useSpotlightSessions } from './useSpotlightSessions';
 
 const FONT = 'gotham, sans-serif';
 
-const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
+const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -56,7 +56,7 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
         <div
           style={{
             fontSize: '9px',
-            color: '#9CA3AF',
+            color: '#4B5563',
             lineHeight: 1,
             marginTop: '2px',
             fontFamily: FONT,
@@ -71,7 +71,7 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
         <div
           style={{
             fontSize: '11px',
-            color: '#9CA3AF',
+            color: '#4B5563',
             marginBottom: '3px',
             fontFamily: FONT,
           }}
@@ -89,20 +89,6 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
         >
           {session.title}
         </div>
-        {session.description && (
-          <div
-            style={{
-              fontSize: '12px',
-              fontWeight: 300,
-              color: '#4B5563',
-              lineHeight: 1.45,
-              marginTop: '5px',
-              fontFamily: FONT,
-            }}
-          >
-            {session.description}
-          </div>
-        )}
         <div
           style={{
             display: 'flex',
@@ -114,12 +100,15 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
             fontFamily: FONT,
           }}
         >
-          <User size={11} color="#9CA3AF" style={{ flexShrink: 0 }} />
+          <User size={11} color="#4B5563" style={{ flexShrink: 0 }} />
           {session.presenter}
         </div>
 
-        {session.status === 'upcoming' && (
-          <button
+        {session.status === 'upcoming' && session.regUrl && (
+          <a
+            href={session.regUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             style={{
@@ -137,11 +126,12 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
               gap: '5px',
               fontFamily: FONT,
               transition: 'background 0.15s ease',
+              textDecoration: 'none',
             }}
           >
             <Calendar size={11} color="#ffffff" style={{ flexShrink: 0 }} />
             Register
-          </button>
+          </a>
         )}
 
         {session.status === 'completed' && (
@@ -168,9 +158,20 @@ const SidebarSessionRow: React.FC<{ session: Session }> = ({ session }) => {
 };
 
 export const SessionsSidebar: React.FC = () => {
+  const { sessions, loading, error } = useSpotlightSessions();
+
+  // Secondary sort within status groups: ascending by month/day
+  const MONTH_ORDER: Record<string, number> = {
+    JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
+    JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11,
+  };
   const sorted = [...sessions].sort((a, b) => {
-    const monthOrder: Record<string, number> = { MAY: 0, JUN: 1, JUL: 2, AUG: 3 };
-    const mo = (monthOrder[a.month] ?? 99) - (monthOrder[b.month] ?? 99);
+    // Primary: status (completed before upcoming)
+    if (a.status !== b.status) {
+      return a.status === 'completed' ? -1 : 1;
+    }
+    // Secondary: chronological
+    const mo = (MONTH_ORDER[a.month] ?? 99) - (MONTH_ORDER[b.month] ?? 99);
     if (mo !== 0) return mo;
     return parseInt(a.day) - parseInt(b.day);
   });
@@ -205,39 +206,54 @@ export const SessionsSidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* Session rows — scrollable on mobile only via CSS class */}
-      <div className="sessions-list">
-        {sorted.map((session) => (
-          <SidebarSessionRow key={session.id} session={session} />
-        ))}
-      </div>
-
-      {/* Footer */}
-      <div
-        style={{
-          padding: '12px 16px',
-          borderTop: '1px solid var(--oav-border)',
-          background: 'var(--oav-page-bg)',
-        }}
-      >
-        <a
-          href="#"
+      {/* Loading state */}
+      {loading && (
+        <div
           style={{
-            fontSize: '13px',
-            color: '#005EB8',
-            textDecoration: 'none',
-            display: 'inline-flex',
+            padding: '32px 16px',
+            display: 'flex',
             alignItems: 'center',
-            gap: '5px',
+            justifyContent: 'center',
+            gap: '8px',
+            color: '#4B5563',
+            fontFamily: FONT,
+            fontSize: '13px',
+          }}
+        >
+          <Loader size={16} color="#006E8E" style={{ animation: 'spin 1s linear infinite' }} />
+          Loading sessions…
+        </div>
+      )}
+
+      {/* Error banner — shown above sessions when using fallback data */}
+      {!loading && error && (
+        <div
+          style={{
+            padding: '8px 16px',
+            background: '#FFF8E7',
+            borderBottom: '1px solid #F0D060',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '12px',
+            color: '#7A5A00',
             fontFamily: FONT,
           }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#004A93'; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#005EB8'; }}
         >
-          <Download size={12} color="#005EB8" />
-          Download full calendar (PDF)
-        </a>
-      </div>
+          <AlertCircle size={13} color="#B58A00" style={{ flexShrink: 0 }} />
+          {error}
+        </div>
+      )}
+
+      {/* Session rows — scrollable on mobile only via CSS class */}
+      {!loading && (
+        <div className="sessions-list">
+          {sorted.map((session) => (
+            <SidebarSessionRow key={session.id} session={session} />
+          ))}
+        </div>
+      )}
+
     </div>
   );
 };

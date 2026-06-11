@@ -2,26 +2,24 @@ import React from 'react';
 
 const FONT = 'gotham, sans-serif';
 
-// ─── Highlights v2 ────────────────────────────────────────────────────────────
-// Client feedback: "reduce by 75%" — AI-generated text is too verbose.
-// Each entry is trimmed to 1–2 tight sentences.
+// ─── Highlights — Placeholder program copy ───────────────────────────────────
 
 const highlights = [
   {
-    label: 'Second-Line AL Amyloidosis Treatment',
-    text: 'Two sessions focus on relapsed/refractory AL amyloidosis, including the City of Hope experience with venetoclax and bispecific antibodies.',
+    label: 'Program History',
+    text: 'The current draft describes VAMP as an amyloidosis program established in 2011 and built around coordinated multidisciplinary care.',
   },
   {
-    label: 'SAVE Trial and Earlier Diagnosis',
-    text: 'Dr. Lisa Lee reviews the SAVE trial and how results may point toward earlier AL amyloidosis diagnosis.',
+    label: 'Multidisciplinary Team',
+    text: 'Draft content highlights hematology, cardiology, neurology, nephrology, gastroenterology, diagnostics, genetic counseling, rehabilitation, social work, and patient advocacy.',
   },
   {
-    label: 'AI Tools for Cardiac Amyloidosis',
-    text: 'Dr. Faizi Jamal covers current and evolving AI tools for cardiac amyloidosis diagnosis.',
+    label: 'August Wednesday Sessions',
+    text: 'Tentative Wednesday education sessions include cardiology, neurology, GI symptoms, and CAR-T versus AutoSCT topics.',
   },
   {
-    label: 'Upfront Autologous SCT',
-    text: 'Dr. Tibor Kovacsovics discusses the past, present, and future role of upfront autologous SCT for primary AL amyloidosis.',
+    label: 'Support and Quality of Life',
+    text: 'Draft Monday and Thursday sessions include dietician support, managing expectations in rare and chronic disease, and depression treatment strategies.',
   },
 ];
 
@@ -92,18 +90,18 @@ export const HighlightsSection: React.FC = () => (
         ))}
       </div>
 
-      {/* Asterisk disclaimer */}
+      {/* Source note */}
       <p
         style={{
           fontSize: '12px',
-          color: '#9CA3AF',
+          color: '#4B5563',
           marginTop: '20px',
           marginBottom: 0,
           fontFamily: FONT,
           fontStyle: 'italic',
         }}
       >
-        * Session summaries are based on the supplied City of Hope July session document. Presenter intros and final publication copy still require client approval.
+        * Placeholder copy is based on the current VAMP draft and email thread. Presenter intros, final session titles, and publication copy still require VAMP approval.
       </p>
     </div>
   </section>

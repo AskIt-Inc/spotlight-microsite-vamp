@@ -27,7 +27,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
     background: '#ffffff',
     marginTop: '4px',
     outline: 'none',
-    boxShadow: focusedField === fieldName ? '0 0 0 3px rgba(139,31,45,0.12)' : 'none',
+    boxShadow: focusedField === fieldName ? '0 0 0 3px rgba(0,110,142,0.14)' : 'none',
     fontFamily: FONT,
     boxSizing: 'border-box' as const,
     display: 'block',
@@ -58,7 +58,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
               fontSize: '11px',
               fontWeight: 700,
               fontFamily: 'monospace',
-              color: '#9CA3AF',
+              color: '#4B5563',
               marginBottom: '4px',
               letterSpacing: '0.05em',
             }}
@@ -119,7 +119,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
           <div
             style={{
               fontSize: '12px',
-              color: '#9CA3AF',
+              color: '#4B5563',
               marginTop: '6px',
               fontFamily: FONT,
             }}
@@ -274,12 +274,12 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             <p
               style={{
                 fontSize: '12px',
-                color: '#9CA3AF',
+                color: '#4B5563',
                 margin: '0 0 12px 0',
                 fontFamily: FONT,
               }}
             >
-              Your details will only be shared with the City of Hope research team.
+              Your details will only be shared with the Vanderbilt amyloidosis research team.
             </p>
 
             <button
@@ -310,7 +310,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
                 onClick={() => setFormState('idle')}
                 style={{
                   fontSize: '12px',
-                  color: '#9CA3AF',
+                  color: '#4B5563',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -380,18 +380,6 @@ export const TrialsSection: React.FC = () => {
             >
               Clinical Trials
             </h2>
-            <p
-              style={{
-                fontSize: '14px',
-                color: '#9CA3AF',
-                marginTop: '8px',
-                marginBottom: 0,
-                fontFamily: FONT,
-                lineHeight: 1.5,
-              }}
-            >
-              City of Hope amyloidosis trial details can be added once approved.
-            </p>
             <a
               href="https://clinicaltrials.gov"
               target="_blank"
@@ -429,17 +417,6 @@ export const TrialsSection: React.FC = () => {
               {trials.map((trial) => (
                 <TrialCard key={trial.id} trial={trial} />
               ))}
-              <p
-                style={{
-                  fontSize: '12px',
-                  color: '#9CA3AF',
-                  margin: '8px 0 0 0',
-                  fontFamily: FONT,
-                  fontStyle: 'italic',
-                }}
-              >
-                * Trial descriptions require City of Hope approval before publication.
-              </p>
             </>
           ) : (
             <div
@@ -456,10 +433,10 @@ export const TrialsSection: React.FC = () => {
               <Edit3 size={18} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400E', fontFamily: FONT, marginBottom: '8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }}>
-                  Content needed from City of Hope
+                  Content needed from VAMP
                 </div>
                 <p style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', fontFamily: FONT, lineHeight: 1.6 }}>
-                  Please provide the list of open clinical trials currently recruiting through the City of Hope Amyloidosis Program. For each trial include:
+                  Please provide the list of open clinical trials currently recruiting through the Vanderbilt Amyloidosis Multidisciplinary Program. For each trial include:
                 </p>
                 <ul style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', paddingLeft: '18px', fontFamily: FONT, lineHeight: 1.7 }}>
                   <li>ClinicalTrials.gov identifier (NCT number)</li>
@@ -473,7 +450,7 @@ export const TrialsSection: React.FC = () => {
                   <a href="https://clinicaltrials.gov" target="_blank" rel="noopener noreferrer" style={{ color: '#92400E', fontWeight: 700 }}>
                     clinicaltrials.gov
                   </a>{' '}
-                  and search "City of Hope" + "amyloidosis".
+                  and search "Vanderbilt" + "amyloidosis".
                 </p>
               </div>
             </div>

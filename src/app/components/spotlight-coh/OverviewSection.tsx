@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { CalendarDays, ChevronDown, HeartPulse, Users, type LucideIcon } from 'lucide-react';
 
 const FONT = 'gotham, sans-serif';
 
-// ─── Overview — COH ───────────────────────────────────────────────────────────
+// ─── Overview — VAMP ──────────────────────────────────────────────────────────
 // Layout:
-//   1. Impactful hero quote
+//   1. Impactful opening statement
 //   2. Three visual program pillars (scannable)
-//   3. Collapsible "About the Program" — earmarked for COH to provide copy
+//   3. Collapsible "About the Program"
 
-const pillars = [
+const pillars: Array<{ icon: LucideIcon; label: string; text: string }> = [
   {
-    icon: '01',
-    label: 'AL Amyloidosis Treatment',
-    text: 'Second-line treatment options for relapsed/refractory disease, including City of Hope experience with venetoclax and bispecific antibodies.',
+    icon: HeartPulse,
+    label: 'Multidisciplinary Care',
+    text: 'VAMP was established to bring amyloidosis care into one coordinated program across hematology, cardiology, neurology, nephrology, gastroenterology, diagnostics, rehabilitation, and patient support.',
   },
   {
-    icon: '02',
-    label: 'Earlier Diagnosis',
-    text: 'A dedicated July session on the SAVE trial and how new findings may support earlier diagnosis of AL amyloidosis.',
+    icon: Users,
+    label: 'Weekly Review Boards',
+    text: 'The current VAMP draft describes weekly multidisciplinary review boards where specialists review complex cases together and coordinate diagnostic and treatment planning.',
   },
   {
-    icon: '03',
-    label: 'Cardiac Amyloidosis + SCT',
-    text: 'Current AI diagnostic tools for cardiac amyloidosis and the evolving role of upfront autologous SCT in primary AL amyloidosis.',
+    icon: CalendarDays,
+    label: 'August Education Series',
+    text: 'Tentative August sessions cover cardiology, neurology, GI symptoms, CAR-T versus AutoSCT, dietician support, chronic-disease expectations, and depression strategies.',
   },
 ];
 
-// Placeholder copy — awaiting City of Hope to provide approved programme description.
-const PROGRAM_ABOUT_PLACEHOLDER = `City of Hope's Amyloidosis Program brings together experts across hematology, cardiology, nephrology, and neurology to provide multidisciplinary care for patients with all forms of amyloidosis. The program spans multiple sites across Southern California and Arizona, making expert amyloidosis care accessible across the region.
-
-[City of Hope to provide: programme history, team focus, goals, and what makes this programme unique — including the significance of operating across multiple sites.]`;
+const PROGRAM_ABOUT_PARAGRAPHS = [
+  `Established in 2011, the Vanderbilt Amyloidosis Multidisciplinary Program brings specialists together around patients with suspected or confirmed amyloidosis.`,
+  `Over the past 15 years, the draft material describes VAMP as a coordinated program spanning hematology, cardiology, neurology, nephrology, gastroenterology, radiology, pathology, genetic counseling, rehabilitation, social work, and patient advocacy.`,
+  `[VAMP to confirm: current research goals, final program strengths, accomplishments/publications, open trials, headshots, videos, roles, and appointment links.]`,
+];
 
 const AboutProgramAccordion: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <div
@@ -71,7 +72,7 @@ const AboutProgramAccordion: React.FC = () => {
             fontFamily: FONT,
           }}
         >
-          About the City of Hope Amyloidosis Program
+          About the Vanderbilt Amyloidosis Multidisciplinary Program
         </span>
         <ChevronDown
           size={16}
@@ -92,16 +93,15 @@ const AboutProgramAccordion: React.FC = () => {
             background: 'var(--oav-page-bg)',
           }}
         >
-          {PROGRAM_ABOUT_PLACEHOLDER.split('\n\n').map((para, i) => (
+          {PROGRAM_ABOUT_PARAGRAPHS.map((para, i) => (
             <p
               key={i}
               style={{
                 fontSize: '14px',
                 fontWeight: 300,
-                color: i === 1 ? '#9CA3AF' : '#000000',
-                fontStyle: i === 1 ? 'italic' : 'normal',
+                color: '#000000',
                 lineHeight: 1.7,
-                margin: i === 0 ? '0 0 14px 0' : 0,
+                margin: i < PROGRAM_ABOUT_PARAGRAPHS.length - 1 ? '0 0 14px 0' : 0,
                 fontFamily: FONT,
               }}
             >
@@ -124,7 +124,7 @@ export const OverviewSection: React.FC = () => (
     }}
   >
     <div>
-      {/* Hero quote */}
+      {/* Opening statement */}
       <blockquote
         style={{
           margin: '0 0 32px 0',
@@ -142,8 +142,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          "A July spotlight series featuring City of Hope presenters on AL amyloidosis treatment,
-          earlier diagnosis, cardiac amyloidosis diagnostics, and upfront autologous SCT."
+          An August spotlight series featuring Vanderbilt's multidisciplinary amyloidosis team, with placeholder content from the current VAMP draft until final API data is available.
         </p>
       </blockquote>
 
@@ -156,57 +155,66 @@ export const OverviewSection: React.FC = () => (
           gap: '16px',
         }}
       >
-        {pillars.map((p) => (
-          <div
-            key={p.label}
-            style={{
-              background: 'var(--oav-page-bg)',
-              border: '1px solid var(--oav-border)',
-              borderRadius: '8px',
-              padding: '20px',
-            }}
-          >
+        {pillars.map((p) => {
+          const Icon = p.icon;
+
+          return (
             <div
+              key={p.label}
               style={{
-                fontSize: '18px',
-                fontWeight: 700,
-                color: '#F58220',
-                marginBottom: '10px',
-                fontFamily: FONT,
+                background: 'var(--oav-page-bg)',
+                border: '1px solid var(--oav-border)',
+                borderRadius: '8px',
+                padding: '20px',
               }}
             >
-              {p.icon}
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '8px',
+                  background: '#FFF3E8',
+                  border: '1px solid #F9C89D',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '12px',
+                }}
+              >
+                <Icon size={18} color="#F58220" strokeWidth={1.8} />
+              </div>
+              <div
+                style={{
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase' as const,
+                  letterSpacing: '0.5px',
+                  color: '#006E8E',
+                  fontFamily: FONT,
+                  marginBottom: '6px',
+                }}
+              >
+                {p.label}
+              </div>
+              <p
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 300,
+                  color: '#000000',
+                  lineHeight: 1.6,
+                  margin: 0,
+                  fontFamily: FONT,
+                  textAlign: 'left' as const,
+                }}
+              >
+                {p.text}
+              </p>
             </div>
-            <div
-              style={{
-                fontSize: '13px',
-                fontWeight: 700,
-                textTransform: 'uppercase' as const,
-                letterSpacing: '0.5px',
-                color: '#006E8E',
-                fontFamily: FONT,
-                marginBottom: '6px',
-              }}
-            >
-              {p.label}
-            </div>
-            <p
-              style={{
-                fontSize: '14px',
-                fontWeight: 300,
-                color: '#000000',
-                lineHeight: 1.6,
-                margin: 0,
-                fontFamily: FONT,
-              }}
-            >
-              {p.text}
-            </p>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Collapsible programme description — earmarked for COH copy */}
+      {/* Collapsible program description */}
       <AboutProgramAccordion />
     </div>
   </section>

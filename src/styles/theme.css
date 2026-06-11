@@ -9,7 +9,7 @@
   /* Backgrounds */
   --oav-page-bg: #F5F5F5;
   --oav-card-bg: #ffffff;
-  --oav-utility-bg: #FBF0F1;
+  --oav-utility-bg: #E7F5F8;
   --oav-icon-bg: #F5F5F5;
   --oav-input-bg: #ffffff;
   --oav-stripe-row: #fafafa;
@@ -22,16 +22,16 @@
   /* Borders */
   --oav-border: #E5E5E5;
   --oav-border-light: #EEEEEE;
-  --oav-utility-border: #F0D0D3;
+  --oav-utility-border: #B9DEE6;
 
   /* Brand tokens */
-  --oav-brand: #8B1F2D;
-  --oav-brand-hover: #6E1A24;
-  --oav-brand-light: #FBF0F1;
+  --oav-brand: #006E8E;
+  --oav-brand-hover: #004F66;
+  --oav-brand-light: #E7F5F8;
 
   /* Accent (links) */
-  --oav-accent: #005EB8;
-  --oav-accent-hover: #004A93;
+  --oav-accent: #F58220;
+  --oav-accent-hover: #C96512;
 
   /* Structural */
   --oav-header-bg: #ffffff;
@@ -191,32 +191,35 @@ html, body {
 
 /* ── Responsive breakpoints ─────────────────────────────────────────────────── */
 
-/* Nav collapse at 900px (existing) */
-@media (max-width: 900px) {
+/* Nav collapse: larger OAV-style menu needs more horizontal room */
+@media (max-width: 1200px) {
   .hidden-mobile-nav {
     display: none !important;
   }
 }
 
 /* Mobile hamburger button — hidden on desktop, shown on mobile */
-@media (min-width: 769px) {
+@media (min-width: 1201px) {
   .mobile-menu-btn {
     display: none !important;
   }
 
-  /* Desktop: sessions list scrolls within the sticky sidebar to fill available viewport height */
+  /* Desktop: sessions list expands to full height — no scroll */
   .sessions-list {
-    max-height: calc(100vh - 260px);
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 
   /* ── Show hamburger ─────────────────────────────────────────────────────────── */
   .mobile-menu-btn {
     display: flex !important;
   }
+}
+
+@media (max-width: 768px) {
 
   /* ── Header: tighten padding + shrink OAV logo ──────────────────────────────── */
   /* ROOT CAUSE OF HORIZONTAL OVERFLOW: OAV SVG logo at 72px height renders       */
@@ -314,8 +317,8 @@ html, body {
     text-align: center;
   }
 
-  /* ── Hero maroon band ───────────────────────────────────────────────────────── */
-  /* Stack: text column above UoC logo */
+  /* ── Hero brand band ────────────────────────────────────────────────────────── */
+  /* Stack: text column above partner logo */
   .hero-content-row {
     flex-direction: column !important;
     align-items: center !important;
@@ -335,7 +338,7 @@ html, body {
     font-size: 22px !important;
   }
 
-  /* UoC logo: legible size, centred pill */
+  /* Partner logo: legible size, centred pill */
   .hero-logo-col {
     display: flex !important;
     justify-content: center;
