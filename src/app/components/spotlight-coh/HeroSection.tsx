@@ -18,7 +18,7 @@ const VanderbiltIdentity = () => {
         justifyContent: 'center',
         minWidth: '250px',
         minHeight: '76px',
-        border: '1px solid #D9E8ED',
+        border: '1px solid #E0D5C0',
       }}
     >
       {!imgFailed ? (
@@ -33,7 +33,7 @@ const VanderbiltIdentity = () => {
           style={{
             fontSize: '22px',
             fontWeight: 700,
-            color: '#004F66',
+            color: '#000000',
             fontFamily: FONT,
             lineHeight: 1,
           }}
@@ -78,7 +78,7 @@ const SeriesStrip: React.FC = () => (
       {/* Vertical rule — hidden on mobile */}
       <div
         className="series-strip-divider"
-        style={{ width: '1px', height: '42px', background: '#B9DEE6', flexShrink: 0 }}
+        style={{ width: '1px', height: '42px', background: '#E0D5C0', flexShrink: 0 }}
       />
 
       {/* Program identity: disease-first name + date */}
@@ -88,7 +88,7 @@ const SeriesStrip: React.FC = () => (
           style={{
             fontSize: '28px',
             fontWeight: 700,
-            color: '#006E8E',
+            color: '#1C1C1C',
             letterSpacing: '-0.2px',
             lineHeight: 1.1,
           }}
@@ -108,8 +108,8 @@ export const HeroSection: React.FC = () => (
 
     <section
       style={{
-        background: 'linear-gradient(135deg, #006E8E 0%, #004F66 74%, #F58220 160%)',
-        borderBottom: '3px solid #F58220',
+        background: 'linear-gradient(135deg, #1C1C1C 0%, #000000 74%, #CFAE70 160%)',
+        borderBottom: '3px solid #CFAE70',
         padding: '28px 24px',
       }}
     >
@@ -137,7 +137,7 @@ export const HeroSection: React.FC = () => (
         >
           {/* FEATURING label */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFE8A3" strokeWidth="2" strokeLinecap="round" xmlns="http://www.w3.org/2000/svg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CFAE70" strokeWidth="2" strokeLinecap="round" xmlns="http://www.w3.org/2000/svg">
               <circle cx="12" cy="10" r="3"/>
               <line x1="12" y1="1" x2="12" y2="4"/>
               <line x1="4.22" y1="3.22" x2="6.34" y2="5.34"/>
@@ -154,7 +154,7 @@ export const HeroSection: React.FC = () => (
               fontWeight: 700,
               letterSpacing: '0.14em',
               textTransform: 'uppercase' as const,
-              color: '#FFE8A3',
+              color: '#CFAE70',
               fontFamily: FONT,
             }}>
               FEATURING

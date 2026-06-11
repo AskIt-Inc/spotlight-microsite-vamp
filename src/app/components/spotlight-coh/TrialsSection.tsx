@@ -20,7 +20,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
   const inputStyle = (fieldName: string) => ({
     width: '100%',
     padding: '8px 12px',
-    border: `1px solid ${focusedField === fieldName ? '#006E8E' : '#E5E5E5'}`,
+    border: `1px solid ${focusedField === fieldName ? '#1C1C1C' : '#E5E5E5'}`,
     borderRadius: '4px',
     fontSize: '14px',
     color: '#000000',
@@ -83,9 +83,9 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
           {/* Status badge */}
           <span
             style={{
-              background: '#E7F5F8',
-              color: '#006E8E',
-              border: '1px solid #B9DEE6',
+              background: '#F8F5EE',
+              color: '#1C1C1C',
+              border: '1px solid #E0D5C0',
               borderRadius: '9999px',
               padding: '2px 10px',
               fontSize: '11px',
@@ -134,9 +134,9 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             onClick={() => setFormState(formState === 'open' ? 'idle' : 'open')}
             style={{
               padding: '8px 16px',
-              background: formState === 'open' ? '#E7F5F8' : 'transparent',
-              border: '1px solid #006E8E',
-              color: '#006E8E',
+              background: formState === 'open' ? '#F8F5EE' : 'transparent',
+              border: '1px solid #1C1C1C',
+              color: '#1C1C1C',
               borderRadius: '4px',
               fontSize: '13px',
               fontWeight: 300,
@@ -147,7 +147,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             }}
             onMouseEnter={(e) => {
               if (formState !== 'open') {
-                (e.currentTarget as HTMLButtonElement).style.background = '#E7F5F8';
+                (e.currentTarget as HTMLButtonElement).style.background = '#F8F5EE';
               }
             }}
             onMouseLeave={(e) => {
@@ -165,8 +165,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
       {formState === 'open' && (
         <div
           style={{
-            background: '#E7F5F8',
-            border: '1px solid #B9DEE6',
+            background: '#F8F5EE',
+            border: '1px solid #E0D5C0',
             borderTop: 'none',
             borderRadius: '0 0 8px 8px',
             marginTop: '-8px',
@@ -287,7 +287,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
               style={{
                 width: '100%',
                 padding: '10px 16px',
-                background: '#006E8E',
+                background: '#1C1C1C',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
@@ -298,8 +298,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
                 marginTop: '4px',
                 transition: 'background 0.15s ease',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#004F66'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#006E8E'; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#000000'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1C1C1C'; }}
             >
               Submit Interest
             </button>
@@ -328,8 +328,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
       {formState === 'submitted' && (
         <div
           style={{
-            background: '#E7F5F8',
-            border: '1px solid #B9DEE6',
+            background: '#F8F5EE',
+            border: '1px solid #E0D5C0',
             borderTop: 'none',
             borderRadius: '0 0 8px 8px',
             marginTop: '-8px',
@@ -389,13 +389,13 @@ export const TrialsSection: React.FC = () => {
                 alignItems: 'center',
                 gap: '4px',
                 fontSize: '14px',
-                color: '#005EB8',
+                color: '#1C1C1C',
                 textDecoration: 'none',
                 marginTop: '8px',
                 fontFamily: FONT,
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#004A93'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#005EB8'; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#000000'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#1C1C1C'; }}
             >
               <ExternalLink size={13} />
               View all on ClinicalTrials.gov
@@ -421,8 +421,8 @@ export const TrialsSection: React.FC = () => {
           ) : (
             <div
               style={{
-                background: '#FFFBEB',
-                border: '1px dashed #D97706',
+                background: '#FFF9E8',
+                border: '1px dashed #CFAE70',
                 borderRadius: '6px',
                 padding: '20px 24px',
                 display: 'flex',
@@ -430,24 +430,24 @@ export const TrialsSection: React.FC = () => {
                 gap: '14px',
               }}
             >
-              <Edit3 size={18} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Edit3 size={18} color="#CFAE70" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400E', fontFamily: FONT, marginBottom: '8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: '#1C1C1C', fontFamily: FONT, marginBottom: '8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }}>
                   Content needed from VAMP
                 </div>
-                <p style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', fontFamily: FONT, lineHeight: 1.6 }}>
+                <p style={{ fontSize: '14px', color: '#1C1C1C', margin: '0 0 12px 0', fontFamily: FONT, lineHeight: 1.6 }}>
                   Please provide the list of open clinical trials currently recruiting through the Vanderbilt Amyloidosis Multidisciplinary Program. For each trial include:
                 </p>
-                <ul style={{ fontSize: '14px', color: '#92400E', margin: '0 0 12px 0', paddingLeft: '18px', fontFamily: FONT, lineHeight: 1.7 }}>
+                <ul style={{ fontSize: '14px', color: '#1C1C1C', margin: '0 0 12px 0', paddingLeft: '18px', fontFamily: FONT, lineHeight: 1.7 }}>
                   <li>ClinicalTrials.gov identifier (NCT number)</li>
                   <li>Trial name / short title</li>
                   <li>Current status (e.g. Recruiting, Active Not Recruiting)</li>
                   <li>Brief description (2–3 sentences)</li>
                   <li>Phase (Phase 2, Phase 3, etc.)</li>
                 </ul>
-                <p style={{ fontSize: '13px', color: '#B45309', margin: 0, fontFamily: FONT }}>
+                <p style={{ fontSize: '13px', color: '#1C1C1C', margin: 0, fontFamily: FONT }}>
                   For a full list of active trials, visit{' '}
-                  <a href="https://clinicaltrials.gov" target="_blank" rel="noopener noreferrer" style={{ color: '#92400E', fontWeight: 700 }}>
+                  <a href="https://clinicaltrials.gov" target="_blank" rel="noopener noreferrer" style={{ color: '#1C1C1C', fontWeight: 700 }}>
                     clinicaltrials.gov
                   </a>{' '}
                   and search "Vanderbilt" + "amyloidosis".

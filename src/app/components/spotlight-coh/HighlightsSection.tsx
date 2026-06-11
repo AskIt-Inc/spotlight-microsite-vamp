@@ -41,7 +41,7 @@ export const HighlightsSection: React.FC = () => (
           fontWeight: 700,
           textTransform: 'uppercase' as const,
           letterSpacing: '1px',
-          color: '#006E8E',
+          color: '#1C1C1C',
           marginBottom: '20px',
           fontFamily: FONT,
         }}
@@ -55,7 +55,7 @@ export const HighlightsSection: React.FC = () => (
           <div
             key={h.label}
             style={{
-              borderLeft: '3px solid #006E8E',
+              borderLeft: '3px solid #1C1C1C',
               paddingLeft: '14px',
               display: 'flex',
               flexDirection: 'column',

@@ -86,13 +86,13 @@ const BioModal: React.FC<BioModalProps> = ({
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              border: '3px solid #006E8E',
+              border: '3px solid #1C1C1C',
               overflow: 'hidden',
               flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#006E8E',
+              background: '#1C1C1C',
             }}
           >
             {photoUrl && !imgError ? (
@@ -117,7 +117,7 @@ const BioModal: React.FC<BioModalProps> = ({
             <div style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT, marginTop: '2px' }}>
               {clinician.credentials} · {clinician.title}
             </div>
-            <div style={{ fontSize: '13px', color: '#006E8E', fontFamily: FONT, marginTop: '2px' }}>
+            <div style={{ fontSize: '13px', color: '#1C1C1C', fontFamily: FONT, marginTop: '2px' }}>
               {clinician.specialty}
             </div>
           </div>
@@ -161,8 +161,8 @@ const BioModal: React.FC<BioModalProps> = ({
           {clinician.hasSession && (
             <div
               style={{
-                background: '#E7F5F8',
-                border: '1px solid #B9DEE6',
+                background: '#F8F5EE',
+                border: '1px solid #E0D5C0',
                 borderRadius: '8px',
                 padding: '16px',
                 marginBottom: '16px',
@@ -174,7 +174,7 @@ const BioModal: React.FC<BioModalProps> = ({
                   fontWeight: 700,
                   textTransform: 'uppercase' as const,
                   letterSpacing: '0.1em',
-                  color: '#006E8E',
+                  color: '#1C1C1C',
                   fontFamily: FONT,
                   marginBottom: '4px',
                 }}
@@ -293,8 +293,8 @@ const CompactCard: React.FC<CompactCardProps> = ({
             width: '60px',
             height: '60px',
             borderRadius: '50%',
-            border: '2px solid #006E8E',
-            background: '#006E8E',
+            border: '2px solid #1C1C1C',
+            background: '#1C1C1C',
             flexShrink: 0,
             overflow: 'hidden',
             display: 'flex',
@@ -337,7 +337,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
             style={{
               fontSize: '14px',
               fontWeight: 300,
-              color: '#006E8E',
+              color: '#1C1C1C',
               fontFamily: FONT,
               marginTop: '4px',
               lineHeight: 1.4,
@@ -346,8 +346,8 @@ const CompactCard: React.FC<CompactCardProps> = ({
             {clinician.specialty}
           </div>
           {clinician.hasSession && (
-            <div style={{ fontSize: '12px', color: '#006E8E', fontFamily: FONT, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Calendar size={11} color="#006E8E" />
+            <div style={{ fontSize: '12px', color: '#1C1C1C', fontFamily: FONT, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Calendar size={11} color="#1C1C1C" />
               <span>{resolvedSessionDate}</span>
             </div>
           )}
@@ -370,7 +370,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
             style={{
               fontSize: '12px',
               fontWeight: 300,
-              color: '#005EB8',
+              color: '#1C1C1C',
               background: 'none',
               border: 'none',
               padding: 0,
@@ -396,7 +396,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
                 alignItems: 'center',
                 gap: '5px',
                 padding: '5px 12px',
-                background: registerHovered ? '#004F66' : '#006E8E',
+                background: registerHovered ? '#000000' : '#1C1C1C',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
@@ -423,7 +423,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
                 gap: '5px',
                 fontSize: '12px',
                 fontWeight: 300,
-                color: '#005EB8',
+                color: '#1C1C1C',
                 background: 'none',
                 border: 'none',
                 padding: 0,
@@ -432,7 +432,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
                 whiteSpace: 'nowrap' as const,
               }}
             >
-              <PlayCircle size={13} color="#005EB8" />
+              <PlayCircle size={13} color="#1C1C1C" />
               Watch video
             </button>
           )}
@@ -479,7 +479,7 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => (
         width: '44px',
         height: '44px',
         borderRadius: '50%',
-        background: '#006E8E',
+        background: '#1C1C1C',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

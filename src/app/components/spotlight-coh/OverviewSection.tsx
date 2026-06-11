@@ -66,7 +66,7 @@ const AboutProgramAccordion: React.FC = () => {
           style={{
             fontSize: '14px',
             fontWeight: 700,
-            color: '#006E8E',
+            color: '#1C1C1C',
             textTransform: 'uppercase' as const,
             letterSpacing: '0.06em',
             fontFamily: FONT,
@@ -76,7 +76,7 @@ const AboutProgramAccordion: React.FC = () => {
         </span>
         <ChevronDown
           size={16}
-          color="#006E8E"
+          color="#1C1C1C"
           style={{
             flexShrink: 0,
             transition: 'transform 0.2s ease',
@@ -128,7 +128,7 @@ export const OverviewSection: React.FC = () => (
       <blockquote
         style={{
           margin: '0 0 32px 0',
-          borderLeft: '4px solid #006E8E',
+          borderLeft: '4px solid #1C1C1C',
           paddingLeft: '20px',
         }}
       >
@@ -173,15 +173,15 @@ export const OverviewSection: React.FC = () => (
                   width: '34px',
                   height: '34px',
                   borderRadius: '8px',
-                  background: '#FFF3E8',
-                  border: '1px solid #F9C89D',
+                  background: '#F8F5EE',
+                  border: '1px solid #CFAE70',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '12px',
                 }}
               >
-                <Icon size={18} color="#F58220" strokeWidth={1.8} />
+                <Icon size={18} color="#CFAE70" strokeWidth={1.8} />
               </div>
               <div
                 style={{
@@ -189,7 +189,7 @@ export const OverviewSection: React.FC = () => (
                   fontWeight: 700,
                   textTransform: 'uppercase' as const,
                   letterSpacing: '0.5px',
-                  color: '#006E8E',
+                  color: '#1C1C1C',
                   fontFamily: FONT,
                   marginBottom: '6px',
                 }}

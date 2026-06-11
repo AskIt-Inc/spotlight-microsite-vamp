@@ -9,7 +9,7 @@
   /* Backgrounds */
   --oav-page-bg: #F5F5F5;
   --oav-card-bg: #ffffff;
-  --oav-utility-bg: #E7F5F8;
+  --oav-utility-bg: #F8F5EE;
   --oav-icon-bg: #F5F5F5;
   --oav-input-bg: #ffffff;
   --oav-stripe-row: #fafafa;
@@ -22,16 +22,16 @@
   /* Borders */
   --oav-border: #E5E5E5;
   --oav-border-light: #EEEEEE;
-  --oav-utility-border: #B9DEE6;
+  --oav-utility-border: #E0D5C0;
 
   /* Brand tokens */
-  --oav-brand: #006E8E;
-  --oav-brand-hover: #004F66;
-  --oav-brand-light: #E7F5F8;
+  --oav-brand: #1C1C1C;
+  --oav-brand-hover: #000000;
+  --oav-brand-light: #F8F5EE;
 
   /* Accent (links) */
-  --oav-accent: #F58220;
-  --oav-accent-hover: #C96512;
+  --oav-accent: #CFAE70;
+  --oav-accent-hover: #A88C4F;
 
   /* Structural */
   --oav-header-bg: #ffffff;

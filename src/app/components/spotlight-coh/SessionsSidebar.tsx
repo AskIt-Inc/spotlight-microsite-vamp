@@ -34,7 +34,7 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
             fontSize: '9px',
             fontWeight: 700,
             textTransform: 'uppercase' as const,
-            color: '#006E8E',
+            color: '#1C1C1C',
             lineHeight: 1,
             fontFamily: FONT,
           }}
@@ -114,7 +114,7 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
             style={{
               marginTop: '8px',
               padding: '5px 12px',
-              background: hovered ? '#004F66' : '#006E8E',
+              background: hovered ? '#000000' : '#1C1C1C',
               color: '#ffffff',
               border: 'none',
               borderRadius: '4px',
@@ -191,7 +191,7 @@ export const SessionsSidebar: React.FC = () => {
         style={{
           padding: '14px 16px',
           borderBottom: '1px solid var(--oav-border)',
-          background: '#006E8E',
+          background: '#1C1C1C',
         }}
       >
         <div
@@ -220,7 +220,7 @@ export const SessionsSidebar: React.FC = () => {
             fontSize: '13px',
           }}
         >
-          <Loader size={16} color="#006E8E" style={{ animation: 'spin 1s linear infinite' }} />
+          <Loader size={16} color="#1C1C1C" style={{ animation: 'spin 1s linear infinite' }} />
           Loading sessions…
         </div>
       )}
@@ -230,17 +230,17 @@ export const SessionsSidebar: React.FC = () => {
         <div
           style={{
             padding: '8px 16px',
-            background: '#FFF8E7',
-            borderBottom: '1px solid #F0D060',
+            background: '#FFF9E8',
+            borderBottom: '1px solid #CFAE70',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
             fontSize: '12px',
-            color: '#7A5A00',
+            color: '#1C1C1C',
             fontFamily: FONT,
           }}
         >
-          <AlertCircle size={13} color="#B58A00" style={{ flexShrink: 0 }} />
+          <AlertCircle size={13} color="#CFAE70" style={{ flexShrink: 0 }} />
           {error}
         </div>
       )}
