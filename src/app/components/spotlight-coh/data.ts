@@ -219,7 +219,7 @@ export const sessions: Session[] = [
     dayOfWeek: 'Wed',
     time: '5:00 PM CT',
     title: 'Cardiology topic TBD',
-    presenter: 'VAMP cardiology presenter TBD',
+    presenter: 'Dr. Hasan Siddiqi',
     description: 'Draft options include demystifying cardiac biopsies for amyloidosis-CM or another cardiology topic. Final title and presenter details require VAMP approval.',
     status: 'upcoming',
   },
