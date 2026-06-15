@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vanderbilt Amyloidosis Multidisciplinary Program Spotlight Series · August 2026</title>
+    <script>
+      (() => {
+        if (
+          window.location.hostname === 'vanderbilt.oneamyloidosisvoice.com' &&
+          !new URLSearchParams(window.location.search).has('showBugherd')
+        ) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('showBugherd', 'true');
+          window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+        }
+      })();
+    </script>
     <script
       type="text/javascript"
       src="https://www.bugherd.com/sidebarv2.js?apikey=ypntv1jto91uablcwowdrq"
