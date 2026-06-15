@@ -461,47 +461,144 @@ interface SupportStaffCardProps {
   staff: SupportStaff;
 }
 
-const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => (
+const StaffDetailModal: React.FC<{ staff: SupportStaff; onClose: () => void }> = ({ staff, onClose }) => (
   <div
     style={{
-      background: 'var(--oav-card-bg)',
-      border: '1px solid var(--oav-border)',
-      borderRadius: '8px',
-      padding: '14px 20px',
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0,0,0,0.55)',
       display: 'flex',
       alignItems: 'center',
-      gap: '14px',
+      justifyContent: 'center',
+      zIndex: 1000,
+      padding: '24px',
     }}
+    onClick={e => { if (e.target === e.currentTarget) onClose(); }}
   >
-    {/* Avatar */}
     <div
       style={{
-        width: '44px',
-        height: '44px',
-        borderRadius: '50%',
-        background: '#1C1C1C',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
+        background: '#fff',
+        borderRadius: '12px',
+        maxWidth: '560px',
+        width: '100%',
+        maxHeight: '80vh',
+        overflowY: 'auto',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
       }}
     >
-      <span style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
-        {staff.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
-      </span>
-    </div>
-
-    {/* Info */}
-    <div>
-      <div style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
-        {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px 24px', borderBottom: '1px solid #E8E8E8' }}>
+        <div
+          style={{
+            width: '72px',
+            height: '72px',
+            borderRadius: '50%',
+            background: '#1C1C1C',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <span style={{ fontSize: '24px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
+            {getInitials(staff.name)}
+          </span>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
+            {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
+          </div>
+          <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
+            {staff.role}
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#4B5563' }}
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
       </div>
-      <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
-        {staff.role}
+      <div style={{ padding: '24px' }}>
+        {staff.note && (
+          <p style={{ fontSize: '15px', fontWeight: 300, color: '#000000', lineHeight: 1.7, margin: 0, fontFamily: FONT }}>
+            {staff.note}
+          </p>
+        )}
       </div>
     </div>
   </div>
 );
+
+const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <div
+        style={{
+          background: 'var(--oav-card-bg)',
+          border: '1px solid var(--oav-border)',
+          borderRadius: '8px',
+          padding: '14px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '14px',
+        }}
+      >
+        {/* Avatar */}
+        <div
+          style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: '50%',
+            background: '#1C1C1C',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <span style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
+            {getInitials(staff.name)}
+          </span>
+        </div>
+
+        {/* Info */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
+            {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
+          </div>
+          <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
+            {staff.role}
+          </div>
+        </div>
+
+        {staff.note && (
+          <button
+            onClick={() => setOpen(true)}
+            aria-label={`View more about ${staff.name}`}
+            style={{
+              fontSize: '12px',
+              fontWeight: 300,
+              color: '#005EB8',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontFamily: FONT,
+              textDecoration: 'underline',
+              flexShrink: 0,
+            }}
+          >
+            View more
+          </button>
+        )}
+      </div>
+      {open && <StaffDetailModal staff={staff} onClose={() => setOpen(false)} />}
+    </>
+  );
+};
 
 // ─── TeamSection ──────────────────────────────────────────────────────────────
 export const TeamSection: React.FC = () => {
