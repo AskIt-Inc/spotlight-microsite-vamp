@@ -180,7 +180,22 @@ export const supportStaff: SupportStaff[] = [
   },
 ];
 
-export const trials: Trial[] = [];
+export const trials: Trial[] = [
+  {
+    id: 'NCT07081646',
+    title: 'AZD0120 / GC012F CAR-T therapy targeting CD19 and BCMA for relapsed or refractory AL amyloidosis',
+    status: 'Recruiting · Nashville site listed; Vanderbilt not named on ClinicalTrials.gov',
+    description: 'Phase 1b/2 study evaluating the safety, tolerability, and efficacy of AZD0120, a CAR-T cell therapy targeting CD19 and BCMA, in participants with relapsed or refractory AL amyloidosis. This appears on the VICC trial list as protocol VICCCTTP25021.',
+    phase: 'Phase 1/2',
+  },
+  {
+    id: 'NCT06158854',
+    title: 'Etentamig / ABBV-383 for adult participants with AL amyloidosis',
+    status: 'Recruiting · Vanderbilt University Medical Center listed',
+    description: 'Open-label Phase 1/2 study evaluating the safety and efficacy of etentamig (ABBV-383) in adult participants with immunoglobulin light chain (AL) amyloidosis. ClinicalTrials.gov lists Vanderbilt University Medical Center in Nashville as a recruiting site.',
+    phase: 'Phase 1/2',
+  },
+];
 
 export const sessions: Session[] = [
   {

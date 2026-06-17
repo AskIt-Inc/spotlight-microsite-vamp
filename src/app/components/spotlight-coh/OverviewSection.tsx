@@ -13,24 +13,24 @@ const pillars: Array<{ icon: LucideIcon; label: string; text: string }> = [
   {
     icon: HeartPulse,
     label: 'Multidisciplinary Care',
-    text: 'VAMP was established to bring amyloidosis care into one coordinated program across hematology, cardiology, neurology, nephrology, gastroenterology, diagnostics, rehabilitation, and patient support.',
+    text: 'Founded in 2011, the Vanderbilt Amyloidosis Program is described by Vanderbilt as Tennessee’s first dedicated amyloidosis treatment center and a major referral center in the southeastern United States.',
   },
   {
     icon: Users,
-    label: 'Weekly Review Boards',
-    text: 'The current VAMP draft describes weekly multidisciplinary review boards where specialists review complex cases together and coordinate diagnostic and treatment planning.',
+    label: 'Coordinated Expertise',
+    text: 'The program has grown to include more than a dozen collaborating specialists who provide structured, multidisciplinary care for adults navigating an amyloidosis diagnosis.',
   },
   {
     icon: CalendarDays,
-    label: 'August Education Series',
-    text: 'Tentative August sessions cover cardiology, neurology, GI symptoms, CAR-T versus AutoSCT, dietician support, chronic-disease expectations, and depression strategies.',
+    label: 'Research and Trials',
+    text: 'Vanderbilt has participated in clinical trials for light chain and transthyretin amyloidosis, with ongoing work around biomarkers, advanced diagnostics, and disease monitoring.',
   },
 ];
 
 const PROGRAM_ABOUT_PARAGRAPHS = [
-  `Established in 2011, the Vanderbilt Amyloidosis Multidisciplinary Program brings specialists together around patients with suspected or confirmed amyloidosis.`,
-  `Over the past 15 years, the draft material describes VAMP as a coordinated program spanning hematology, cardiology, neurology, nephrology, gastroenterology, radiology, pathology, genetic counseling, rehabilitation, social work, and patient advocacy.`,
-  `[VAMP to confirm: current research goals, final program strengths, accomplishments/publications, open trials, headshots, videos, roles, and appointment links.]`,
+  `Founded in 2011, the Vanderbilt Amyloidosis Program brings specialists together around patients with suspected or confirmed amyloidosis and is described by Vanderbilt as the first dedicated amyloidosis treatment center in Tennessee.`,
+  `Amyloidosis can involve the heart, kidneys, liver, gastrointestinal system, peripheral nerves, and other organ systems, so diagnosis and treatment often require coordinated work across multiple specialties.`,
+  `The program emphasizes accurate and timely diagnosis, access to standards of care and research treatments, and close disease monitoring. Vanderbilt also describes ongoing work in clinical trials, biomarkers, and advanced non-invasive diagnostic tools.`,
 ];
 
 const AboutProgramAccordion: React.FC = () => {
@@ -142,7 +142,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          An August spotlight series featuring Vanderbilt's multidisciplinary amyloidosis team, with placeholder content from the current VAMP draft until final API data is available.
+          An August spotlight series featuring Vanderbilt's multidisciplinary amyloidosis team and its coordinated approach to diagnosis, treatment, research, and long-term disease monitoring.
         </p>
       </blockquote>
 

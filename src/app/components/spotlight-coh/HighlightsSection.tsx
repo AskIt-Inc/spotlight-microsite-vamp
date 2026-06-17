@@ -2,24 +2,24 @@ import React from 'react';
 
 const FONT = 'gotham, sans-serif';
 
-// ─── Highlights — Placeholder program copy ───────────────────────────────────
+// ─── Highlights — Program copy ────────────────────────────────────────────────
 
 const highlights = [
   {
     label: 'Program History',
-    text: 'The current draft describes VAMP as an amyloidosis program established in 2011 and built around coordinated multidisciplinary care.',
+    text: 'Vanderbilt describes the program as launching in 2011 and becoming Tennessee’s first dedicated amyloidosis treatment center.',
   },
   {
     label: 'Multidisciplinary Team',
-    text: 'Draft content highlights hematology, cardiology, neurology, nephrology, gastroenterology, diagnostics, genetic counseling, rehabilitation, social work, and patient advocacy.',
+    text: 'The program has grown into a major southeastern referral center with more than a dozen collaborating specialists providing structured care.',
   },
   {
-    label: 'August Wednesday Sessions',
-    text: 'Tentative Wednesday education sessions include cardiology, neurology, GI symptoms, and CAR-T versus AutoSCT topics.',
+    label: 'Diagnosis and Monitoring',
+    text: 'The program emphasizes accurate diagnosis, access to current standards of care and research treatments, and close disease monitoring.',
   },
   {
-    label: 'Support and Quality of Life',
-    text: 'Draft Monday and Thursday sessions include dietician support, managing expectations in rare and chronic disease, and depression treatment strategies.',
+    label: 'Research and Trials',
+    text: 'Vanderbilt has participated in amyloidosis clinical trials and describes ongoing research into biomarkers and advanced non-invasive diagnostic tools.',
   },
 ];
 
@@ -101,7 +101,7 @@ export const HighlightsSection: React.FC = () => (
           fontStyle: 'italic',
         }}
       >
-        * Placeholder copy is based on the current VAMP draft and email thread. Presenter intros, final session titles, and publication copy still require VAMP approval.
+        * Program background is based on Vanderbilt Discoveries in Medicine and should still be reviewed by VAMP for final public wording.
       </p>
     </div>
   </section>
