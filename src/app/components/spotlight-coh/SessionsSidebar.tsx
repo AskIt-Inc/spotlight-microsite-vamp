@@ -104,23 +104,32 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
           {session.presenter}
         </div>
 
-        {session.status === 'upcoming' && session.regUrl && (
+        {session.status === 'upcoming' && (
           <a
-            href={session.regUrl}
+            href={session.regUrl || undefined}
             target="_blank"
             rel="noopener noreferrer"
+            aria-disabled={!session.regUrl}
+            title={session.regUrl ? 'Register' : 'Registration link not available yet'}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            onClick={(event) => {
+              if (!session.regUrl) {
+                event.preventDefault();
+              }
+            }}
             style={{
               marginTop: '8px',
               padding: '5px 12px',
-              background: hovered ? '#000000' : '#1C1C1C',
-              color: '#ffffff',
+              background: session.regUrl
+                ? (hovered ? '#000000' : '#1C1C1C')
+                : '#E5E5E5',
+              color: session.regUrl ? '#ffffff' : '#4B5563',
               border: 'none',
               borderRadius: '4px',
               fontSize: '12px',
               fontWeight: 300,
-              cursor: 'pointer',
+              cursor: session.regUrl ? 'pointer' : 'not-allowed',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '5px',
@@ -129,7 +138,7 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
               textDecoration: 'none',
             }}
           >
-            <Calendar size={11} color="#ffffff" style={{ flexShrink: 0 }} />
+            <Calendar size={11} color={session.regUrl ? '#ffffff' : '#4B5563'} style={{ flexShrink: 0 }} />
             Register
           </a>
         )}

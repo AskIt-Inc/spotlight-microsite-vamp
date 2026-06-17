@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
 import { clinicians, supportStaff, type Clinician, type SupportStaff } from './data';
 import { useSpotlightSessions, buildRegUrlMap } from './useSpotlightSessions';
-import { useSpotlightProfiles } from './useSpotlightProfiles';
+import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
 
@@ -21,10 +21,62 @@ function getInitials(name: string): string {
   return filtered[0][0].toUpperCase();
 }
 
+function buildProfileName(profile: NormalizedProfile): string {
+  const baseName = [profile.firstName, profile.lastName]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(' ');
+
+  const name = [baseName, profile.nameSuffix]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(' ');
+
+  return name || profile.displayName.trim();
+}
+
+function personNameKey(name: string): string {
+  return name
+    .replace(/^Dr\.?\s+/i, '')
+    .replace(/\b(MD|FACP|MPH|MSCR|FACC|RN|APRN)\b/gi, '')
+    .replace(/[^a-z\s]/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function lastNameKeyFromClinician(clinician: Clinician): string {
+  const parts = clinician.name.replace(/^Dr\.?\s+/i, '').split(/\s+/).filter(Boolean);
+  return parts[parts.length - 1]?.toLowerCase() ?? '';
+}
+
+function clinicianFromProfile(profile: NormalizedProfile, fallback?: Clinician): Clinician {
+  return {
+    id: profile.uid,
+    name: buildProfileName(profile),
+    credentials: profile.nameSuffix,
+    title: profile.specialtyLine1 || fallback?.title || profile.spotlightCardTag,
+    specialty: profile.specialtyLine2 || fallback?.specialty || profile.spotlightCardTag,
+    type: profile.spotlightCardTag || fallback?.type || 'Team Member',
+    photo: profile.photoUrl || fallback?.photo || '',
+    bio: profile.bio || fallback?.bio || '',
+    hasVideo: fallback?.hasVideo ?? false,
+    hasSession: fallback?.hasSession ?? false,
+    sessionDate: fallback?.sessionDate ?? '',
+    sessionTitle: fallback?.sessionTitle ?? '',
+    sessionDescription: fallback?.sessionDescription ?? '',
+    education: fallback?.education,
+    appointmentUrl: fallback?.appointmentUrl ?? 'https://www.vanderbilthealth.com/',
+    videoUrl: fallback?.videoUrl,
+    sessionUuid: fallback?.sessionUuid,
+    profileUid: profile.uid,
+  };
+}
+
 // ─── Bio Modal ────────────────────────────────────────────────────────────────
 interface BioModalProps {
   clinician: Clinician;
-  name: string;                   // resolved name — sessions API presenter preferred, data.ts as fallback
+  name: string;                   // resolved name — profiles API preferred, data.ts as fallback
   photoUrl: string;              // resolved photo — API live URL preferred, data.ts as fallback
   bio: string;                   // resolved bio — API profile bio preferred, data.ts as fallback
   sessionDate: string;           // resolved session date — API sessions preferred, data.ts as fallback
@@ -114,12 +166,16 @@ const BioModal: React.FC<BioModalProps> = ({
             <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
               {name}
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT, marginTop: '2px' }}>
-              {clinician.credentials} · {clinician.title}
-            </div>
-            <div style={{ fontSize: '13px', color: '#1C1C1C', fontFamily: FONT, marginTop: '2px' }}>
-              {clinician.specialty}
-            </div>
+            {clinician.title && (
+              <div style={{ fontSize: '13px', fontWeight: 300, color: '#000000', fontFamily: FONT, marginTop: '2px' }}>
+                {clinician.title}
+              </div>
+            )}
+            {clinician.specialty && (
+              <div style={{ fontSize: '13px', color: '#1C1C1C', fontFamily: FONT, marginTop: '2px' }}>
+                {clinician.specialty}
+              </div>
+            )}
           </div>
 
           {/* Close button */}
@@ -244,7 +300,6 @@ interface CompactCardProps {
   clinician: Clinician;
   regLink?: string;
   apiPhotoUrl?: string;           // live photo from profiles API — preferred over data.ts photo
-  apiPresenterName?: string;      // live presenter name from sessions API
   apiBio?: string;                // live bio from profiles API — preferred over data.ts bio
   apiSessionDate?: string;        // live date from sessions API
   apiSessionTitle?: string;       // live title from sessions API
@@ -255,7 +310,6 @@ const CompactCard: React.FC<CompactCardProps> = ({
   clinician,
   regLink,
   apiPhotoUrl,
-  apiPresenterName,
   apiBio,
   apiSessionDate,
   apiSessionTitle,
@@ -266,7 +320,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
   const [registerHovered, setRegisterHovered] = useState(false);
 
   // API photo preferred; fall back to data.ts CDN photo
-  const resolvedName = apiPresenterName?.trim() || clinician.name;
+  const resolvedName = clinician.name;
   const resolvedPhoto = apiPhotoUrl ?? clinician.photo;
   const resolvedBio = apiBio?.trim() || clinician.bio;
   const resolvedSessionDate = apiSessionDate || clinician.sessionDate;
@@ -321,30 +375,34 @@ const CompactCard: React.FC<CompactCardProps> = ({
           <div style={{ fontSize: '16px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
             {resolvedName}
           </div>
-          <div
-            style={{
-              fontSize: '13px',
-              fontWeight: 300,
-              color: '#000000',
-              fontFamily: FONT,
-              marginTop: '3px',
-              lineHeight: 1.4,
-            }}
-          >
-            {clinician.title}
-          </div>
-          <div
-            style={{
-              fontSize: '14px',
-              fontWeight: 300,
-              color: '#1C1C1C',
-              fontFamily: FONT,
-              marginTop: '4px',
-              lineHeight: 1.4,
-            }}
-          >
-            {clinician.specialty}
-          </div>
+          {clinician.title && (
+            <div
+              style={{
+                fontSize: '13px',
+                fontWeight: 300,
+                color: '#000000',
+                fontFamily: FONT,
+                marginTop: '3px',
+                lineHeight: 1.4,
+              }}
+            >
+              {clinician.title}
+            </div>
+          )}
+          {clinician.specialty && (
+            <div
+              style={{
+                fontSize: '14px',
+                fontWeight: 300,
+                color: '#1C1C1C',
+                fontFamily: FONT,
+                marginTop: '4px',
+                lineHeight: 1.4,
+              }}
+            >
+              {clinician.specialty}
+            </div>
+          )}
           {clinician.hasSession && (
             <div style={{ fontSize: '12px', color: '#1C1C1C', fontFamily: FONT, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Calendar size={11} color="#1C1C1C" />
@@ -383,33 +441,42 @@ const CompactCard: React.FC<CompactCardProps> = ({
             View more
           </button>
 
-          {/* Register CTA — only if has session and regLink available */}
-          {clinician.hasSession && regLink && (
+          {/* Register CTA */}
+          {clinician.hasSession && (
             <a
-              href={regLink}
+              href={regLink || undefined}
               target="_blank"
               rel="noopener noreferrer"
+              aria-disabled={!regLink}
+              title={regLink ? 'Register' : 'Registration link not available yet'}
               onMouseEnter={() => setRegisterHovered(true)}
               onMouseLeave={() => setRegisterHovered(false)}
+              onClick={(event) => {
+                if (!regLink) {
+                  event.preventDefault();
+                }
+              }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
                 padding: '5px 12px',
-                background: registerHovered ? '#000000' : '#1C1C1C',
-                color: '#ffffff',
+                background: regLink
+                  ? (registerHovered ? '#000000' : '#1C1C1C')
+                  : '#E5E5E5',
+                color: regLink ? '#ffffff' : '#4B5563',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '12px',
                 fontWeight: 300,
-                cursor: 'pointer',
+                cursor: regLink ? 'pointer' : 'not-allowed',
                 fontFamily: FONT,
                 whiteSpace: 'nowrap' as const,
                 transition: 'background 0.15s ease',
                 textDecoration: 'none',
               }}
             >
-              <Calendar size={11} color="#ffffff" />
+              <Calendar size={11} color={regLink ? '#ffffff' : '#4B5563'} />
               Register
             </a>
           )}
@@ -603,7 +670,7 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
 // ─── TeamSection ──────────────────────────────────────────────────────────────
 export const TeamSection: React.FC = () => {
   const { sessions } = useSpotlightSessions();
-  const { profileMap } = useSpotlightProfiles();
+  const { profiles, profileMap } = useSpotlightProfiles();
 
   // uuid → regUrl — memoised to avoid rebuilding on every render
   const regUrlMap  = useMemo(() => buildRegUrlMap(sessions), [sessions]);
@@ -612,10 +679,45 @@ export const TeamSection: React.FC = () => {
     () => new Map(sessions.map(s => [s.id, s])),
     [sessions],
   );
+  const sessionByPresenterName = useMemo(
+    () => new Map(sessions.map((session) => [personNameKey(session.presenter), session])),
+    [sessions],
+  );
   // uuid → session description (Drupal API copy overrides data.ts)
   const descMap    = useMemo(
     () => new Map(sessions.map(s => [s.id, s.description])),
     [sessions],
+  );
+  const staticClinicianMap = useMemo(
+    () => new Map(clinicians.map((clinician) => [lastNameKeyFromClinician(clinician), clinician])),
+    [],
+  );
+  const supportStaffNameKeys = useMemo(
+    () => new Set(supportStaff.map((staff) => personNameKey(staff.name))),
+    [],
+  );
+  const teamClinicians = useMemo(
+    () => (
+      profiles.length > 0
+        ? profiles
+            .filter((profile) => !supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
+            .map((profile) => {
+              const clinician = clinicianFromProfile(profile, staticClinicianMap.get(profile.lastNameKey));
+              const session = sessionByPresenterName.get(personNameKey(buildProfileName(profile)));
+
+              if (!session) {
+                return clinician;
+              }
+
+              return {
+                ...clinician,
+                hasSession: true,
+                sessionUuid: session.id,
+              };
+            })
+        : clinicians
+    ),
+    [profiles, sessionByPresenterName, staticClinicianMap, supportStaffNameKeys],
   );
 
   return (
@@ -655,13 +757,12 @@ export const TeamSection: React.FC = () => {
 
       {/* Compact card list */}
       <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '12px' }}>
-        {clinicians.map((clinician) => (
+        {teamClinicians.map((clinician) => (
           <CompactCard
             key={clinician.id}
             clinician={clinician}
             regLink={clinician.sessionUuid ? regUrlMap.get(clinician.sessionUuid) : undefined}
             apiPhotoUrl={clinician.profileUid ? profileMap.get(clinician.profileUid)?.photoUrl : undefined}
-            apiPresenterName={clinician.sessionUuid ? sessionMap.get(clinician.sessionUuid)?.presenter : undefined}
             apiBio={clinician.profileUid ? profileMap.get(clinician.profileUid)?.bio : undefined}
             apiSessionDate={
               clinician.sessionUuid
@@ -677,7 +778,7 @@ export const TeamSection: React.FC = () => {
         ))}
       </div>
 
-      {/* ── Critical Supportive Staff ── */}
+      {/* ── Support Staff ── */}
       <div style={{ marginTop: '48px' }}>
         <h2
           style={{
@@ -689,7 +790,7 @@ export const TeamSection: React.FC = () => {
             fontFamily: FONT,
           }}
         >
-          Critical Supportive Staff
+          Support Staff
         </h2>
         <p
           style={{

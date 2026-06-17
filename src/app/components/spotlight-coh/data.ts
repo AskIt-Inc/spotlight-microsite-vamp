@@ -178,34 +178,6 @@ export const supportStaff: SupportStaff[] = [
     role: 'Registered Nurse — Cardiology / Cardiac Amyloidosis',
     note: 'Brian Miller supports cardiology patients in the Vanderbilt Amyloidosis Multidisciplinary Program by helping patients understand next steps, coordinate testing and follow-up, and stay connected with the cardiology team.',
   },
-  {
-    id: 4,
-    name: 'Genetic Counseling',
-    credentials: '',
-    role: 'Genetic Counseling Team — Hereditary Amyloidosis / Family Risk',
-    note: 'The genetic counseling team helps patients and families understand hereditary amyloidosis risk, genetic testing considerations, family implications, and next steps for informed care planning.',
-  },
-  {
-    id: 5,
-    name: 'Social Work & Patient Advocacy',
-    credentials: '',
-    role: 'Social Work and Patient Advocacy Team — Care Navigation / Support Resources',
-    note: 'The social work and patient advocacy team helps VAMP patients address practical care needs, support resources, access questions, and quality-of-life concerns throughout diagnosis and treatment.',
-  },
-  {
-    id: 6,
-    name: 'Physical & Occupational Therapy',
-    credentials: 'PT/OT',
-    role: 'Rehabilitation Therapy Team — Mobility / Daily Function',
-    note: 'The physical and occupational therapy team supports patients with mobility, strength, daily function, and rehabilitation needs related to amyloidosis and its effects on everyday life.',
-  },
-  {
-    id: 7,
-    name: 'Radiology & Pathology',
-    credentials: '',
-    role: 'Diagnostic Services Team — Radiology / Pathology',
-    note: 'The radiology and pathology teams support VAMP by helping evaluate imaging, tissue findings, and diagnostic information that guide amyloidosis diagnosis, monitoring, and treatment planning.',
-  },
 ];
 
 export const trials: Trial[] = [];

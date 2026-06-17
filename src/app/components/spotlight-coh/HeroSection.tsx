@@ -135,46 +135,43 @@ export const HeroSection: React.FC = () => (
             gap: '10px',
           }}
         >
-          {/* FEATURING label */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CFAE70" strokeWidth="2" strokeLinecap="round" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="10" r="3"/>
-              <line x1="12" y1="1" x2="12" y2="4"/>
-              <line x1="4.22" y1="3.22" x2="6.34" y2="5.34"/>
-              <line x1="1" y1="10" x2="4" y2="10"/>
-              <line x1="19.78" y1="3.22" x2="17.66" y2="5.34"/>
-              <line x1="23" y1="10" x2="20" y2="10"/>
-              <path d="M7 17l1.5-4h7L17 17"/>
-              <line x1="5" y1="21" x2="19" y2="21"/>
-              <line x1="8" y1="21" x2="8" y2="17"/>
-              <line x1="16" y1="21" x2="16" y2="17"/>
-            </svg>
-            <span style={{
-              fontSize: '12px',
-              fontWeight: 700,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase' as const,
-              color: '#CFAE70',
-              fontFamily: FONT,
-            }}>
-              FEATURING
-            </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
+            <h1
+              className="hero-h1"
+              style={{
+                fontSize: '29px',
+                fontWeight: 700,
+                color: 'rgb(255, 255, 255)',
+                margin: '0px 0px 10px',
+                lineHeight: 1.2,
+                fontFamily: FONT,
+              }}
+            >
+              Vanderbilt Amyloidosis Multidisciplinary Program
+            </h1>
+            <div
+              style={{
+                width: '45px',
+                height: '3px',
+                background: 'rgb(255, 232, 163)',
+                borderRadius: '2px',
+                marginBottom: '10px',
+              }}
+            />
+            <p
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: 'rgba(255, 255, 255, 0.85)',
+                margin: '0px',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase' as const,
+                fontFamily: FONT,
+              }}
+            >
+              VAMP
+            </p>
           </div>
-
-          {/* H1 */}
-          <h1
-            className="hero-h1"
-            style={{
-              fontSize: '34px',
-              fontWeight: 700,
-              color: '#ffffff',
-              margin: 0,
-              lineHeight: 1.2,
-              fontFamily: FONT,
-            }}
-          >
-            Vanderbilt Amyloidosis Multidisciplinary Program
-          </h1>
         </div>
 
         {/* Right column — partner identity */}
