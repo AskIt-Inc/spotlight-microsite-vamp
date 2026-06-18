@@ -26,6 +26,7 @@ export interface SupportStaff {
   role: string;
   email?: string;
   note?: string;
+  photo?: string;
 }
 
 export interface Trial {
@@ -58,11 +59,11 @@ export const clinicians: Clinician[] = [
     id: 1,
     name: 'Dr. Muhamed Baljevic',
     credentials: 'MD, FACP',
-    title: 'Associate Professor of Medicine · Director, Multiple Myeloma Program · Director, VAMP',
+    title: 'Associate Professor of Medicine',
     specialty: 'Hematology-Oncology · Plasma Cell Disorders · Multiple Myeloma · AL Amyloidosis',
     type: 'Medical Doctor',
     photo: '',
-    bio: 'Dr. Baljevic is Associate Professor of Medicine in Hematology-Oncology and Director of the Vanderbilt Amyloidosis Multidisciplinary Program. The draft material describes his research interests around chemotherapy resistance, post-transplant immune recovery, genetic factors in plasma cell cancers, and novel therapies for relapsed/refractory multiple myeloma and AL amyloidosis. Final public copy should be reviewed and approved by VAMP.',
+    bio: 'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist at Vanderbilt University Medical Center. He is Director of the Multiple Myeloma Program and Director of the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) at Vanderbilt-Ingram Cancer Center. His clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders, with research focused on therapy resistance, post-transplant immune recovery, genomic changes in plasma cell disease, and novel cellular therapy approaches.',
     hasVideo: false,
     hasSession: false,
     sessionDate: '',
@@ -184,15 +185,15 @@ export const trials: Trial[] = [
   {
     id: 'NCT07081646',
     title: 'AZD0120 / GC012F CAR-T therapy targeting CD19 and BCMA for relapsed or refractory AL amyloidosis',
-    status: 'Recruiting · Nashville site listed; Vanderbilt not named on ClinicalTrials.gov',
-    description: 'Phase 1b/2 study evaluating the safety, tolerability, and efficacy of AZD0120, a CAR-T cell therapy targeting CD19 and BCMA, in participants with relapsed or refractory AL amyloidosis. This appears on the VICC trial list as protocol VICCCTTP25021.',
+    status: 'Still recruiting',
+    description: 'Phase 1b/2 study evaluating the safety, tolerability, and efficacy of AZD0120, a CAR-T cell therapy targeting CD19 and BCMA, in participants with relapsed or refractory AL amyloidosis.',
     phase: 'Phase 1/2',
   },
   {
     id: 'NCT06158854',
     title: 'Etentamig / ABBV-383 for adult participants with AL amyloidosis',
-    status: 'Recruiting · Vanderbilt University Medical Center listed',
-    description: 'Open-label Phase 1/2 study evaluating the safety and efficacy of etentamig (ABBV-383) in adult participants with immunoglobulin light chain (AL) amyloidosis. ClinicalTrials.gov lists Vanderbilt University Medical Center in Nashville as a recruiting site.',
+    status: 'Completed recruitment',
+    description: 'Open-label Phase 1/2 study evaluating the safety and efficacy of etentamig (ABBV-383) in adult participants with immunoglobulin light chain (AL) amyloidosis.',
     phase: 'Phase 1/2',
   },
 ];
@@ -200,6 +201,20 @@ export const trials: Trial[] = [
 export const sessions: Session[] = [
   {
     id: 1,
+    uuid: 'c64e7e1e-b6df-4195-ab36-92c19ddb0d83',
+    month: 'AUG',
+    day: '3',
+    dayOfWeek: 'Mon',
+    time: '5:00 PM CT',
+    title: 'The Long Game Mindset: Weekly Habits That Keep You Moving Forward',
+    presenter: 'Julia Carlson RD, LDN',
+    description: 'Progress comes from steady habits, not heroic weeks. Learn how top patients build consistency, recover from setbacks, and keep improving over time. We will create a weekly check in, a small goals system, and a reset plan. Leave with a long game routine you can sustain. Includes a reset plan for bad weeks so you bounce back faster.',
+    status: 'upcoming',
+    regLink: 'https://us06web.zoom.us/meeting/register/dgMFJTa1R-Ca4kJ5tbjVxA',
+    shortUrl: 'https://bit.ly/4fOo3j4',
+  },
+  {
+    id: 2,
     uuid: 'vamp-2026-08-05',
     month: 'AUG',
     day: '5',
@@ -211,7 +226,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 2,
+    id: 3,
     uuid: 'vamp-2026-08-12',
     month: 'AUG',
     day: '12',
@@ -223,7 +238,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 3,
+    id: 4,
     uuid: 'vamp-2026-08-19',
     month: 'AUG',
     day: '19',
@@ -235,7 +250,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 4,
+    id: 5,
     uuid: 'vamp-2026-08-26',
     month: 'AUG',
     day: '26',
@@ -247,7 +262,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 5,
+    id: 6,
     uuid: 'vamp-2026-08-17',
     month: 'AUG',
     day: '17',
@@ -259,7 +274,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 6,
+    id: 7,
     uuid: 'vamp-2026-08-06',
     month: 'AUG',
     day: '6',
@@ -271,7 +286,7 @@ export const sessions: Session[] = [
     status: 'upcoming',
   },
   {
-    id: 7,
+    id: 8,
     uuid: 'vamp-2026-08-13',
     month: 'AUG',
     day: '13',

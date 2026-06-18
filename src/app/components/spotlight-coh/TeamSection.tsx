@@ -1,10 +1,19 @@
 import React, { useState, useMemo } from 'react';
 import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
 import { clinicians, supportStaff, type Clinician, type SupportStaff } from './data';
-import { useSpotlightSessions, buildRegUrlMap } from './useSpotlightSessions';
+import { useSpotlightSessions, buildRegUrlMap, type NormalizedSession } from './useSpotlightSessions';
 import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
+const API_SUPPORT_STAFF_NAMES = ['Tracy Allen', 'Natalie Castillo', 'Brian Miller', 'Julia Carlson'];
+const PROFILE_COPY_OVERRIDES: Record<number, Partial<Pick<NormalizedProfile, 'specialtyLine1' | 'specialtyLine2' | 'spotlightCardTag' | 'bio'>>> = {
+  321: {
+    specialtyLine1: 'Associate Professor of Medicine',
+    specialtyLine2: 'Hematology-Oncology · Plasma Cell Disorders · Multiple Myeloma · AL Amyloidosis',
+    spotlightCardTag: 'Hematologist/Oncologist',
+    bio: 'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist at Vanderbilt University Medical Center. He is Director of the Multiple Myeloma Program and Director of the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) at Vanderbilt-Ingram Cancer Center. His clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders, with research focused on therapy resistance, post-transplant immune recovery, genomic changes in plasma cell disease, and novel cellular therapy approaches.',
+  },
+};
 
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
   if (!month || !day) return undefined;
@@ -35,10 +44,17 @@ function buildProfileName(profile: NormalizedProfile): string {
   return name || profile.displayName.trim();
 }
 
+function buildProfileBaseName(profile: NormalizedProfile): string {
+  return [profile.firstName, profile.lastName]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(' ') || profile.displayName.replace(profile.nameSuffix, '').trim();
+}
+
 function personNameKey(name: string): string {
   return name
     .replace(/^Dr\.?\s+/i, '')
-    .replace(/\b(MD|FACP|MPH|MSCR|FACC|RN|APRN)\b/gi, '')
+    .replace(/\b(MD|FACP|MPH|MSCR|FACC|RN|APRN|RD|LDN|FACG|AGAF)\b/gi, '')
     .replace(/[^a-z\s]/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim()
@@ -73,6 +89,24 @@ function clinicianFromProfile(profile: NormalizedProfile, fallback?: Clinician):
   };
 }
 
+function applyProfileCopyOverrides(profile: NormalizedProfile): NormalizedProfile {
+  return {
+    ...profile,
+    ...PROFILE_COPY_OVERRIDES[profile.uid],
+  };
+}
+
+function supportStaffFromProfile(profile: NormalizedProfile): SupportStaff {
+  return {
+    id: profile.uid,
+    name: buildProfileBaseName(profile),
+    credentials: profile.nameSuffix,
+    role: profile.specialtyLine1 || profile.spotlightCardTag || 'Support Staff',
+    note: profile.bio,
+    photo: profile.photoUrl,
+  };
+}
+
 // ─── Bio Modal ────────────────────────────────────────────────────────────────
 interface BioModalProps {
   clinician: Clinician;
@@ -82,6 +116,7 @@ interface BioModalProps {
   sessionDate: string;           // resolved session date — API sessions preferred, data.ts as fallback
   sessionTitle: string;          // resolved session title — API sessions preferred, data.ts as fallback
   apiSessionDescription?: string; // session description from Drupal API — overrides data.ts copy
+  regLink?: string;
   onClose: () => void;
 }
 
@@ -93,6 +128,7 @@ const BioModal: React.FC<BioModalProps> = ({
   sessionDate,
   sessionTitle,
   apiSessionDescription,
+  regLink,
   onClose,
 }) => {
   const [imgError, setImgError] = useState(false);
@@ -259,6 +295,30 @@ const BioModal: React.FC<BioModalProps> = ({
               >
                 {apiSessionDescription ?? clinician.sessionDescription}
               </p>
+              {regLink && (
+                <a
+                  href={regLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    marginTop: '12px',
+                    padding: '7px 13px',
+                    background: '#1C1C1C',
+                    color: '#ffffff',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontWeight: 300,
+                    fontFamily: FONT,
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Calendar size={12} color="#ffffff" />
+                  Register
+                </a>
+              )}
             </div>
           )}
 
@@ -516,6 +576,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
           sessionDate={resolvedSessionDate}
           sessionTitle={resolvedSessionTitle}
           apiSessionDescription={apiSessionDescription}
+          regLink={regLink}
           onClose={() => setModalOpen(false)}
         />
       )}
@@ -526,9 +587,16 @@ const CompactCard: React.FC<CompactCardProps> = ({
 // ─── Support Staff Card ───────────────────────────────────────────────────────
 interface SupportStaffCardProps {
   staff: SupportStaff;
+  session?: NormalizedSession;
+  regLink?: string;
 }
 
-const StaffDetailModal: React.FC<{ staff: SupportStaff; onClose: () => void }> = ({ staff, onClose }) => (
+const StaffDetailModal: React.FC<{
+  staff: SupportStaff;
+  session?: NormalizedSession;
+  regLink?: string;
+  onClose: () => void;
+}> = ({ staff, session, regLink, onClose }) => (
   <div
     style={{
       position: 'fixed',
@@ -559,16 +627,26 @@ const StaffDetailModal: React.FC<{ staff: SupportStaff; onClose: () => void }> =
             width: '72px',
             height: '72px',
             borderRadius: '50%',
+            border: '3px solid #1C1C1C',
             background: '#1C1C1C',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
+            overflow: 'hidden',
           }}
         >
-          <span style={{ fontSize: '24px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
-            {getInitials(staff.name)}
-          </span>
+          {staff.photo ? (
+            <img
+              src={staff.photo}
+              alt={staff.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+            />
+          ) : (
+            <span style={{ fontSize: '24px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
+              {getInitials(staff.name)}
+            </span>
+          )}
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
@@ -588,17 +666,88 @@ const StaffDetailModal: React.FC<{ staff: SupportStaff; onClose: () => void }> =
       </div>
       <div style={{ padding: '24px' }}>
         {staff.note && (
-          <p style={{ fontSize: '15px', fontWeight: 300, color: '#000000', lineHeight: 1.7, margin: 0, fontFamily: FONT }}>
+          <p style={{ fontSize: '15px', fontWeight: 300, color: '#000000', lineHeight: 1.7, margin: session ? '0 0 20px 0' : 0, fontFamily: FONT }}>
             {staff.note}
           </p>
+        )}
+        {session && (
+          <div
+            style={{
+              background: '#F8F5EE',
+              border: '1px solid #E0D5C0',
+              borderRadius: '8px',
+              padding: '16px',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.1em',
+                color: '#1C1C1C',
+                fontFamily: FONT,
+                marginBottom: '4px',
+              }}
+            >
+              Session: {formatApiSessionDate(session.month, session.day)}
+            </div>
+            <div
+              style={{
+                fontSize: '15px',
+                fontWeight: 700,
+                color: '#000000',
+                fontFamily: FONT,
+                marginBottom: '6px',
+              }}
+            >
+              {session.title}
+            </div>
+            <p
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+                lineHeight: 1.6,
+                margin: 0,
+                fontFamily: FONT,
+              }}
+            >
+              {session.description}
+            </p>
+            {regLink && (
+              <a
+                href={regLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  marginTop: '12px',
+                  padding: '7px 13px',
+                  background: '#1C1C1C',
+                  color: '#ffffff',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  fontWeight: 300,
+                  fontFamily: FONT,
+                  textDecoration: 'none',
+                }}
+              >
+                <Calendar size={12} color="#ffffff" />
+                Register
+              </a>
+            )}
+          </div>
         )}
       </div>
     </div>
   </div>
 );
 
-const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
+const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, regLink }) => {
   const [open, setOpen] = useState(false);
+  const [registerHovered, setRegisterHovered] = useState(false);
 
   return (
     <>
@@ -616,19 +765,29 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
         {/* Avatar */}
         <div
           style={{
-            width: '44px',
-            height: '44px',
+            width: '60px',
+            height: '60px',
             borderRadius: '50%',
+            border: '2px solid #1C1C1C',
             background: '#1C1C1C',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
+            overflow: 'hidden',
           }}
         >
-          <span style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
-            {getInitials(staff.name)}
-          </span>
+          {staff.photo ? (
+            <img
+              src={staff.photo}
+              alt={staff.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+            />
+          ) : (
+            <span style={{ fontSize: '20px', fontWeight: 600, color: '#ffffff', fontFamily: FONT }}>
+              {getInitials(staff.name)}
+            </span>
+          )}
         </div>
 
         {/* Info */}
@@ -639,30 +798,75 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
           <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
             {staff.role}
           </div>
+          {session && (
+            <div style={{ fontSize: '12px', color: '#1C1C1C', fontFamily: FONT, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Calendar size={11} color="#1C1C1C" />
+              <span>{formatApiSessionDate(session.month, session.day)}</span>
+            </div>
+          )}
         </div>
 
-        {staff.note && (
-          <button
-            onClick={() => setOpen(true)}
-            aria-label={`View more about ${staff.name}`}
-            style={{
-              fontSize: '12px',
-              fontWeight: 300,
-              color: '#005EB8',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              fontFamily: FONT,
-              textDecoration: 'underline',
-              flexShrink: 0,
-            }}
-          >
-            View more
-          </button>
-        )}
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '6px', alignItems: 'flex-end', flexShrink: 0 }}>
+          {staff.note && (
+            <button
+              onClick={() => setOpen(true)}
+              aria-label={`View more about ${staff.name}`}
+              style={{
+                fontSize: '12px',
+                fontWeight: 300,
+                color: '#005EB8',
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                fontFamily: FONT,
+                textDecoration: 'underline',
+              }}
+            >
+              View more
+            </button>
+          )}
+          {session && (
+            <a
+              href={regLink || undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-disabled={!regLink}
+              title={regLink ? 'Register' : 'Registration link not available yet'}
+              onMouseEnter={() => setRegisterHovered(true)}
+              onMouseLeave={() => setRegisterHovered(false)}
+              onClick={(event) => {
+                if (!regLink) {
+                  event.preventDefault();
+                }
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '5px 12px',
+                background: regLink
+                  ? (registerHovered ? '#000000' : '#1C1C1C')
+                  : '#E5E5E5',
+                color: regLink ? '#ffffff' : '#4B5563',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '12px',
+                fontWeight: 300,
+                cursor: regLink ? 'pointer' : 'not-allowed',
+                fontFamily: FONT,
+                whiteSpace: 'nowrap' as const,
+                transition: 'background 0.15s ease',
+                textDecoration: 'none',
+              }}
+            >
+              <Calendar size={11} color={regLink ? '#ffffff' : '#4B5563'} />
+              Register
+            </a>
+          )}
+        </div>
       </div>
-      {open && <StaffDetailModal staff={staff} onClose={() => setOpen(false)} />}
+      {open && <StaffDetailModal staff={staff} session={session} regLink={regLink} onClose={() => setOpen(false)} />}
     </>
   );
 };
@@ -670,7 +874,15 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff }) => {
 // ─── TeamSection ──────────────────────────────────────────────────────────────
 export const TeamSection: React.FC = () => {
   const { sessions } = useSpotlightSessions();
-  const { profiles, profileMap } = useSpotlightProfiles();
+  const { profiles } = useSpotlightProfiles();
+  const displayProfiles = useMemo(
+    () => profiles.map(applyProfileCopyOverrides),
+    [profiles],
+  );
+  const displayProfileMap = useMemo(
+    () => new Map(displayProfiles.map((profile) => [profile.uid, profile])),
+    [displayProfiles],
+  );
 
   // uuid → regUrl — memoised to avoid rebuilding on every render
   const regUrlMap  = useMemo(() => buildRegUrlMap(sessions), [sessions]);
@@ -693,13 +905,28 @@ export const TeamSection: React.FC = () => {
     [],
   );
   const supportStaffNameKeys = useMemo(
-    () => new Set(supportStaff.map((staff) => personNameKey(staff.name))),
+    () => new Set([
+      ...supportStaff.map((staff) => personNameKey(staff.name)),
+      ...API_SUPPORT_STAFF_NAMES.map(personNameKey),
+    ]),
     [],
+  );
+  const resolvedSupportStaff = useMemo(
+    () => {
+      if (displayProfiles.length === 0) return supportStaff;
+
+      const apiStaff = displayProfiles
+        .filter((profile) => supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
+        .map(supportStaffFromProfile);
+
+      return apiStaff.length > 0 ? apiStaff : supportStaff;
+    },
+    [displayProfiles, supportStaffNameKeys],
   );
   const teamClinicians = useMemo(
     () => (
-      profiles.length > 0
-        ? profiles
+      displayProfiles.length > 0
+        ? displayProfiles
             .filter((profile) => !supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
             .map((profile) => {
               const clinician = clinicianFromProfile(profile, staticClinicianMap.get(profile.lastNameKey));
@@ -717,7 +944,7 @@ export const TeamSection: React.FC = () => {
             })
         : clinicians
     ),
-    [profiles, sessionByPresenterName, staticClinicianMap, supportStaffNameKeys],
+    [displayProfiles, sessionByPresenterName, staticClinicianMap, supportStaffNameKeys],
   );
 
   return (
@@ -762,8 +989,8 @@ export const TeamSection: React.FC = () => {
             key={clinician.id}
             clinician={clinician}
             regLink={clinician.sessionUuid ? regUrlMap.get(clinician.sessionUuid) : undefined}
-            apiPhotoUrl={clinician.profileUid ? profileMap.get(clinician.profileUid)?.photoUrl : undefined}
-            apiBio={clinician.profileUid ? profileMap.get(clinician.profileUid)?.bio : undefined}
+            apiPhotoUrl={clinician.profileUid ? displayProfileMap.get(clinician.profileUid)?.photoUrl : undefined}
+            apiBio={clinician.profileUid ? displayProfileMap.get(clinician.profileUid)?.bio : undefined}
             apiSessionDate={
               clinician.sessionUuid
                 ? formatApiSessionDate(
@@ -810,9 +1037,18 @@ export const TeamSection: React.FC = () => {
             gap: '10px',
           }}
         >
-          {supportStaff.map((staff) => (
-            <SupportStaffCard key={staff.id} staff={staff} />
-          ))}
+          {resolvedSupportStaff.map((staff) => {
+            const session = sessionByPresenterName.get(personNameKey(`${staff.name} ${staff.credentials ?? ''}`));
+
+            return (
+              <SupportStaffCard
+                key={staff.id}
+                staff={staff}
+                session={session}
+                regLink={session ? regUrlMap.get(session.id) : undefined}
+              />
+            );
+          })}
         </div>
       </div>
 

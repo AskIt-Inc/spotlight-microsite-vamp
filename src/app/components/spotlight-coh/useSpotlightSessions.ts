@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { sessions as staticSessions } from './data';
 
 const SESSIONS_API_URL =
-  'https://somebodytotalkto.com/api/spotlight/microsite/sessions?indication=4&partner=12351';
+  'https://somebodytotalkto.com/api/spotlight/microsite/sessions?partner=12351';
 
 interface ApiPresenter {
   display_name: string;
