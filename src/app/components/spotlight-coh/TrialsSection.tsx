@@ -10,7 +10,13 @@ interface TrialCardProps {
 
 type FormState = 'idle' | 'open' | 'submitted';
 
+function canExpressInterest(status: string) {
+  const normalizedStatus = status.trim().toLowerCase();
+  return normalizedStatus === 'recruiting' || normalizedStatus === 'still recruiting';
+}
+
 const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
+  const showInterestCta = canExpressInterest(trial.status);
   const [formState, setFormState] = useState<FormState>('idle');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -129,36 +135,38 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
         </div>
 
         {/* Right — Express Interest CTA */}
-        <div style={{ flexShrink: 0 }}>
-          <button
-            onClick={() => setFormState(formState === 'open' ? 'idle' : 'open')}
-            style={{
-              padding: '8px 16px',
-              background: formState === 'open' ? '#F8F5EE' : 'transparent',
-              border: '1px solid #1C1C1C',
-              color: '#1C1C1C',
-              borderRadius: '4px',
-              fontSize: '13px',
-              fontWeight: 300,
-              whiteSpace: 'nowrap' as const,
-              cursor: 'pointer',
-              fontFamily: FONT,
-              transition: 'background 0.15s ease',
-            }}
-            onMouseEnter={(e) => {
-              if (formState !== 'open') {
-                (e.currentTarget as HTMLButtonElement).style.background = '#F8F5EE';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (formState !== 'open') {
-                (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-              }
-            }}
-          >
-            Express Interest
-          </button>
-        </div>
+        {showInterestCta && (
+          <div style={{ flexShrink: 0 }}>
+            <button
+              onClick={() => setFormState(formState === 'open' ? 'idle' : 'open')}
+              style={{
+                padding: '8px 16px',
+                background: formState === 'open' ? '#F8F5EE' : 'transparent',
+                border: '1px solid #1C1C1C',
+                color: '#1C1C1C',
+                borderRadius: '4px',
+                fontSize: '13px',
+                fontWeight: 300,
+                whiteSpace: 'nowrap' as const,
+                cursor: 'pointer',
+                fontFamily: FONT,
+                transition: 'background 0.15s ease',
+              }}
+              onMouseEnter={(e) => {
+                if (formState !== 'open') {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#F8F5EE';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (formState !== 'open') {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                }
+              }}
+            >
+              Express Interest
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Inline interest form — expands below card */}
