@@ -101,35 +101,27 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
           }}
         >
           <User size={11} color="#4B5563" style={{ flexShrink: 0 }} />
-          {session.presenter}
+          {session.hasPresenter ? session.presenter : 'Presenter TBD'}
         </div>
 
-        {session.status === 'upcoming' && (
+        {session.canRegister && (
           <a
-            href={session.regUrl || undefined}
+            href={session.regUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-disabled={!session.regUrl}
-            title={session.regUrl ? 'Register' : 'Registration link not available yet'}
+            title="Register"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={(event) => {
-              if (!session.regUrl) {
-                event.preventDefault();
-              }
-            }}
             style={{
               marginTop: '8px',
               padding: '5px 12px',
-              background: session.regUrl
-                ? (hovered ? '#000000' : '#1C1C1C')
-                : '#E5E5E5',
-              color: session.regUrl ? '#ffffff' : '#4B5563',
+              background: hovered ? '#000000' : '#1C1C1C',
+              color: '#ffffff',
               border: 'none',
               borderRadius: '4px',
               fontSize: '12px',
               fontWeight: 300,
-              cursor: session.regUrl ? 'pointer' : 'not-allowed',
+              cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '5px',
@@ -138,9 +130,28 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
               textDecoration: 'none',
             }}
           >
-            <Calendar size={11} color={session.regUrl ? '#ffffff' : '#4B5563'} style={{ flexShrink: 0 }} />
+            <Calendar size={11} color="#ffffff" style={{ flexShrink: 0 }} />
             Register
           </a>
+        )}
+
+        {session.status === 'pending' && (
+          <span
+            style={{
+              display: 'inline-block',
+              marginTop: '6px',
+              padding: '2px 10px',
+              background: '#FFF9E8',
+              color: '#1C1C1C',
+              borderRadius: '9999px',
+              fontSize: '11px',
+              fontWeight: 300,
+              fontFamily: FONT,
+              border: '1px solid #CFAE70',
+            }}
+          >
+            Pending
+          </span>
         )}
 
         {session.status === 'completed' && (
@@ -169,17 +180,11 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
 export const SessionsSidebar: React.FC = () => {
   const { sessions, loading, error } = useSpotlightSessions();
 
-  // Secondary sort within status groups: ascending by month/day
   const MONTH_ORDER: Record<string, number> = {
     JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
     JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11,
   };
   const sorted = [...sessions].sort((a, b) => {
-    // Primary: status (completed before upcoming)
-    if (a.status !== b.status) {
-      return a.status === 'completed' ? -1 : 1;
-    }
-    // Secondary: chronological
     const mo = (MONTH_ORDER[a.month] ?? 99) - (MONTH_ORDER[b.month] ?? 99);
     if (mo !== 0) return mo;
     return parseInt(a.day) - parseInt(b.day);

@@ -502,41 +502,33 @@ const CompactCard: React.FC<CompactCardProps> = ({
           </button>
 
           {/* Register CTA */}
-          {clinician.hasSession && (
+          {regLink && (
             <a
-              href={regLink || undefined}
+              href={regLink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-disabled={!regLink}
-              title={regLink ? 'Register' : 'Registration link not available yet'}
+              title="Register"
               onMouseEnter={() => setRegisterHovered(true)}
               onMouseLeave={() => setRegisterHovered(false)}
-              onClick={(event) => {
-                if (!regLink) {
-                  event.preventDefault();
-                }
-              }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
                 padding: '5px 12px',
-                background: regLink
-                  ? (registerHovered ? '#000000' : '#1C1C1C')
-                  : '#E5E5E5',
-                color: regLink ? '#ffffff' : '#4B5563',
+                background: registerHovered ? '#000000' : '#1C1C1C',
+                color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '12px',
                 fontWeight: 300,
-                cursor: regLink ? 'pointer' : 'not-allowed',
+                cursor: 'pointer',
                 fontFamily: FONT,
                 whiteSpace: 'nowrap' as const,
                 transition: 'background 0.15s ease',
                 textDecoration: 'none',
               }}
             >
-              <Calendar size={11} color={regLink ? '#ffffff' : '#4B5563'} />
+              <Calendar size={11} color="#ffffff" />
               Register
             </a>
           )}
@@ -826,41 +818,33 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, reg
               View more
             </button>
           )}
-          {session && (
+          {regLink && (
             <a
-              href={regLink || undefined}
+              href={regLink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-disabled={!regLink}
-              title={regLink ? 'Register' : 'Registration link not available yet'}
+              title="Register"
               onMouseEnter={() => setRegisterHovered(true)}
               onMouseLeave={() => setRegisterHovered(false)}
-              onClick={(event) => {
-                if (!regLink) {
-                  event.preventDefault();
-                }
-              }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '5px',
                 padding: '5px 12px',
-                background: regLink
-                  ? (registerHovered ? '#000000' : '#1C1C1C')
-                  : '#E5E5E5',
-                color: regLink ? '#ffffff' : '#4B5563',
+                background: registerHovered ? '#000000' : '#1C1C1C',
+                color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '12px',
                 fontWeight: 300,
-                cursor: regLink ? 'pointer' : 'not-allowed',
+                cursor: 'pointer',
                 fontFamily: FONT,
                 whiteSpace: 'nowrap' as const,
                 transition: 'background 0.15s ease',
                 textDecoration: 'none',
               }}
             >
-              <Calendar size={11} color={regLink ? '#ffffff' : '#4B5563'} />
+              <Calendar size={11} color="#ffffff" />
               Register
             </a>
           )}

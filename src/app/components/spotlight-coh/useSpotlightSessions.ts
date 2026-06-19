@@ -41,8 +41,11 @@ export interface NormalizedSession {
   description: string;
   presenter: string;
   presenterLastName: string;
-  status: 'upcoming' | 'completed';
+  status: 'upcoming' | 'completed' | 'pending';
   regUrl: string;
+  canRegister: boolean;
+  hasPresenter: boolean;
+  approvalStatus: 'approved' | 'pending';
   timestamp?: number;
 }
 
@@ -50,7 +53,7 @@ export function buildRegUrlMap(sessions: NormalizedSession[]): Map<string, strin
   const map = new Map<string, string>();
 
   for (const session of sessions) {
-    if (session.id && session.regUrl) {
+    if (session.id && session.canRegister) {
       map.set(session.id, session.regUrl);
     }
   }
@@ -71,6 +74,9 @@ function normalizeStaticSessions(): NormalizedSession[] {
     presenterLastName: '',
     status: session.status === 'cancelled' ? 'completed' : session.status,
     regUrl: session.regLink ?? '',
+    canRegister: session.status !== 'pending' && Boolean(session.regLink),
+    hasPresenter: Boolean(session.presenter.trim()),
+    approvalStatus: session.status === 'pending' ? 'pending' : 'approved',
   }));
 }
 
@@ -122,9 +128,26 @@ function normalizeApiSessions(apiSessions: ApiSession[]): NormalizedSession[] {
       presenterLastName: firstPresenter?.last_name ?? '',
       status: dateParts.status,
       regUrl: session.reg_link?.url || session.short_url || '',
+      canRegister: Boolean(session.reg_link?.url || session.short_url),
+      hasPresenter: Boolean(firstPresenter),
+      approvalStatus: 'approved',
       timestamp: session.timestamp,
     };
   });
+}
+
+function mergeApiWithStaticSessions(apiSessions: NormalizedSession[]): NormalizedSession[] {
+  const byId = new Map<string, NormalizedSession>();
+
+  for (const session of normalizeStaticSessions()) {
+    byId.set(session.id, session);
+  }
+
+  for (const session of apiSessions) {
+    byId.set(session.id, session);
+  }
+
+  return Array.from(byId.values());
 }
 
 export function useSpotlightSessions() {
@@ -144,7 +167,9 @@ export function useSpotlightSessions() {
         }
 
         const payload = (await response.json()) as ApiSessionsResponse;
-        const normalizedSessions = normalizeApiSessions(payload.data ?? []);
+        const normalizedSessions = mergeApiWithStaticSessions(
+          normalizeApiSessions(payload.data ?? []),
+        );
 
         if (!cancelled) {
           setSessions(normalizedSessions);
