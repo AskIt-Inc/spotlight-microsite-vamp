@@ -142,7 +142,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          An August spotlight series featuring Vanderbilt's multidisciplinary amyloidosis team and its coordinated approach to diagnosis, treatment, research, and long-term disease monitoring.
+          The Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings together nationally recognized experts in hematology, cardiology, neurology, nephrology, and supportive care to provide coordinated, patient-centered treatment. Through advanced diagnostics, leading-edge therapies, clinical trials, and comprehensive support, VAMP delivers world-class care for patients living with amyloidosis.
         </p>
       </blockquote>
 

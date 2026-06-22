@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 const FONT = 'gotham, sans-serif';
 const STTT_LOGO_URL = 'https://somebodytotalkto.com/sites/default/files/STTT%20Logo%20Basic.png';
 const VAMP_LOGO_URL = '/vamp-logo.png';
@@ -136,6 +135,45 @@ export const HeroSection: React.FC = () => (
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
+            <div
+              className="hero-featuring-row"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#FFE8A3',
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.14em',
+                lineHeight: 1,
+                marginBottom: '16px',
+                textTransform: 'uppercase' as const,
+                fontFamily: FONT,
+              }}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#FFE8A3"
+                strokeWidth="2"
+                strokeLinecap="round"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="10" r="3" />
+                <line x1="12" y1="1" x2="12" y2="4" />
+                <line x1="4.22" y1="3.22" x2="6.34" y2="5.34" />
+                <line x1="1" y1="10" x2="4" y2="10" />
+                <line x1="19.78" y1="3.22" x2="17.66" y2="5.34" />
+                <line x1="23" y1="10" x2="20" y2="10" />
+                <path d="M7 17l1.5-4h7L17 17" />
+                <line x1="5" y1="21" x2="19" y2="21" />
+                <line x1="8" y1="21" x2="8" y2="17" />
+                <line x1="16" y1="21" x2="16" y2="17" />
+              </svg>
+              <span>FEATURING</span>
+            </div>
             <h1
               className="hero-h1"
               style={{
