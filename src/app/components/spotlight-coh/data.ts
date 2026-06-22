@@ -189,6 +189,13 @@ export const trials: Trial[] = [
     phase: 'Phase 1/2',
   },
   {
+    id: 'NCT06465810',
+    title: 'MaesTTRo: AstraZeneca registry study for transthyretin (ATTR) amyloidosis',
+    status: 'Recruiting',
+    description: 'International, prospective, non-interventional registry study collecting real-world data on adults with ATTR amyloidosis, including ATTR-CM and hereditary ATTRv-PN. Participants are followed through routine care for 3-7 years to document disease course, treatment patterns, outcomes, and effectiveness of treatments including eplontersen.',
+    phase: 'Observational',
+  },
+  {
     id: 'NCT06158854',
     title: 'Etentamig / ABBV-383 for adult participants with AL amyloidosis',
     status: 'Completed recruitment',
