@@ -956,13 +956,14 @@ export const TeamSection: React.FC = () => {
         <p
           style={{
             fontSize: '14px',
-            color: '#4B5563',
-            marginTop: '6px',
+            color: '#9CA3AF',
+            marginTop: '8px',
             marginBottom: 0,
             fontFamily: FONT,
+            lineHeight: 1.5,
           }}
         >
-          Vanderbilt presenters featured in the August amyloidosis spotlight series
+          Vanderbilt University Medical Center — the multidisciplinary team behind the Amyloidosis Program
         </p>
       </div>
 
