@@ -135,7 +135,7 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
           </a>
         )}
 
-        {session.status === 'pending' && (
+        {session.approvalStatus === 'pending' && (
           <span
             style={{
               display: 'inline-block',

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { sessions as staticSessions } from './data';
 
 const SESSIONS_API_URL =
-  'https://somebodytotalkto.com/api/spotlight/microsite/sessions?partner=12351';
+  'https://somebodytotalkto.com/api/spotlight/microsite/sessions?partner=12351&status=all';
 
 interface ApiPresenter {
   display_name: string;
@@ -25,6 +25,8 @@ interface ApiSession {
     title?: string;
   };
   short_url?: string;
+  moderation_state?: string;
+  approval_status?: 'approved' | 'pending';
 }
 
 interface ApiSessionsResponse {
@@ -115,6 +117,8 @@ function normalizeApiSessions(apiSessions: ApiSession[]): NormalizedSession[] {
   return apiSessions.map((session) => {
     const firstPresenter = session.presenters?.[0];
     const dateParts = parseApiDateParts(session.date ?? '', session.timestamp);
+    const approvalStatus = session.approval_status === 'pending' ? 'pending' : 'approved';
+    const regUrl = session.reg_link?.url || session.short_url || '';
 
     return {
       id: session.uuid,
@@ -127,27 +131,13 @@ function normalizeApiSessions(apiSessions: ApiSession[]): NormalizedSession[] {
       presenter: presenterName(firstPresenter),
       presenterLastName: firstPresenter?.last_name ?? '',
       status: dateParts.status,
-      regUrl: session.reg_link?.url || session.short_url || '',
-      canRegister: Boolean(session.reg_link?.url || session.short_url),
+      regUrl,
+      canRegister: approvalStatus === 'approved' && Boolean(regUrl),
       hasPresenter: Boolean(firstPresenter),
-      approvalStatus: 'approved',
+      approvalStatus,
       timestamp: session.timestamp,
     };
   });
-}
-
-function mergeApiWithStaticSessions(apiSessions: NormalizedSession[]): NormalizedSession[] {
-  const byId = new Map<string, NormalizedSession>();
-
-  for (const session of normalizeStaticSessions()) {
-    byId.set(session.id, session);
-  }
-
-  for (const session of apiSessions) {
-    byId.set(session.id, session);
-  }
-
-  return Array.from(byId.values());
 }
 
 export function useSpotlightSessions() {
@@ -167,12 +157,10 @@ export function useSpotlightSessions() {
         }
 
         const payload = (await response.json()) as ApiSessionsResponse;
-        const normalizedSessions = mergeApiWithStaticSessions(
-          normalizeApiSessions(payload.data ?? []),
-        );
+        const apiSessions = normalizeApiSessions(payload.data ?? []);
 
         if (!cancelled) {
-          setSessions(normalizedSessions);
+          setSessions(apiSessions.length > 0 ? apiSessions : normalizeStaticSessions());
           setError(null);
         }
       } catch (err) {
