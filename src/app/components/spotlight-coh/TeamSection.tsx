@@ -956,7 +956,7 @@ export const TeamSection: React.FC = () => {
         <p
           style={{
             fontSize: '14px',
-            color: '#9CA3AF',
+            color: '#4B5563',
             marginTop: '8px',
             marginBottom: 0,
             fontFamily: FONT,
