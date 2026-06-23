@@ -1,19 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
-import { clinicians, supportStaff, type Clinician, type SupportStaff } from './data';
+import { clinicians, type Clinician, type SupportStaff } from './data';
 import { useSpotlightSessions, buildRegUrlMap, type NormalizedSession } from './useSpotlightSessions';
 import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
 const API_SUPPORT_STAFF_NAMES = ['Tracy Allen', 'Natalie Castillo', 'Brian Miller', 'Julia Carlson'];
-const PROFILE_COPY_OVERRIDES: Record<number, Partial<Pick<NormalizedProfile, 'specialtyLine1' | 'specialtyLine2' | 'spotlightCardTag' | 'bio'>>> = {
-  321: {
-    specialtyLine1: 'Associate Professor of Medicine',
-    specialtyLine2: 'Hematology-Oncology · Plasma Cell Disorders · Multiple Myeloma · AL Amyloidosis',
-    spotlightCardTag: 'Hematologist/Oncologist',
-    bio: 'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist at Vanderbilt University Medical Center. He is Director of the Multiple Myeloma Program and Director of the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) at Vanderbilt-Ingram Cancer Center. His clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders, with research focused on therapy resistance, post-transplant immune recovery, genomic changes in plasma cell disease, and novel cellular therapy approaches.',
-  },
-};
 
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
   if (!month || !day) return undefined;
@@ -86,13 +78,6 @@ function clinicianFromProfile(profile: NormalizedProfile, fallback?: Clinician):
     videoUrl: fallback?.videoUrl,
     sessionUuid: fallback?.sessionUuid,
     profileUid: profile.uid,
-  };
-}
-
-function applyProfileCopyOverrides(profile: NormalizedProfile): NormalizedProfile {
-  return {
-    ...profile,
-    ...PROFILE_COPY_OVERRIDES[profile.uid],
   };
 }
 
@@ -859,10 +844,7 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, reg
 export const TeamSection: React.FC = () => {
   const { sessions } = useSpotlightSessions();
   const { profiles } = useSpotlightProfiles();
-  const displayProfiles = useMemo(
-    () => profiles.map(applyProfileCopyOverrides),
-    [profiles],
-  );
+  const displayProfiles = profiles;
   const displayProfileMap = useMemo(
     () => new Map(displayProfiles.map((profile) => [profile.uid, profile])),
     [displayProfiles],
@@ -890,20 +872,15 @@ export const TeamSection: React.FC = () => {
   );
   const supportStaffNameKeys = useMemo(
     () => new Set([
-      ...supportStaff.map((staff) => personNameKey(staff.name)),
       ...API_SUPPORT_STAFF_NAMES.map(personNameKey),
     ]),
     [],
   );
   const resolvedSupportStaff = useMemo(
     () => {
-      if (displayProfiles.length === 0) return supportStaff;
-
-      const apiStaff = displayProfiles
+      return displayProfiles
         .filter((profile) => supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
         .map(supportStaffFromProfile);
-
-      return apiStaff.length > 0 ? apiStaff : supportStaff;
     },
     [displayProfiles, supportStaffNameKeys],
   );

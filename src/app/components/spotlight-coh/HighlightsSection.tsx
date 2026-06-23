@@ -7,19 +7,23 @@ const FONT = 'gotham, sans-serif';
 const highlights = [
   {
     label: 'Program History',
-    text: 'Vanderbilt describes the program as launching in 2011 and becoming Tennessee’s first dedicated amyloidosis treatment center.',
+    text: 'Founded in 2011, Vanderbilt’s amyloidosis program is described by Vanderbilt as Tennessee’s first dedicated amyloidosis treatment center.',
   },
   {
-    label: 'Multidisciplinary Team',
-    text: 'The program has grown into a major southeastern referral center with more than a dozen collaborating specialists providing structured care.',
+    label: 'Multispecialty Amyloidosis Care',
+    text: 'VAMP brings together cardiology, hematology, neurology, nephrology, gastroenterology, and support services to coordinate care across the organ systems amyloidosis can affect.',
   },
   {
-    label: 'Diagnosis and Monitoring',
-    text: 'The program emphasizes accurate diagnosis, access to current standards of care and research treatments, and close disease monitoring.',
+    label: 'Cardiac Amyloidosis Leadership',
+    text: 'The program includes dedicated cardiac amyloidosis leadership, with expertise in heart failure, transplantation, LVAD care, cardiac amyloidosis research, and clinical trials.',
   },
   {
-    label: 'Research and Trials',
-    text: 'Vanderbilt has participated in amyloidosis clinical trials and describes ongoing research into biomarkers and advanced non-invasive diagnostic tools.',
+    label: 'AL Amyloidosis and Plasma Cell Disorders',
+    text: 'VAMP includes hematology expertise in AL amyloidosis, plasma cell disorders, stem cell transplantation, CAR-T, and bispecific antibody approaches.',
+  },
+  {
+    label: 'Neurology, Renal, and GI Expertise',
+    text: 'The team includes specialists focused on amyloidosis-related neuropathy, renal involvement, gastrointestinal symptoms, symptom management, and quality-of-life support.',
   },
 ];
 

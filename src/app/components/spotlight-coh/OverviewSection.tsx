@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CalendarDays, CheckCircle, ChevronDown, HeartPulse, Users, type LucideIcon } from 'lucide-react';
+import { CheckCircle, ChevronDown } from 'lucide-react';
 
 const FONT = 'gotham, sans-serif';
 const BRAND = 'var(--oav-brand)';
@@ -12,21 +12,21 @@ const ACCENT_HEX = '#CFAE70';
 //   2. Three visual program pillars (scannable)
 //   3. Collapsible "About the Program"
 
-const pillars: Array<{ icon: LucideIcon; label: string; text: string }> = [
+const pillars: Array<{ icon: string; label: string; text: string }> = [
   {
-    icon: HeartPulse,
-    label: 'Multidisciplinary Care',
-    text: 'Founded in 2011, the Vanderbilt Amyloidosis Program is described by Vanderbilt as Tennessee’s first dedicated amyloidosis treatment center and a major referral center in the southeastern United States.',
+    icon: '🩺',
+    label: 'Amyloidosis-Focused Care',
+    text: 'VAMP provides coordinated care for patients with suspected or confirmed amyloidosis, including cardiac, hematologic, neurologic, renal, gastrointestinal, and supportive care needs.',
   },
   {
-    icon: Users,
-    label: 'Coordinated Expertise',
-    text: 'The program has grown to include more than a dozen collaborating specialists who provide structured, multidisciplinary care for adults navigating an amyloidosis diagnosis.',
+    icon: '🧑‍⚕️',
+    label: 'Specialist Expertise',
+    text: 'The program includes Vanderbilt experts focused on cardiac amyloidosis, AL amyloidosis and plasma cell disorders, ATTR neuropathy, renal involvement, and gastrointestinal symptoms.',
   },
   {
-    icon: CalendarDays,
+    icon: '🔬',
     label: 'Research and Trials',
-    text: 'Vanderbilt has participated in clinical trials for light chain and transthyretin amyloidosis, with ongoing work around biomarkers, advanced diagnostics, and disease monitoring.',
+    text: 'Vanderbilt participates in amyloidosis research and recruiting clinical trials, with work spanning treatment advances, biomarkers, disease monitoring, and non-invasive diagnostics.',
   },
 ];
 
@@ -355,7 +355,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          The Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings together nationally recognized experts in hematology, cardiology, neurology, nephrology, and supportive care to provide coordinated, patient-centered treatment. Through advanced diagnostics, leading-edge therapies, clinical trials, and comprehensive support, VAMP delivers world-class care for patients living with amyloidosis.
+          The Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings together specialists in hematology, cardiology, neurology, nephrology, gastroenterology, and supportive care to diagnose and treat patients with amyloidosis across the organ systems it can affect. The program combines coordinated clinical care, disease-specific expertise, research, and access to active clinical trials for patients living with AL and ATTR amyloidosis.
         </p>
       </blockquote>
 
@@ -380,63 +380,48 @@ export const OverviewSection: React.FC = () => (
           gap: '16px',
         }}
       >
-        {pillars.map((p) => {
-          const Icon = p.icon;
-
-          return (
-            <div
-              key={p.label}
-              style={{
-                background: 'var(--oav-page-bg)',
-                border: '1px solid var(--oav-border)',
-                borderRadius: '8px',
-                padding: '20px',
-              }}
-            >
-              <div
+        {pillars.map((p) => (
+          <div
+            key={p.label}
+            style={{
+              background: 'var(--oav-page-bg)',
+              border: '1px solid var(--oav-border)',
+              borderRadius: '8px',
+              padding: '28px 26px',
+              minHeight: '220px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '16px' }}>
+              <span style={{ fontSize: '25px', lineHeight: 1, flexShrink: 0 }}>{p.icon}</span>
+              <span
                 style={{
-                  width: '34px',
-                  height: '34px',
-                  borderRadius: '8px',
-                  background: '#F8F5EE',
-                  border: `1px solid ${ACCENT}`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <Icon size={18} color={ACCENT_HEX} strokeWidth={1.8} />
-              </div>
-              <div
-                style={{
-                  fontSize: '13px',
+                  fontSize: '18px',
                   fontWeight: 700,
                   textTransform: 'uppercase' as const,
-                  letterSpacing: '0.5px',
+                  letterSpacing: '0.02em',
                   color: BRAND,
                   fontFamily: FONT,
-                  marginBottom: '6px',
+                  lineHeight: 1.35,
                 }}
               >
                 {p.label}
-              </div>
-              <p
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 300,
-                  color: '#000000',
-                  lineHeight: 1.6,
-                  margin: 0,
-                  fontFamily: FONT,
-                  textAlign: 'left' as const,
-                }}
-              >
-                {p.text}
-              </p>
+              </span>
             </div>
-          );
-        })}
+            <p
+              style={{
+                fontSize: '17px',
+                fontWeight: 300,
+                color: '#000000',
+                lineHeight: 1.65,
+                margin: 0,
+                fontFamily: FONT,
+                textAlign: 'left' as const,
+              }}
+            >
+              {p.text}
+            </p>
+          </div>
+        ))}
       </div>
 
       {/* Collapsible program description */}

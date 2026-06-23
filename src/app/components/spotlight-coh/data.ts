@@ -196,11 +196,11 @@ export const trials: Trial[] = [
     phase: 'Observational',
   },
   {
-    id: 'NCT06158854',
-    title: 'Etentamig / ABBV-383 for adult participants with AL amyloidosis',
-    status: 'Completed recruitment',
-    description: 'Open-label Phase 1/2 study evaluating the safety and efficacy of etentamig (ABBV-383) in adult participants with immunoglobulin light chain (AL) amyloidosis.',
-    phase: 'Phase 1/2',
+    id: 'NCT07223203',
+    title: 'TRITON-PN: Nucresiran for hereditary transthyretin amyloidosis with polyneuropathy',
+    status: 'Recruiting',
+    description: 'Phase 3 study evaluating the efficacy and safety of nucresiran in patients with hereditary transthyretin-mediated amyloidosis with polyneuropathy, including effects on neurologic impairment, quality of life, nutritional status, disability, gait speed, and serum transthyretin levels.',
+    phase: 'Phase 3',
   },
 ];
 
