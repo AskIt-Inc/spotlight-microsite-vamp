@@ -239,7 +239,7 @@ export const SessionsSidebar: React.FC = () => {
         </div>
       )}
 
-      {/* Error banner — shown above sessions when using fallback data */}
+      {/* Error banner — shown when sessions cannot be loaded from the API */}
       {!loading && error && (
         <div
           style={{

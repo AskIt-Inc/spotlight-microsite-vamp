@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { sessions as staticSessions } from './data';
 
 const SESSIONS_API_URL =
   'https://somebodytotalkto.com/api/spotlight/microsite/sessions?partner=12351&status=all';
@@ -63,25 +62,6 @@ export function buildRegUrlMap(sessions: NormalizedSession[]): Map<string, strin
   return map;
 }
 
-function normalizeStaticSessions(): NormalizedSession[] {
-  return staticSessions.map((session) => ({
-    id: session.uuid ?? String(session.id),
-    month: session.month,
-    day: session.day,
-    dayOfWeek: session.dayOfWeek,
-    time: session.time,
-    title: session.title,
-    description: session.description,
-    presenter: session.presenter,
-    presenterLastName: '',
-    status: session.status === 'cancelled' ? 'completed' : session.status,
-    regUrl: session.regLink ?? '',
-    canRegister: session.status !== 'pending' && Boolean(session.regLink),
-    hasPresenter: Boolean(session.presenter.trim()),
-    approvalStatus: session.status === 'pending' ? 'pending' : 'approved',
-  }));
-}
-
 function parseApiDateParts(date: string, timestamp?: number) {
   const match = date.match(/^([A-Za-z]{3,})\s+(\d{1,2}),\s+(\d{4})$/);
   const month = match?.[1]?.slice(0, 3).toUpperCase() ?? '';
@@ -141,7 +121,7 @@ function normalizeApiSessions(apiSessions: ApiSession[]): NormalizedSession[] {
 }
 
 export function useSpotlightSessions() {
-  const [sessions, setSessions] = useState<NormalizedSession[]>(normalizeStaticSessions);
+  const [sessions, setSessions] = useState<NormalizedSession[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -160,7 +140,7 @@ export function useSpotlightSessions() {
         const apiSessions = normalizeApiSessions(payload.data ?? []);
 
         if (!cancelled) {
-          setSessions(apiSessions.length > 0 ? apiSessions : normalizeStaticSessions());
+          setSessions(apiSessions);
           setError(null);
         }
       } catch (err) {

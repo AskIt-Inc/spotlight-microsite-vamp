@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { PlayCircle, Calendar, ExternalLink, X } from 'lucide-react';
-import { clinicians, type Clinician, type SupportStaff } from './data';
+import type { Clinician, SupportStaff } from './data';
 import { useSpotlightSessions, buildRegUrlMap, type NormalizedSession } from './useSpotlightSessions';
 import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
@@ -53,30 +53,22 @@ function personNameKey(name: string): string {
     .toLowerCase();
 }
 
-function lastNameKeyFromClinician(clinician: Clinician): string {
-  const parts = clinician.name.replace(/^Dr\.?\s+/i, '').split(/\s+/).filter(Boolean);
-  return parts[parts.length - 1]?.toLowerCase() ?? '';
-}
-
-function clinicianFromProfile(profile: NormalizedProfile, fallback?: Clinician): Clinician {
+function clinicianFromProfile(profile: NormalizedProfile): Clinician {
   return {
     id: profile.uid,
     name: buildProfileName(profile),
     credentials: profile.nameSuffix,
-    title: profile.specialtyLine1 || fallback?.title || profile.spotlightCardTag,
-    specialty: profile.specialtyLine2 || fallback?.specialty || profile.spotlightCardTag,
-    type: profile.spotlightCardTag || fallback?.type || 'Team Member',
-    photo: profile.photoUrl || fallback?.photo || '',
-    bio: profile.bio || fallback?.bio || '',
-    hasVideo: fallback?.hasVideo ?? false,
-    hasSession: fallback?.hasSession ?? false,
-    sessionDate: fallback?.sessionDate ?? '',
-    sessionTitle: fallback?.sessionTitle ?? '',
-    sessionDescription: fallback?.sessionDescription ?? '',
-    education: fallback?.education,
-    appointmentUrl: fallback?.appointmentUrl ?? 'https://www.vanderbilthealth.com/',
-    videoUrl: fallback?.videoUrl,
-    sessionUuid: fallback?.sessionUuid,
+    title: profile.specialtyLine1 || profile.spotlightCardTag,
+    specialty: profile.specialtyLine2 || profile.spotlightCardTag,
+    type: profile.spotlightCardTag || 'Team Member',
+    photo: profile.photoUrl,
+    bio: profile.bio,
+    hasVideo: false,
+    hasSession: false,
+    sessionDate: '',
+    sessionTitle: '',
+    sessionDescription: '',
+    appointmentUrl: 'https://www.vanderbilthealth.com/',
     profileUid: profile.uid,
   };
 }
@@ -95,12 +87,12 @@ function supportStaffFromProfile(profile: NormalizedProfile): SupportStaff {
 // ─── Bio Modal ────────────────────────────────────────────────────────────────
 interface BioModalProps {
   clinician: Clinician;
-  name: string;                   // resolved name — profiles API preferred, data.ts as fallback
-  photoUrl: string;              // resolved photo — API live URL preferred, data.ts as fallback
-  bio: string;                   // resolved bio — API profile bio preferred, data.ts as fallback
-  sessionDate: string;           // resolved session date — API sessions preferred, data.ts as fallback
-  sessionTitle: string;          // resolved session title — API sessions preferred, data.ts as fallback
-  apiSessionDescription?: string; // session description from Drupal API — overrides data.ts copy
+  name: string;                   // resolved name from profiles API
+  photoUrl: string;              // resolved photo from profiles API
+  bio: string;                   // resolved bio from profiles API
+  sessionDate: string;           // resolved session date from sessions API
+  sessionTitle: string;          // resolved session title from sessions API
+  apiSessionDescription?: string; // session description from Drupal API
   regLink?: string;
   onClose: () => void;
 }
@@ -866,10 +858,6 @@ export const TeamSection: React.FC = () => {
     () => new Map(sessions.map(s => [s.id, s.description])),
     [sessions],
   );
-  const staticClinicianMap = useMemo(
-    () => new Map(clinicians.map((clinician) => [lastNameKeyFromClinician(clinician), clinician])),
-    [],
-  );
   const supportStaffNameKeys = useMemo(
     () => new Set([
       ...API_SUPPORT_STAFF_NAMES.map(personNameKey),
@@ -886,26 +874,24 @@ export const TeamSection: React.FC = () => {
   );
   const teamClinicians = useMemo(
     () => (
-      displayProfiles.length > 0
-        ? displayProfiles
-            .filter((profile) => !supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
-            .map((profile) => {
-              const clinician = clinicianFromProfile(profile, staticClinicianMap.get(profile.lastNameKey));
-              const session = sessionByPresenterName.get(personNameKey(buildProfileName(profile)));
+      displayProfiles
+        .filter((profile) => !supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
+        .map((profile) => {
+          const clinician = clinicianFromProfile(profile);
+          const session = sessionByPresenterName.get(personNameKey(buildProfileName(profile)));
 
-              if (!session) {
-                return clinician;
-              }
+          if (!session) {
+            return clinician;
+          }
 
-              return {
-                ...clinician,
-                hasSession: true,
-                sessionUuid: session.id,
-              };
-            })
-        : clinicians
+          return {
+            ...clinician,
+            hasSession: true,
+            sessionUuid: session.id,
+          };
+        })
     ),
-    [displayProfiles, sessionByPresenterName, staticClinicianMap, supportStaffNameKeys],
+    [displayProfiles, sessionByPresenterName, supportStaffNameKeys],
   );
 
   return (
