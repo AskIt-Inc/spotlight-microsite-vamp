@@ -6,6 +6,7 @@ import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProf
 
 const FONT = 'gotham, sans-serif';
 const API_SUPPORT_STAFF_NAMES = ['Tracy Allen', 'Natalie Castillo', 'Brian Miller', 'Julia Carlson'];
+const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell'];
 
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
   if (!month || !day) return undefined;
@@ -863,7 +864,14 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, reg
 export const TeamSection: React.FC = () => {
   const { sessions } = useSpotlightSessions();
   const { profiles } = useSpotlightProfiles();
-  const displayProfiles = profiles;
+  const excludedProfileNameKeys = useMemo(
+    () => new Set(EXCLUDED_PROFILE_NAMES.map(personNameKey)),
+    [],
+  );
+  const displayProfiles = useMemo(
+    () => profiles.filter((profile) => !excludedProfileNameKeys.has(personNameKey(buildProfileName(profile)))),
+    [profiles, excludedProfileNameKeys],
+  );
   const displayProfileMap = useMemo(
     () => new Map(displayProfiles.map((profile) => [profile.uid, profile])),
     [displayProfiles],
