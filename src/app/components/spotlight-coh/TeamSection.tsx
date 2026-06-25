@@ -44,12 +44,39 @@ function buildProfileBaseName(profile: NormalizedProfile): string {
 }
 
 function personNameKey(name: string): string {
+  const credentialsAndSuffixes = new Set([
+    'agaf',
+    'aprn',
+    'bsn',
+    'ccrn',
+    'facg',
+    'facc',
+    'facp',
+    'ii',
+    'iii',
+    'iv',
+    'ldn',
+    'md',
+    'mph',
+    'ms',
+    'mscr',
+    'msn',
+    'ocn',
+    'phd',
+    'rd',
+    'rn',
+  ]);
+
   return name
     .replace(/^Dr\.?\s+/i, '')
-    .replace(/\b(MD|FACP|MPH|MSCR|FACC|RN|APRN|RD|LDN|FACG|AGAF)\b/gi, '')
     .replace(/[^a-z\s]/gi, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((part) => {
+      const key = part.toLowerCase();
+      return part.length > 1 && !credentialsAndSuffixes.has(key);
+    })
+    .join(' ')
     .toLowerCase();
 }
 
