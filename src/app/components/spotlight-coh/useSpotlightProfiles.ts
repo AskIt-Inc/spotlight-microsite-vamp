@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 const PROFILES_API_URL =
-  'https://somebodytotalkto.com/api/spotlight/microsite/profiles?indication=4&partner=12351';
+  'https://somebodytotalkto.com/api/spotlight/microsite/profiles?partner=12351';
 
 interface ApiProfile {
   uid: number;

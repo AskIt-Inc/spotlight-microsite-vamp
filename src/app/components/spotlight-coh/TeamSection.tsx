@@ -5,7 +5,15 @@ import { useSpotlightSessions, buildRegUrlMap, type NormalizedSession } from './
 import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
-const API_SUPPORT_STAFF_NAMES = ['Tracy Allen', 'Natalie Castillo', 'Brian Miller', 'Julia Carlson'];
+const API_SUPPORT_STAFF_NAMES = [
+  'Tracy Allen',
+  'Natalie Castillo',
+  'Brian Miller',
+  'Julia Carlson',
+  'Khrystal Dupre',
+  'Kelly Fields',
+];
+const FEATURED_GUEST_NAMES = ['Missy Maxwell'];
 const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell'];
 
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
@@ -50,6 +58,7 @@ function personNameKey(name: string): string {
     'aprn',
     'bsn',
     'ccrn',
+    'dbh',
     'facg',
     'facc',
     'facp',
@@ -57,6 +66,7 @@ function personNameKey(name: string): string {
     'iii',
     'iv',
     'ldn',
+    'lmsw',
     'md',
     'mph',
     'ms',
@@ -66,6 +76,7 @@ function personNameKey(name: string): string {
     'phd',
     'rd',
     'rn',
+    'sw',
   ]);
 
   return name
@@ -107,6 +118,17 @@ function supportStaffFromProfile(profile: NormalizedProfile): SupportStaff {
     name: buildProfileBaseName(profile),
     credentials: profile.nameSuffix,
     role: profile.specialtyLine1 || profile.spotlightCardTag || 'Support Staff',
+    note: profile.bio,
+    photo: profile.photoUrl,
+  };
+}
+
+function featuredGuestFromProfile(profile: NormalizedProfile): SupportStaff {
+  return {
+    id: profile.uid,
+    name: buildProfileBaseName(profile),
+    credentials: profile.nameSuffix,
+    role: profile.specialtyLine1 || profile.spotlightCardTag || 'Featured Guest',
     note: profile.bio,
     photo: profile.photoUrl,
   };
@@ -899,6 +921,18 @@ export const TeamSection: React.FC = () => {
     ]),
     [],
   );
+  const featuredGuestNameKeys = useMemo(
+    () => new Set(FEATURED_GUEST_NAMES.map(personNameKey)),
+    [],
+  );
+  const featuredGuests = useMemo(
+    () => {
+      return profiles
+        .filter((profile) => featuredGuestNameKeys.has(personNameKey(buildProfileName(profile))))
+        .map(featuredGuestFromProfile);
+    },
+    [profiles, featuredGuestNameKeys],
+  );
   const resolvedSupportStaff = useMemo(
     () => {
       return displayProfiles
@@ -987,6 +1021,54 @@ export const TeamSection: React.FC = () => {
           />
         ))}
       </div>
+
+      {featuredGuests.length > 0 && (
+        <div style={{ marginTop: '48px' }}>
+          <h2
+            style={{
+              fontSize: '24px',
+              fontWeight: 300,
+              color: '#000000',
+              margin: '0 0 4px 0',
+              lineHeight: 1.3,
+              fontFamily: FONT,
+            }}
+          >
+            Featured Guest
+          </h2>
+          <p
+            style={{
+              fontSize: '14px',
+              color: '#4B5563',
+              margin: '0 0 20px 0',
+              fontFamily: FONT,
+            }}
+          >
+            Patient and special presenters featured in the Vanderbilt Amyloidosis Multidisciplinary Program
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column' as const,
+              gap: '10px',
+            }}
+          >
+            {featuredGuests.map((guest) => {
+              const session = sessionByPresenterName.get(personNameKey(`${guest.name} ${guest.credentials ?? ''}`));
+
+              return (
+                <SupportStaffCard
+                  key={guest.id}
+                  staff={guest}
+                  session={session}
+                  regLink={session ? regUrlMap.get(session.id) : undefined}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ── Support Staff ── */}
       <div style={{ marginTop: '48px' }}>

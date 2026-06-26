@@ -41,8 +41,8 @@ export const trials: Trial[] = [
   {
     id: 'NCT07081646',
     title: 'AZD0120 / GC012F CAR-T therapy targeting CD19 and BCMA for relapsed or refractory AL amyloidosis',
-    status: 'Still recruiting',
-    description: 'Phase 1b/2 study evaluating the safety, tolerability, and efficacy of AZD0120, a CAR-T cell therapy targeting CD19 and BCMA, in participants with relapsed or refractory AL amyloidosis.',
+    status: 'Recruiting',
+    description: 'Open-label Phase 1b/2 study evaluating the safety, tolerability, and efficacy of AZD0120, a CAR-T cell therapy targeting CD19 and BCMA, in participants with relapsed or refractory AL amyloidosis. ClinicalTrials.gov lists a recruiting Nashville, Tennessee research site.',
     phase: 'Phase 1/2',
   },
   {
@@ -51,6 +51,13 @@ export const trials: Trial[] = [
     status: 'Recruiting',
     description: 'International, prospective, non-interventional registry study collecting real-world data on adults with ATTR amyloidosis, including ATTR-CM and hereditary ATTRv-PN. Participants are followed through routine care for 3-7 years to document disease course, treatment patterns, outcomes, and effectiveness of treatments including eplontersen.',
     phase: 'Observational',
+  },
+  {
+    id: 'NCT06158854',
+    title: 'Etentamig (ABBV-383) for adult participants with AL amyloidosis',
+    status: 'Recruiting',
+    description: 'Open-label Phase 1/2 study evaluating safety and efficacy of etentamig (ABBV-383) in adult participants with immunoglobulin light chain (AL) amyloidosis. ClinicalTrials.gov lists Vanderbilt University Medical Center in Nashville as a recruiting site.',
+    phase: 'Phase 1/2',
   },
   {
     id: 'NCT07223203',
