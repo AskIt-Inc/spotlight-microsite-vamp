@@ -4,7 +4,7 @@ import { CheckCircle, ChevronDown } from 'lucide-react';
 const FONT = 'gotham, sans-serif';
 const BRAND = 'var(--oav-brand)';
 const ACCENT = 'var(--oav-accent)';
-const ACCENT_HEX = '#CFAE70';
+const ACCENT_TEXT = 'var(--oav-accent-text)';
 
 // ─── Overview — VAMP ──────────────────────────────────────────────────────────
 // Layout:
@@ -118,7 +118,7 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
           fontWeight: 700,
           textTransform: 'uppercase' as const,
           letterSpacing: '0.12em',
-          color: ACCENT,
+          color: ACCENT_TEXT,
           fontFamily: FONT,
           marginBottom: '16px',
         }}
@@ -171,7 +171,7 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
           >
             <CheckCircle
               size={16}
-              color={ACCENT_HEX}
+              color={ACCENT_TEXT}
               strokeWidth={1.8}
               style={{ flexShrink: 0, marginTop: '3px' }}
             />
@@ -199,7 +199,7 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
           padding: '6px 0',
           fontSize: '13px',
           fontWeight: 700,
-          color: ACCENT,
+          color: ACCENT_TEXT,
           fontFamily: FONT,
           display: 'flex',
           alignItems: 'center',
@@ -208,7 +208,7 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
       >
         <ChevronDown
           size={14}
-          color={ACCENT_HEX}
+          color={ACCENT_TEXT}
           style={{
             flexShrink: 0,
             transition: 'transform 0.2s ease',

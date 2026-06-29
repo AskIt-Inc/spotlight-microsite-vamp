@@ -30,8 +30,9 @@
   --oav-brand-light: #F8F5EE;
 
   /* Accent (links) */
-  --oav-accent: #CFAE70;
-  --oav-accent-hover: #A88C4F;
+  --oav-accent: #F3C64E;
+  --oav-accent-hover: #CFA13A;
+  --oav-accent-text: #8A6400;
 
   /* Structural */
   --oav-header-bg: #ffffff;

@@ -107,8 +107,8 @@ export const HeroSection: React.FC = () => (
 
     <section
       style={{
-        background: 'linear-gradient(135deg, #1C1C1C 0%, #000000 74%, #CFAE70 160%)',
-        borderBottom: '3px solid #CFAE70',
+        background: 'linear-gradient(135deg, #1C1C1C 0%, #000000 74%, var(--oav-accent) 160%)',
+        borderBottom: '3px solid var(--oav-accent)',
         padding: '28px 24px',
       }}
     >

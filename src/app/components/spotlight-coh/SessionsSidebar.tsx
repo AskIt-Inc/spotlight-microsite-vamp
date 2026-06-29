@@ -147,7 +147,7 @@ const SidebarSessionRow: React.FC<{ session: NormalizedSession }> = ({ session }
               fontSize: '11px',
               fontWeight: 300,
               fontFamily: FONT,
-              border: '1px solid #CFAE70',
+              border: '1px solid var(--oav-accent)',
             }}
           >
             Pending
@@ -245,7 +245,7 @@ export const SessionsSidebar: React.FC = () => {
           style={{
             padding: '8px 16px',
             background: '#FFF9E8',
-            borderBottom: '1px solid #CFAE70',
+            borderBottom: '1px solid var(--oav-accent)',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
@@ -254,7 +254,7 @@ export const SessionsSidebar: React.FC = () => {
             fontFamily: FONT,
           }}
         >
-          <AlertCircle size={13} color="#CFAE70" style={{ flexShrink: 0 }} />
+          <AlertCircle size={13} color="var(--oav-accent)" style={{ flexShrink: 0 }} />
           {error}
         </div>
       )}

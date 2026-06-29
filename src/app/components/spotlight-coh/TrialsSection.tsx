@@ -430,7 +430,7 @@ export const TrialsSection: React.FC = () => {
             <div
               style={{
                 background: '#FFF9E8',
-                border: '1px dashed #CFAE70',
+                border: '1px dashed var(--oav-accent)',
                 borderRadius: '6px',
                 padding: '20px 24px',
                 display: 'flex',
@@ -438,7 +438,7 @@ export const TrialsSection: React.FC = () => {
                 gap: '14px',
               }}
             >
-              <Edit3 size={18} color="#CFAE70" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Edit3 size={18} color="var(--oav-accent)" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#1C1C1C', fontFamily: FONT, marginBottom: '8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }}>
                   Content needed from VAMP
