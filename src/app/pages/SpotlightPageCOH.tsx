@@ -2,7 +2,6 @@ import React from 'react';
 import { HeroSection }      from '../components/spotlight-coh/HeroSection';
 import { OverviewSection }  from '../components/spotlight-coh/OverviewSection';
 import { TeamSection }      from '../components/spotlight-coh/TeamSection';
-import { HighlightsSection } from '../components/spotlight-coh/HighlightsSection';
 import { TrialsSection }    from '../components/spotlight-coh/TrialsSection';
 import { SessionsSidebar }  from '../components/spotlight-coh/SessionsSidebar';
 
@@ -28,7 +27,6 @@ export const SpotlightPageCOH: React.FC = () => {
         <div style={{ flex: 1, minWidth: 0 }}>
           <OverviewSection />
           <TeamSection />
-          <HighlightsSection />
           <TrialsSection />
         </div>
 

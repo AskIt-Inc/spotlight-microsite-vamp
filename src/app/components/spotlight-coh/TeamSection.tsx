@@ -16,6 +16,70 @@ const API_SUPPORT_STAFF_NAMES = [
 const FEATURED_GUEST_NAMES = ['Missy Maxwell'];
 const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell'];
 
+function profileSearchText(profile: NormalizedProfile): string {
+  return [
+    profile.displayName,
+    profile.specialtyLine1,
+    profile.specialtyLine2,
+    profile.spotlightCardTag,
+    profile.titlePrefix,
+    profile.indication,
+  ].join(' ').toLowerCase();
+}
+
+function teamSpecialtyRank(profile: NormalizedProfile): number {
+  const primaryText = [
+    profile.specialtyLine1,
+    profile.spotlightCardTag,
+    profile.titlePrefix,
+  ].join(' ').toLowerCase();
+  const fallbackText = profileSearchText(profile);
+
+  if (/(hematology|hematologist|oncology|plasma cell)/i.test(primaryText)) return 0;
+  if (/(cardiology|cardiologist|cardiac|heart failure|transplantation|lvad)/i.test(primaryText)) return 1;
+  if (/(neurology|neurologist|neuromuscular|neuropathy)/i.test(primaryText)) return 2;
+  if (/(nephrology|nephrologist|renal|kidney)/i.test(primaryText)) return 3;
+  if (/(gastroenterology|gastroenterologist|gastrointestinal|hepatology|\bgi\b)/i.test(primaryText)) return 4;
+
+  if (/(hematology|hematologist|oncology|plasma cell|myeloma|al amyloidosis|stem cell|car-t)/i.test(fallbackText)) return 0;
+  if (/(cardiology|cardiologist|cardiac|heart failure|transplantation|lvad)/i.test(fallbackText)) return 1;
+  if (/(neurology|neurologist|neuromuscular|neuropathy)/i.test(fallbackText)) return 2;
+  if (/(nephrology|nephrologist|renal|kidney)/i.test(fallbackText)) return 3;
+  if (/(gastroenterology|gastroenterologist|gastrointestinal|hepatology|\bgi\b)/i.test(fallbackText)) return 4;
+
+  return 5;
+}
+
+function supportStaffRank(profile: NormalizedProfile): number {
+  const text = profileSearchText(profile);
+
+  if (/(aprn|advanced practice|nurse practitioner|\bnp\b|\bpa\b|physician assistant)/i.test(text)) return 0;
+  if (/(registered nurse|\brn\b|nursing)/i.test(text)) return 1;
+  if (/(social worker|social work|\blmsw\b|\bsw\b)/i.test(text)) return 3;
+  if (/(pharmacy|physical therapy|\bpt\b|occupational therapy|\bot\b|dietitian|nutrition)/i.test(text)) return 4;
+  if (/(amyloidosis|hematology|cardiology|oncology|renal|kidney|neurology|gastroenterology|\bgi\b)/i.test(text)) return 2;
+
+  return 5;
+}
+
+function profileNameForSort(profile: NormalizedProfile): string {
+  return `${profile.lastName} ${profile.firstName}`.trim().toLowerCase();
+}
+
+function sortProfilesByPriority(
+  profiles: NormalizedProfile[],
+  rankProfile: (profile: NormalizedProfile) => number,
+): NormalizedProfile[] {
+  return profiles
+    .map((profile, index) => ({ profile, index }))
+    .sort((a, b) => (
+      rankProfile(a.profile) - rankProfile(b.profile)
+      || profileNameForSort(a.profile).localeCompare(profileNameForSort(b.profile))
+      || a.index - b.index
+    ))
+    .map(({ profile }) => profile);
+}
+
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
   if (!month || !day) return undefined;
   const lower = month.toLowerCase();
@@ -939,19 +1003,22 @@ export const TeamSection: React.FC = () => {
   );
   const resolvedSupportStaff = useMemo(
     () => {
-      return displayProfiles
-        .filter((profile) => supportStaffNameKeys.has(profilePersonKey(profile)))
-        .map(supportStaffFromProfile);
+      return sortProfilesByPriority(
+        displayProfiles.filter((profile) => supportStaffNameKeys.has(profilePersonKey(profile))),
+        supportStaffRank,
+      ).map(supportStaffFromProfile);
     },
     [displayProfiles, supportStaffNameKeys],
   );
   const teamClinicians = useMemo(
     () => (
-      displayProfiles
-        .filter((profile) => {
+      sortProfilesByPriority(
+        displayProfiles.filter((profile) => {
           const key = profilePersonKey(profile);
           return !supportStaffNameKeys.has(key) && !featuredGuestNameKeys.has(key);
-        })
+        }),
+        teamSpecialtyRank,
+      )
         .map((profile) => {
           const clinician = clinicianFromProfile(profile);
           const session = sessionByPresenterName.get(personNameKey(buildProfileName(profile)));
@@ -1029,6 +1096,53 @@ export const TeamSection: React.FC = () => {
         ))}
       </div>
 
+      {/* ── Support Staff ── */}
+      <div style={{ marginTop: '48px' }}>
+        <h2
+          style={{
+            fontSize: '24px',
+            fontWeight: 300,
+            color: '#000000',
+            margin: '0 0 4px 0',
+            lineHeight: 1.3,
+            fontFamily: FONT,
+          }}
+        >
+          Support Staff
+        </h2>
+        <p
+          style={{
+            fontSize: '14px',
+            color: '#4B5563',
+            margin: '0 0 20px 0',
+            fontFamily: FONT,
+          }}
+        >
+          The dedicated clinical and support team for the Vanderbilt Amyloidosis Multidisciplinary Program
+        </p>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column' as const,
+            gap: '10px',
+          }}
+        >
+          {resolvedSupportStaff.map((staff) => {
+            const session = sessionByPresenterName.get(personNameKey(`${staff.name} ${staff.credentials ?? ''}`));
+
+            return (
+              <SupportStaffCard
+                key={staff.id}
+                staff={staff}
+                session={session}
+                regLink={session ? regUrlMap.get(session.id) : undefined}
+              />
+            );
+          })}
+        </div>
+      </div>
+
       {featuredGuests.length > 0 && (
         <div style={{ marginTop: '48px' }}>
           <h2
@@ -1076,53 +1190,6 @@ export const TeamSection: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* ── Support Staff ── */}
-      <div style={{ marginTop: '48px' }}>
-        <h2
-          style={{
-            fontSize: '24px',
-            fontWeight: 300,
-            color: '#000000',
-            margin: '0 0 4px 0',
-            lineHeight: 1.3,
-            fontFamily: FONT,
-          }}
-        >
-          Support Staff
-        </h2>
-        <p
-          style={{
-            fontSize: '14px',
-            color: '#4B5563',
-            margin: '0 0 20px 0',
-            fontFamily: FONT,
-          }}
-        >
-          The dedicated clinical and support team for the Vanderbilt Amyloidosis Multidisciplinary Program
-        </p>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column' as const,
-            gap: '10px',
-          }}
-        >
-          {resolvedSupportStaff.map((staff) => {
-            const session = sessionByPresenterName.get(personNameKey(`${staff.name} ${staff.credentials ?? ''}`));
-
-            return (
-              <SupportStaffCard
-                key={staff.id}
-                staff={staff}
-                session={session}
-                regLink={session ? regUrlMap.get(session.id) : undefined}
-              />
-            );
-          })}
-        </div>
-      </div>
 
     </div>
   </section>

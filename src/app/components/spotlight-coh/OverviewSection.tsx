@@ -11,6 +11,7 @@ const ACCENT_HEX = '#CFAE70';
 //   1. Impactful opening statement
 //   2. Three visual program pillars (scannable)
 //   3. Collapsible "About the Program"
+//   4. Meet the Director / Directors
 
 const pillars: Array<{ icon: string; label: string; text: string }> = [
   {
@@ -48,29 +49,6 @@ interface DirectorProfile {
 
 const directorProfiles: DirectorProfile[] = [
   {
-    lastName: 'Siddiqi',
-    name: 'Hasan Siddiqi, MD, MSCR, FACC',
-    photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-03/sadiqi.png',
-    roles: [
-      'Director, Cardiac Amyloidosis Program',
-      'Assistant Professor of Medicine',
-      'Cardiology · Heart Failure · Cardiac Amyloidosis · Transplantation · LVAD',
-      'Vanderbilt University Medical Center',
-    ],
-    highlights: [
-      'Specializes in heart failure, cardiac amyloidosis, heart transplantation, and LVAD care',
-      'Completed cardiovascular disease and advanced heart failure training at Brigham and Women\'s Hospital / Harvard Medical School',
-      'Clinical interests include advanced heart failure, cardiac amyloidosis, heart transplantation, and LVADs',
-      'Research interests include heart failure, heart transplantation outcomes, and cardiac amyloidosis collaborations',
-      'Active in the American College of Cardiology, American Heart Association, Heart Failure Society of America, and International Society for Heart and Lung Transplantation',
-    ],
-    bio: [
-      'Hasan Siddiqi, MD, MSCR, FACC, is a cardiologist specializing in patients with heart failure, cardiac amyloidosis, and those requiring advanced therapies such as heart transplantation and artificial heart pump support.',
-      'He completed medical school and a clinical research degree at the University of Michigan, internal medicine residency at the Hospital of the University of Pennsylvania, and cardiovascular disease and advanced heart failure fellowships at Brigham and Women\'s Hospital / Harvard Medical School.',
-      'His clinical work includes advanced heart failure, cardiac amyloidosis, heart transplantation, and LVAD care. His research interests include heart failure, heart transplantation outcomes, and collaborations related to cardiac amyloidosis.',
-    ],
-  },
-  {
     lastName: 'Baljevic',
     name: 'Muhamed Baljevic, MD, FACP',
     photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-06/Baljevic.jpg',
@@ -95,6 +73,29 @@ const directorProfiles: DirectorProfile[] = [
       'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist who joined Vanderbilt University Medical Center as faculty in the Department of Medicine in 2021.',
       'He directs the Vanderbilt Amyloidosis Multidisciplinary Program, the Multiple Myeloma Program, and plasma cell disorders research at Vanderbilt-Ingram Cancer Center.',
       'His clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders, with investigative work focused on therapy resistance, post-transplant immune recovery, and genomic events in plasma cell disease.',
+    ],
+  },
+  {
+    lastName: 'Siddiqi',
+    name: 'Hasan Siddiqi, MD, MSCR, FACC',
+    photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-03/sadiqi.png',
+    roles: [
+      'Director, Cardiac Amyloidosis Program',
+      'Assistant Professor of Medicine',
+      'Cardiology · Heart Failure · Cardiac Amyloidosis · Transplantation · LVAD',
+      'Vanderbilt University Medical Center',
+    ],
+    highlights: [
+      'Specializes in heart failure, cardiac amyloidosis, heart transplantation, and LVAD care',
+      'Completed cardiovascular disease and advanced heart failure training at Brigham and Women\'s Hospital / Harvard Medical School',
+      'Clinical interests include advanced heart failure, cardiac amyloidosis, heart transplantation, and LVADs',
+      'Research interests include heart failure, heart transplantation outcomes, and cardiac amyloidosis collaborations',
+      'Active in the American College of Cardiology, American Heart Association, Heart Failure Society of America, and International Society for Heart and Lung Transplantation',
+    ],
+    bio: [
+      'Hasan Siddiqi, MD, MSCR, FACC, is a cardiologist specializing in patients with heart failure, cardiac amyloidosis, and those requiring advanced therapies such as heart transplantation and artificial heart pump support.',
+      'He completed medical school and a clinical research degree at the University of Michigan, internal medicine residency at the Hospital of the University of Pennsylvania, and cardiovascular disease and advanced heart failure fellowships at Brigham and Women\'s Hospital / Harvard Medical School.',
+      'His clinical work includes advanced heart failure, cardiac amyloidosis, heart transplantation, and LVAD care. His research interests include heart failure, heart transplantation outcomes, and collaborations related to cardiac amyloidosis.',
     ],
   },
 ];
@@ -359,18 +360,6 @@ export const OverviewSection: React.FC = () => (
         </p>
       </blockquote>
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '16px',
-          marginBottom: '32px',
-        }}
-      >
-        {directorProfiles.map((profile) => (
-          <DirectorSection key={profile.lastName} profile={profile} />
-        ))}
-      </div>
-
       {/* Three pillars */}
       <div
         className="overview-pillars"
@@ -426,6 +415,18 @@ export const OverviewSection: React.FC = () => (
 
       {/* Collapsible program description */}
       <AboutProgramAccordion />
+
+      <div
+        style={{
+          display: 'grid',
+          gap: '16px',
+          marginTop: '32px',
+        }}
+      >
+        {directorProfiles.map((profile) => (
+          <DirectorSection key={profile.lastName} profile={profile} />
+        ))}
+      </div>
     </div>
   </section>
 );
