@@ -944,7 +944,10 @@ export const TeamSection: React.FC = () => {
   const teamClinicians = useMemo(
     () => (
       displayProfiles
-        .filter((profile) => !supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
+        .filter((profile) => {
+          const key = personNameKey(buildProfileName(profile));
+          return !supportStaffNameKeys.has(key) && !featuredGuestNameKeys.has(key);
+        })
         .map((profile) => {
           const clinician = clinicianFromProfile(profile);
           const session = sessionByPresenterName.get(personNameKey(buildProfileName(profile)));
@@ -960,7 +963,7 @@ export const TeamSection: React.FC = () => {
           };
         })
     ),
-    [displayProfiles, sessionByPresenterName, supportStaffNameKeys],
+    [displayProfiles, featuredGuestNameKeys, sessionByPresenterName, supportStaffNameKeys],
   );
 
   return (
