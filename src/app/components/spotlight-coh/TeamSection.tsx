@@ -52,6 +52,10 @@ function buildProfileBaseName(profile: NormalizedProfile): string {
     .join(' ') || profile.displayName.replace(profile.nameSuffix, '').trim();
 }
 
+function profilePersonKey(profile: NormalizedProfile): string {
+  return personNameKey(buildProfileBaseName(profile));
+}
+
 function personNameKey(name: string): string {
   const credentialsAndSuffixes = new Set([
     'agaf',
@@ -891,7 +895,7 @@ export const TeamSection: React.FC = () => {
     [],
   );
   const displayProfiles = useMemo(
-    () => profiles.filter((profile) => !excludedProfileNameKeys.has(personNameKey(buildProfileName(profile)))),
+    () => profiles.filter((profile) => !excludedProfileNameKeys.has(profilePersonKey(profile))),
     [profiles, excludedProfileNameKeys],
   );
   const displayProfileMap = useMemo(
@@ -928,7 +932,7 @@ export const TeamSection: React.FC = () => {
   const featuredGuests = useMemo(
     () => {
       return profiles
-        .filter((profile) => featuredGuestNameKeys.has(personNameKey(buildProfileName(profile))))
+        .filter((profile) => featuredGuestNameKeys.has(profilePersonKey(profile)))
         .map(featuredGuestFromProfile);
     },
     [profiles, featuredGuestNameKeys],
@@ -936,7 +940,7 @@ export const TeamSection: React.FC = () => {
   const resolvedSupportStaff = useMemo(
     () => {
       return displayProfiles
-        .filter((profile) => supportStaffNameKeys.has(personNameKey(buildProfileName(profile))))
+        .filter((profile) => supportStaffNameKeys.has(profilePersonKey(profile)))
         .map(supportStaffFromProfile);
     },
     [displayProfiles, supportStaffNameKeys],
@@ -945,7 +949,7 @@ export const TeamSection: React.FC = () => {
     () => (
       displayProfiles
         .filter((profile) => {
-          const key = personNameKey(buildProfileName(profile));
+          const key = profilePersonKey(profile);
           return !supportStaffNameKeys.has(key) && !featuredGuestNameKeys.has(key);
         })
         .map((profile) => {
