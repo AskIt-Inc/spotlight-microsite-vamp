@@ -369,7 +369,7 @@ export const TrialsSection: React.FC = () => {
     <section
       style={{
         background: 'var(--oav-page-bg)',
-        padding: '56px 0',
+        padding: '16px 0 56px',
       }}
     >
       <div className="trials-section-inner">

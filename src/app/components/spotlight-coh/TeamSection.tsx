@@ -1041,7 +1041,7 @@ export const TeamSection: React.FC = () => {
   <section
     style={{
       background: 'var(--oav-page-bg)',
-      padding: '48px 0',
+      padding: '32px 0 24px',
     }}
   >
     <div className="team-section-inner">

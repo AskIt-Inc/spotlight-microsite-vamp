@@ -11,7 +11,7 @@ const ACCENT_TEXT = 'var(--oav-accent-text)';
 //   1. Impactful opening statement
 //   2. Three visual program pillars (scannable)
 //   3. Collapsible "About the Program"
-//   4. Meet the Director / Directors
+//   4. Meet the Directors
 
 const pillars: Array<{ icon: string; label: string; text: string }> = [
   {
@@ -36,6 +36,35 @@ const PROGRAM_ABOUT_PARAGRAPHS = [
   `Amyloidosis can involve the heart, kidneys, liver, gastrointestinal system, peripheral nerves, and other organ systems, so diagnosis and treatment often require coordinated work across multiple specialties.`,
   `The program emphasizes accurate and timely diagnosis, access to standards of care and research treatments, and close disease monitoring. Vanderbilt also describes ongoing work in clinical trials, biomarkers, and advanced non-invasive diagnostic tools.`,
 ];
+
+const SectionHeading: React.FC<{ title: string; subtitle: string }> = ({ title, subtitle }) => (
+  <div style={{ marginBottom: '24px' }}>
+    <h2
+      style={{
+        fontSize: '28px',
+        fontWeight: 300,
+        color: '#000000',
+        margin: 0,
+        lineHeight: 1.3,
+        fontFamily: FONT,
+      }}
+    >
+      {title}
+    </h2>
+    <p
+      style={{
+        fontSize: '14px',
+        color: '#4B5563',
+        marginTop: '8px',
+        marginBottom: 0,
+        fontFamily: FONT,
+        lineHeight: 1.5,
+      }}
+    >
+      {subtitle}
+    </p>
+  </div>
+);
 
 interface DirectorProfile {
   lastName: string;
@@ -106,26 +135,12 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
   return (
     <div
       style={{
-        background: 'var(--oav-page-bg)',
+        background: 'var(--oav-card-bg)',
         border: '1px solid var(--oav-border)',
         borderRadius: '8px',
         padding: '24px',
       }}
     >
-      <div
-        style={{
-          fontSize: '11px',
-          fontWeight: 700,
-          textTransform: 'uppercase' as const,
-          letterSpacing: '0.12em',
-          color: ACCENT_TEXT,
-          fontFamily: FONT,
-          marginBottom: '16px',
-        }}
-      >
-        Meet the Director
-      </div>
-
       <div
         className="director-profile-row"
         style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '16px' }}
@@ -413,20 +428,32 @@ export const OverviewSection: React.FC = () => (
         ))}
       </div>
 
-      {/* Collapsible program description */}
       <AboutProgramAccordion />
+    </div>
+  </section>
+);
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '16px',
-          marginTop: '32px',
-        }}
-      >
-        {directorProfiles.map((profile) => (
-          <DirectorSection key={profile.lastName} profile={profile} />
-        ))}
-      </div>
+export const DirectorsSection: React.FC = () => (
+  <section
+    style={{
+      background: 'var(--oav-page-bg)',
+      padding: '40px 0 24px',
+    }}
+  >
+    <SectionHeading
+      title="Meet the Directors"
+      subtitle="Vanderbilt program leadership across AL amyloidosis, plasma cell disorders, and cardiac amyloidosis care"
+    />
+
+    <div
+      style={{
+        display: 'grid',
+        gap: '16px',
+      }}
+    >
+      {directorProfiles.map((profile) => (
+        <DirectorSection key={profile.lastName} profile={profile} />
+      ))}
     </div>
   </section>
 );
