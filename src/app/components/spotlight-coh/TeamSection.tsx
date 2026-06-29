@@ -14,7 +14,16 @@ const API_SUPPORT_STAFF_NAMES = [
   'Kelly Fields',
 ];
 const FEATURED_GUEST_NAMES = ['Missy Maxwell'];
-const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell'];
+const DIRECTOR_PROFILE_NAMES = ['Muhamed Baljevic', 'Hasan Siddiqi'];
+const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell', ...DIRECTOR_PROFILE_NAMES];
+const APPOINTMENT_URL_BY_PROFILE_NAME: Record<string, string> = {
+  'Amanda Peltier': 'https://www.vanderbilthealth.com/doctors/peltier-amanda',
+  'Anthony Langone': 'https://www.vanderbilthealth.com/doctors/langone-anthony',
+  'Muhamed Baljevic': 'https://www.vanderbilthealth.com/doctors/baljevic-muhamed',
+  'Salyka Sengsayadeth': 'https://www.vanderbilthealth.com/doctors/sengsayadeth-salyka',
+  'Sara Horst': 'https://www.vanderbilthealth.com/doctors/horst-sara',
+  'Hasan Siddiqi': 'https://www.vanderbilthealth.com/doctors/siddiqi-hasan',
+};
 
 function profileSearchText(profile: NormalizedProfile): string {
   return [
@@ -161,6 +170,8 @@ function personNameKey(name: string): string {
 }
 
 function clinicianFromProfile(profile: NormalizedProfile): Clinician {
+  const profileBaseName = buildProfileBaseName(profile);
+
   return {
     id: profile.uid,
     name: buildProfileName(profile),
@@ -175,7 +186,7 @@ function clinicianFromProfile(profile: NormalizedProfile): Clinician {
     sessionDate: '',
     sessionTitle: '',
     sessionDescription: '',
-    appointmentUrl: 'https://www.vanderbilthealth.com/',
+    appointmentUrl: APPOINTMENT_URL_BY_PROFILE_NAME[profileBaseName] ?? 'https://www.vanderbilthealth.com/',
     profileUid: profile.uid,
   };
 }

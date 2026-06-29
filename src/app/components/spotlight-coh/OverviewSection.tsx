@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CheckCircle, ChevronDown } from 'lucide-react';
+import { Calendar, CheckCircle, ChevronDown, ExternalLink, PlayCircle } from 'lucide-react';
+import { buildRegUrlMap, type NormalizedSession, useSpotlightSessions } from './useSpotlightSessions';
 
 const FONT = 'gotham, sans-serif';
 const BRAND = 'var(--oav-brand)';
@@ -69,19 +70,24 @@ const SectionHeading: React.FC<{ title: string; subtitle: string }> = ({ title, 
 interface DirectorProfile {
   lastName: string;
   name: string;
+  sessionName: string;
   photoUrl: string;
   photoPosition?: string;
   roles: string[];
   highlights: string[];
   bio: string[];
+  appointmentUrl: string;
+  videoUrl?: string;
 }
 
 const directorProfiles: DirectorProfile[] = [
   {
     lastName: 'Baljevic',
     name: 'Muhamed Baljevic, MD, FACP',
+    sessionName: 'Muhamed Baljevic',
     photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-06/Baljevic.jpg',
     photoPosition: 'center 35%',
+    appointmentUrl: 'https://www.vanderbilthealth.com/doctors/baljevic-muhamed',
     roles: [
       'Director, Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) of Vanderbilt-Ingram Cancer Center',
       'Director, Multiple Myeloma Program',
@@ -107,7 +113,9 @@ const directorProfiles: DirectorProfile[] = [
   {
     lastName: 'Siddiqi',
     name: 'Hasan Siddiqi, MD, MSCR, FACC',
+    sessionName: 'Hasan Siddiqi',
     photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-03/sadiqi.png',
+    appointmentUrl: 'https://www.vanderbilthealth.com/doctors/siddiqi-hasan',
     roles: [
       'Director, Cardiac Amyloidosis Program',
       'Assistant Professor of Medicine',
@@ -129,8 +137,67 @@ const directorProfiles: DirectorProfile[] = [
   },
 ];
 
-const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) => {
+function personNameKey(name: string): string {
+  const credentialsAndSuffixes = new Set([
+    'agaf',
+    'aprn',
+    'bsn',
+    'ccrn',
+    'dbh',
+    'facg',
+    'facc',
+    'facp',
+    'ii',
+    'iii',
+    'iv',
+    'ldn',
+    'lmsw',
+    'md',
+    'mph',
+    'ms',
+    'mscr',
+    'msn',
+    'ocn',
+    'phd',
+    'rd',
+    'rn',
+    'sw',
+  ]);
+
+  return name
+    .replace(/^Dr\.?\s+/i, '')
+    .replace(/[^a-z\s]/gi, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((part) => {
+      const key = part.toLowerCase();
+      return part.length > 1 && !credentialsAndSuffixes.has(key);
+    })
+    .join(' ')
+    .toLowerCase();
+}
+
+function formatSessionDate(session?: NormalizedSession): string | undefined {
+  if (!session?.month || !session.day) return undefined;
+  const lower = session.month.toLowerCase();
+  return `${lower.charAt(0).toUpperCase()}${lower.slice(1)} ${session.day}`;
+}
+
+function directorSessionLabel(session?: NormalizedSession): string | undefined {
+  const date = formatSessionDate(session);
+  if (!date && !session?.time) return undefined;
+  return [date, session?.time].filter(Boolean).join(' · ');
+}
+
+const DirectorSection: React.FC<{
+  profile: DirectorProfile;
+  regLink?: string;
+  session?: NormalizedSession;
+}> = ({ profile, regLink, session }) => {
   const [expanded, setExpanded] = useState(false);
+  const [registerHovered, setRegisterHovered] = useState(false);
+  const sessionDate = formatSessionDate(session);
+  const sessionLabel = directorSessionLabel(session);
 
   return (
     <div
@@ -170,6 +237,22 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
               </React.Fragment>
             ))}
           </div>
+          {sessionDate && (
+            <div
+              style={{
+                fontSize: '12px',
+                color: '#1C1C1C',
+                fontFamily: FONT,
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              <Calendar size={11} color="#1C1C1C" />
+              <span>{sessionDate}</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -258,6 +341,140 @@ const DirectorSection: React.FC<{ profile: DirectorProfile }> = ({ profile }) =>
           ))}
         </div>
       )}
+
+      {session && (
+        <div
+          style={{
+            background: '#FAFAFA',
+            border: '1px solid var(--oav-border)',
+            borderRadius: '6px',
+            padding: '14px 16px',
+            margin: '12px 0 12px 0',
+            fontFamily: FONT,
+          }}
+        >
+          {sessionLabel && (
+            <div
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.1em',
+                color: '#4B5563',
+                marginBottom: '5px',
+              }}
+            >
+              Session: {sessionLabel}
+            </div>
+          )}
+          <div
+            style={{
+              fontSize: '15px',
+              fontWeight: 700,
+              color: '#000000',
+              lineHeight: 1.35,
+              marginBottom: session.description ? '6px' : 0,
+            }}
+          >
+            {session.title}
+          </div>
+          {session.description && (
+            <p
+              style={{
+                fontSize: '14px',
+                fontWeight: 300,
+                color: '#000000',
+                lineHeight: 1.6,
+                margin: 0,
+              }}
+            >
+              {session.description}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap' as const,
+          alignItems: 'center',
+          gap: '10px',
+          marginTop: '10px',
+        }}
+      >
+        {regLink && (
+          <a
+            href={regLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Register"
+            onMouseEnter={() => setRegisterHovered(true)}
+            onMouseLeave={() => setRegisterHovered(false)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '7px 13px',
+              background: registerHovered ? '#000000' : '#1C1C1C',
+              color: '#ffffff',
+              borderRadius: '4px',
+              fontSize: '12px',
+              fontWeight: 300,
+              fontFamily: FONT,
+              textDecoration: 'none',
+              transition: 'background 0.15s ease',
+            }}
+          >
+            <Calendar size={12} color="#ffffff" />
+            Register
+          </a>
+        )}
+
+        <a
+          href={profile.appointmentUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '7px 13px',
+            background: 'transparent',
+            border: '1px solid #E8E8E8',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontWeight: 300,
+            fontFamily: FONT,
+            textDecoration: 'none',
+            color: '#000000',
+          }}
+        >
+          Schedule an appointment
+          <ExternalLink size={12} color="#4B5563" />
+        </a>
+
+        {profile.videoUrl && (
+          <a
+            href={profile.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              fontWeight: 300,
+              color: '#1C1C1C',
+              fontFamily: FONT,
+              textDecoration: 'none',
+            }}
+          >
+            <PlayCircle size={13} color="#1C1C1C" />
+            Watch video
+          </a>
+        )}
+      </div>
     </div>
   );
 };
@@ -433,27 +650,45 @@ export const OverviewSection: React.FC = () => (
   </section>
 );
 
-export const DirectorsSection: React.FC = () => (
-  <section
-    style={{
-      background: 'var(--oav-page-bg)',
-      padding: '40px 0 24px',
-    }}
-  >
-    <SectionHeading
-      title="Meet the Directors"
-      subtitle="Vanderbilt program leadership across AL amyloidosis, plasma cell disorders, and cardiac amyloidosis care"
-    />
+export const DirectorsSection: React.FC = () => {
+  const { sessions } = useSpotlightSessions();
+  const regUrlMap = React.useMemo(() => buildRegUrlMap(sessions), [sessions]);
+  const sessionByPresenterName = React.useMemo(
+    () => new Map(sessions.map((session) => [personNameKey(session.presenter), session])),
+    [sessions],
+  );
 
-    <div
+  return (
+    <section
       style={{
-        display: 'grid',
-        gap: '16px',
+        background: 'var(--oav-page-bg)',
+        padding: '40px 0 24px',
       }}
     >
-      {directorProfiles.map((profile) => (
-        <DirectorSection key={profile.lastName} profile={profile} />
-      ))}
-    </div>
-  </section>
-);
+      <SectionHeading
+        title="Meet the Directors"
+        subtitle="Vanderbilt program leadership across AL amyloidosis, plasma cell disorders, and cardiac amyloidosis care"
+      />
+
+      <div
+        style={{
+          display: 'grid',
+          gap: '16px',
+        }}
+      >
+        {directorProfiles.map((profile) => {
+          const session = sessionByPresenterName.get(personNameKey(profile.sessionName));
+
+          return (
+            <DirectorSection
+              key={profile.lastName}
+              profile={profile}
+              session={session}
+              regLink={session ? regUrlMap.get(session.id) : undefined}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+};
