@@ -5,10 +5,14 @@ import { useSpotlightSessions, buildRegUrlMap, type NormalizedSession } from './
 import { useSpotlightProfiles, type NormalizedProfile } from './useSpotlightProfiles';
 
 const FONT = 'gotham, sans-serif';
-const API_SUPPORT_STAFF_NAMES = [
+const REQUESTED_SUPPORT_STAFF_NAMES = [
+  'Shelton Harrell',
   'Tracy Allen',
+  'Adrienne Molteni',
   'Natalie Castillo',
   'Brian Miller',
+];
+const HIDDEN_SUPPORT_STAFF_NAMES = [
   'Julia Carlson',
   'Khrystal Dupre',
   'Kelly Fields',
@@ -87,6 +91,21 @@ function sortProfilesByPriority(
       || a.index - b.index
     ))
     .map(({ profile }) => profile);
+}
+
+function sortSupportStaffByRequestedOrder(
+  staff: SupportStaff[],
+  requestedOrder: Map<string, number>,
+): SupportStaff[] {
+  return staff
+    .map((member, index) => ({ member, index }))
+    .sort((a, b) => (
+      (requestedOrder.get(personNameKey(a.member.name)) ?? Number.MAX_SAFE_INTEGER)
+      - (requestedOrder.get(personNameKey(b.member.name)) ?? Number.MAX_SAFE_INTEGER)
+      || a.member.name.localeCompare(b.member.name)
+      || a.index - b.index
+    ))
+    .map(({ member }) => member);
 }
 
 function formatApiSessionDate(month?: string, day?: string): string | undefined {
@@ -996,8 +1015,17 @@ export const TeamSection: React.FC = () => {
   );
   const supportStaffNameKeys = useMemo(
     () => new Set([
-      ...API_SUPPORT_STAFF_NAMES.map(personNameKey),
+      ...REQUESTED_SUPPORT_STAFF_NAMES.map(personNameKey),
+      ...HIDDEN_SUPPORT_STAFF_NAMES.map(personNameKey),
     ]),
+    [],
+  );
+  const requestedSupportStaffNameKeys = useMemo(
+    () => new Set(REQUESTED_SUPPORT_STAFF_NAMES.map(personNameKey)),
+    [],
+  );
+  const supportStaffOrder = useMemo(
+    () => new Map(REQUESTED_SUPPORT_STAFF_NAMES.map((name, index) => [personNameKey(name), index])),
     [],
   );
   const featuredGuestNameKeys = useMemo(
@@ -1014,12 +1042,17 @@ export const TeamSection: React.FC = () => {
   );
   const resolvedSupportStaff = useMemo(
     () => {
-      return sortProfilesByPriority(
-        displayProfiles.filter((profile) => supportStaffNameKeys.has(profilePersonKey(profile))),
+      const apiSupportStaff = sortProfilesByPriority(
+        displayProfiles.filter((profile) => requestedSupportStaffNameKeys.has(profilePersonKey(profile))),
         supportStaffRank,
       ).map(supportStaffFromProfile);
+
+      return sortSupportStaffByRequestedOrder(
+        apiSupportStaff,
+        supportStaffOrder,
+      );
     },
-    [displayProfiles, supportStaffNameKeys],
+    [displayProfiles, requestedSupportStaffNameKeys, supportStaffOrder],
   );
   const teamClinicians = useMemo(
     () => (
