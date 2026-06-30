@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, CheckCircle, ChevronDown, ExternalLink, PlayCircle } from 'lucide-react';
+import { Calendar, CheckCircle, ChevronDown, ExternalLink } from 'lucide-react';
 import { buildRegUrlMap, type NormalizedSession, useSpotlightSessions } from './useSpotlightSessions';
 
 const FONT = 'gotham, sans-serif';
@@ -11,8 +11,8 @@ const ACCENT_TEXT = 'var(--oav-accent-text)';
 // Layout:
 //   1. Impactful opening statement
 //   2. Three visual program pillars (scannable)
-//   3. Collapsible "About the Program"
-//   4. Meet the Directors
+//   3. Meet the Directors
+//   4. About the Program
 
 const pillars: Array<{ icon: string; label: string; text: string }> = [
   {
@@ -33,9 +33,9 @@ const pillars: Array<{ icon: string; label: string; text: string }> = [
 ];
 
 const PROGRAM_ABOUT_PARAGRAPHS = [
-  `Founded in 2011, the Vanderbilt Amyloidosis Program brings specialists together around patients with suspected or confirmed amyloidosis and is described by Vanderbilt as the first dedicated amyloidosis treatment center in Tennessee.`,
-  `Amyloidosis can involve the heart, kidneys, liver, gastrointestinal system, peripheral nerves, and other organ systems, so diagnosis and treatment often require coordinated work across multiple specialties.`,
-  `The program emphasizes accurate and timely diagnosis, access to standards of care and research treatments, and close disease monitoring. Vanderbilt also describes ongoing work in clinical trials, biomarkers, and advanced non-invasive diagnostic tools.`,
+  `Founded in 2011, the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings Vanderbilt specialists into one coordinated program for patients who need amyloidosis-focused evaluation, treatment planning, follow-up, and supportive care.`,
+  `VAMP is built around collaboration across hematology, cardiology, neurology, nephrology, gastroenterology, nursing, nutrition, social work, and other care partners. The goal is to help patients move through complex decisions with a team that is connected and familiar with the program’s approach.`,
+  `The program also connects patients with education, disease monitoring, clinical research, and active trial opportunities when appropriate. That combination of specialty care, coordination, and research access is what makes VAMP more than a single clinic visit.`,
 ];
 
 const SectionHeading: React.FC<{ title: string; subtitle: string }> = ({ title, subtitle }) => (
@@ -77,7 +77,6 @@ interface DirectorProfile {
   highlights: string[];
   bio: string[];
   appointmentUrl: string;
-  videoUrl?: string;
 }
 
 const directorProfiles: DirectorProfile[] = [
@@ -183,12 +182,6 @@ function formatSessionDate(session?: NormalizedSession): string | undefined {
   return `${lower.charAt(0).toUpperCase()}${lower.slice(1)} ${session.day}`;
 }
 
-function directorSessionLabel(session?: NormalizedSession): string | undefined {
-  const date = formatSessionDate(session);
-  if (!date && !session?.time) return undefined;
-  return [date, session?.time].filter(Boolean).join(' · ');
-}
-
 const DirectorSection: React.FC<{
   profile: DirectorProfile;
   regLink?: string;
@@ -197,7 +190,6 @@ const DirectorSection: React.FC<{
   const [expanded, setExpanded] = useState(false);
   const [registerHovered, setRegisterHovered] = useState(false);
   const sessionDate = formatSessionDate(session);
-  const sessionLabel = directorSessionLabel(session);
 
   return (
     <div
@@ -342,58 +334,6 @@ const DirectorSection: React.FC<{
         </div>
       )}
 
-      {session && (
-        <div
-          style={{
-            background: '#FAFAFA',
-            border: '1px solid var(--oav-border)',
-            borderRadius: '6px',
-            padding: '14px 16px',
-            margin: '12px 0 12px 0',
-            fontFamily: FONT,
-          }}
-        >
-          {sessionLabel && (
-            <div
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                textTransform: 'uppercase' as const,
-                letterSpacing: '0.1em',
-                color: '#4B5563',
-                marginBottom: '5px',
-              }}
-            >
-              Session: {sessionLabel}
-            </div>
-          )}
-          <div
-            style={{
-              fontSize: '15px',
-              fontWeight: 700,
-              color: '#000000',
-              lineHeight: 1.35,
-              marginBottom: session.description ? '6px' : 0,
-            }}
-          >
-            {session.title}
-          </div>
-          {session.description && (
-            <p
-              style={{
-                fontSize: '14px',
-                fontWeight: 300,
-                color: '#000000',
-                lineHeight: 1.6,
-                margin: 0,
-              }}
-            >
-              {session.description}
-            </p>
-          )}
-        </div>
-      )}
-
       <div
         style={{
           display: 'flex',
@@ -454,111 +394,49 @@ const DirectorSection: React.FC<{
           <ExternalLink size={12} color="#4B5563" />
         </a>
 
-        {profile.videoUrl && (
-          <a
-            href={profile.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '12px',
-              fontWeight: 300,
-              color: '#1C1C1C',
-              fontFamily: FONT,
-              textDecoration: 'none',
-            }}
-          >
-            <PlayCircle size={13} color="#1C1C1C" />
-            Watch video
-          </a>
-        )}
       </div>
     </div>
   );
 };
 
-const AboutProgramAccordion: React.FC = () => {
-  const [open, setOpen] = useState(true);
+export const AboutProgramSection: React.FC = () => (
+  <section
+    style={{
+      background: 'var(--oav-page-bg)',
+      padding: '32px 0 24px',
+    }}
+  >
+    <SectionHeading
+      title="About the VAMP"
+      subtitle="How Vanderbilt’s multidisciplinary amyloidosis program coordinates care, education, and research access"
+    />
 
-  return (
     <div
       style={{
-        marginTop: '28px',
+        background: 'var(--oav-card-bg)',
         border: '1px solid var(--oav-border)',
         borderRadius: '8px',
-        overflow: 'hidden',
+        padding: '20px',
       }}
     >
-      {/* Accordion trigger */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '14px 20px',
-          background: 'var(--oav-card-bg)',
-          border: 'none',
-          cursor: 'pointer',
-          fontFamily: FONT,
-          textAlign: 'left' as const,
-          borderBottom: open ? '1px solid var(--oav-border)' : 'none',
-        }}
-      >
-        <span
+      {PROGRAM_ABOUT_PARAGRAPHS.map((para, i) => (
+        <p
+          key={i}
           style={{
             fontSize: '14px',
-            fontWeight: 700,
-            color: BRAND,
-            textTransform: 'uppercase' as const,
-            letterSpacing: '0.06em',
+            fontWeight: 300,
+            color: '#000000',
+            lineHeight: 1.7,
+            margin: i < PROGRAM_ABOUT_PARAGRAPHS.length - 1 ? '0 0 14px 0' : 0,
             fontFamily: FONT,
           }}
         >
-          About the Vanderbilt Amyloidosis Multidisciplinary Program
-        </span>
-        <ChevronDown
-          size={16}
-          color="#1C1C1C"
-          style={{
-            flexShrink: 0,
-            transition: 'transform 0.2s ease',
-            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-          }}
-        />
-      </button>
-
-      {/* Accordion body */}
-      {open && (
-        <div
-          style={{
-            padding: '20px',
-            background: 'var(--oav-page-bg)',
-          }}
-        >
-          {PROGRAM_ABOUT_PARAGRAPHS.map((para, i) => (
-            <p
-              key={i}
-              style={{
-                fontSize: '14px',
-                fontWeight: 300,
-                color: '#000000',
-                lineHeight: 1.7,
-                margin: i < PROGRAM_ABOUT_PARAGRAPHS.length - 1 ? '0 0 14px 0' : 0,
-                fontFamily: FONT,
-              }}
-            >
-              {para}
-            </p>
-          ))}
-        </div>
-      )}
+          {para}
+        </p>
+      ))}
     </div>
-  );
-};
+  </section>
+);
 
 export const OverviewSection: React.FC = () => (
   <section
@@ -644,8 +522,6 @@ export const OverviewSection: React.FC = () => (
           </div>
         ))}
       </div>
-
-      <AboutProgramAccordion />
     </div>
   </section>
 );

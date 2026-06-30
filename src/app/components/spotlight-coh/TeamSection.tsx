@@ -11,12 +11,11 @@ const REQUESTED_SUPPORT_STAFF_NAMES = [
   'Adrienne Molteni',
   'Natalie Castillo',
   'Brian Miller',
-];
-const HIDDEN_SUPPORT_STAFF_NAMES = [
   'Julia Carlson',
   'Khrystal Dupre',
   'Kelly Fields',
 ];
+const HIDDEN_SUPPORT_STAFF_NAMES: string[] = [];
 const FEATURED_GUEST_NAMES = ['Missy Maxwell'];
 const DIRECTOR_PROFILE_NAMES = ['Muhamed Baljevic', 'Hasan Siddiqi'];
 const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell', ...DIRECTOR_PROFILE_NAMES];
