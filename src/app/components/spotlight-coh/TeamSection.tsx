@@ -12,7 +12,7 @@ const REQUESTED_SUPPORT_STAFF_NAMES = [
   'Natalie Castillo',
   'Brian Miller',
   'Julia Carlson',
-  'Khrystal Dupre',
+  'Khrystal Dupre Myles',
   'Kelly Fields',
 ];
 const HIDDEN_SUPPORT_STAFF_NAMES: string[] = [];
