@@ -18,6 +18,13 @@ const REQUESTED_SUPPORT_STAFF_NAMES = [
 const HIDDEN_SUPPORT_STAFF_NAMES: string[] = [];
 const FEATURED_GUEST_NAMES = ['Missy Maxwell'];
 const DIRECTOR_PROFILE_NAMES = ['Muhamed Baljevic', 'Hasan Siddiqi'];
+const TEAM_PROFILE_NAMES = [
+  'Salyka Sengsayadeth',
+  'Adetola Kassim',
+  'Amanda Peltier',
+  'Anthony Langone',
+  'Sara Horst',
+];
 const EXCLUDED_PROFILE_NAMES = ['Missy Maxwell', ...DIRECTOR_PROFILE_NAMES];
 const APPOINTMENT_URL_BY_PROFILE_NAME: Record<string, string> = {
   'Amanda Peltier': 'https://www.vanderbilthealth.com/doctors/peltier-amanda',
@@ -86,6 +93,23 @@ function sortProfilesByPriority(
     .map((profile, index) => ({ profile, index }))
     .sort((a, b) => (
       rankProfile(a.profile) - rankProfile(b.profile)
+      || profileNameForSort(a.profile).localeCompare(profileNameForSort(b.profile))
+      || a.index - b.index
+    ))
+    .map(({ profile }) => profile);
+}
+
+function sortProfilesByRequestedOrder(
+  profiles: NormalizedProfile[],
+  requestedOrder: Map<string, number>,
+  rankProfile: (profile: NormalizedProfile) => number,
+): NormalizedProfile[] {
+  return profiles
+    .map((profile, index) => ({ profile, index }))
+    .sort((a, b) => (
+      (requestedOrder.get(profilePersonKey(a.profile)) ?? Number.MAX_SAFE_INTEGER)
+      - (requestedOrder.get(profilePersonKey(b.profile)) ?? Number.MAX_SAFE_INTEGER)
+      || rankProfile(a.profile) - rankProfile(b.profile)
       || profileNameForSort(a.profile).localeCompare(profileNameForSort(b.profile))
       || a.index - b.index
     ))
@@ -563,8 +587,8 @@ const CompactCard: React.FC<CompactCardProps> = ({
             <div
               style={{
                 fontSize: '13px',
-                fontWeight: 300,
-                color: '#000000',
+                fontWeight: 600,
+                color: '#1C1C1C',
                 fontFamily: FONT,
                 marginTop: '3px',
                 lineHeight: 1.4,
@@ -577,7 +601,7 @@ const CompactCard: React.FC<CompactCardProps> = ({
             <div
               style={{
                 fontSize: '14px',
-                fontWeight: 300,
+                fontWeight: 600,
                 color: '#1C1C1C',
                 fontFamily: FONT,
                 marginTop: '4px',
@@ -768,7 +792,7 @@ const StaffDetailModal: React.FC<{
           <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
             {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
           </div>
-          <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#1C1C1C', fontFamily: FONT, marginTop: '2px' }}>
             {staff.role}
           </div>
         </div>
@@ -911,7 +935,7 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, reg
           <div style={{ fontSize: '15px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
             {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
           </div>
-          <div style={{ fontSize: '13px', color: '#374151', fontFamily: FONT, marginTop: '2px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#1C1C1C', fontFamily: FONT, marginTop: '2px' }}>
             {staff.role}
           </div>
           {session && (
@@ -1031,6 +1055,10 @@ export const TeamSection: React.FC = () => {
     () => new Set(FEATURED_GUEST_NAMES.map(personNameKey)),
     [],
   );
+  const teamProfileOrder = useMemo(
+    () => new Map(TEAM_PROFILE_NAMES.map((name, index) => [personNameKey(name), index])),
+    [],
+  );
   const featuredGuests = useMemo(
     () => {
       return profiles
@@ -1055,11 +1083,12 @@ export const TeamSection: React.FC = () => {
   );
   const teamClinicians = useMemo(
     () => (
-      sortProfilesByPriority(
+      sortProfilesByRequestedOrder(
         displayProfiles.filter((profile) => {
           const key = profilePersonKey(profile);
           return !supportStaffNameKeys.has(key) && !featuredGuestNameKeys.has(key);
         }),
+        teamProfileOrder,
         teamSpecialtyRank,
       )
         .map((profile) => {
@@ -1077,7 +1106,7 @@ export const TeamSection: React.FC = () => {
           };
         })
     ),
-    [displayProfiles, featuredGuestNameKeys, sessionByPresenterName, supportStaffNameKeys],
+    [displayProfiles, featuredGuestNameKeys, sessionByPresenterName, supportStaffNameKeys, teamProfileOrder],
   );
 
   return (
@@ -1093,7 +1122,7 @@ export const TeamSection: React.FC = () => {
         <h2
           style={{
             fontSize: '28px',
-            fontWeight: 300,
+            fontWeight: 700,
             color: '#000000',
             margin: 0,
             lineHeight: 1.3,
@@ -1105,7 +1134,8 @@ export const TeamSection: React.FC = () => {
         <p
           style={{
             fontSize: '14px',
-            color: '#4B5563',
+            fontWeight: 600,
+            color: '#1C1C1C',
             marginTop: '8px',
             marginBottom: 0,
             fontFamily: FONT,
@@ -1144,7 +1174,7 @@ export const TeamSection: React.FC = () => {
         <h2
           style={{
             fontSize: '24px',
-            fontWeight: 300,
+            fontWeight: 700,
             color: '#000000',
             margin: '0 0 4px 0',
             lineHeight: 1.3,
@@ -1156,7 +1186,8 @@ export const TeamSection: React.FC = () => {
         <p
           style={{
             fontSize: '14px',
-            color: '#4B5563',
+            fontWeight: 600,
+            color: '#1C1C1C',
             margin: '0 0 20px 0',
             fontFamily: FONT,
           }}
@@ -1191,7 +1222,7 @@ export const TeamSection: React.FC = () => {
           <h2
             style={{
               fontSize: '24px',
-              fontWeight: 300,
+              fontWeight: 700,
               color: '#000000',
               margin: '0 0 4px 0',
               lineHeight: 1.3,
@@ -1203,7 +1234,8 @@ export const TeamSection: React.FC = () => {
           <p
             style={{
               fontSize: '14px',
-              color: '#4B5563',
+              fontWeight: 600,
+              color: '#1C1C1C',
               margin: '0 0 20px 0',
               fontFamily: FONT,
             }}

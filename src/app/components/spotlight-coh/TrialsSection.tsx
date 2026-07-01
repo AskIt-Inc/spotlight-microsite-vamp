@@ -379,7 +379,7 @@ export const TrialsSection: React.FC = () => {
             <h2
               style={{
                 fontSize: '28px',
-                fontWeight: 300,
+                fontWeight: 700,
                 color: '#000000',
                 margin: 0,
                 lineHeight: 1.3,
@@ -397,6 +397,7 @@ export const TrialsSection: React.FC = () => {
                 alignItems: 'center',
                 gap: '4px',
                 fontSize: '14px',
+                fontWeight: 600,
                 color: '#1C1C1C',
                 textDecoration: 'none',
                 marginTop: '8px',
