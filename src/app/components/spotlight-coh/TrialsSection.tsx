@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { ExternalLink, CheckCircle, Edit3 } from 'lucide-react';
+import { ExternalLink, CheckCircle, Edit3, AlertCircle } from 'lucide-react';
 import { trials, type Trial } from './data';
+import { useFormProtection } from '../../hooks/useFormProtection';
 
 const FONT = 'gotham, sans-serif';
+const ENDPOINT = 'https://somebodytotalkto.com/api/spotlight/research-interest';
+const MICROSITE_URL = 'https://vanderbilt.oneamyloidosisvoice.com';
+const PARTNER_TID = 12351;
 
 interface TrialCardProps {
   trial: Trial;
 }
 
-type FormState = 'idle' | 'open' | 'submitted';
+type FormState = 'idle' | 'open' | 'submitting' | 'submitted' | 'error';
 
 function canExpressInterest(status: string) {
   const normalizedStatus = status.trim().toLowerCase();
@@ -22,6 +26,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const { honeypotProps, getProtectionPayload, isSuspicious, resetTimer } = useFormProtection();
 
   const inputStyle = (fieldName: string) => ({
     width: '100%',
@@ -76,8 +81,8 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
           <div
             style={{
               fontSize: '16px',
-              fontWeight: 300,
-              color: '#000000',
+              fontWeight: 700,
+              color: 'var(--oav-text-primary)',
               marginBottom: '8px',
               fontFamily: FONT,
               lineHeight: 1.4,
@@ -138,7 +143,14 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
         {showInterestCta && (
           <div style={{ flexShrink: 0 }}>
             <button
-              onClick={() => setFormState(formState === 'open' ? 'idle' : 'open')}
+              onClick={() => {
+                if (formState === 'open') {
+                  setFormState('idle');
+                  return;
+                }
+                resetTimer();
+                setFormState('open');
+              }}
               style={{
                 padding: '8px 16px',
                 background: formState === 'open' ? '#F8F5EE' : 'transparent',
@@ -204,7 +216,38 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
             A member of the research team will be in touch.
           </p>
 
-          <form onSubmit={(e) => { e.preventDefault(); setFormState('submitted'); }}>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setFormState('submitting');
+
+            try {
+              if (isSuspicious()) {
+                setFormState('submitted');
+                return;
+              }
+
+              const res = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  submitter_email: email,
+                  submitter_name: name,
+                  submitter_phone: phone || undefined,
+                  indication: 'Amyloidosis',
+                  interest_type: 'clinical_trial',
+                  trial_name: trial.title,
+                  microsite_url: MICROSITE_URL,
+                  partner_tid: PARTNER_TID,
+                  ...getProtectionPayload(),
+                }),
+              });
+
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              setFormState('submitted');
+            } catch {
+              setFormState('error');
+            }
+          }}>
             {/* Name field */}
             <div style={{ marginBottom: '12px' }}>
               <label
@@ -279,6 +322,10 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
               />
             </div>
 
+            <div style={{ position: 'absolute', left: '-9999px', overflow: 'hidden', opacity: 0, height: 0 }} aria-hidden="true">
+              <input {...honeypotProps} />
+            </div>
+
             <p
               style={{
                 fontSize: '12px',
@@ -292,24 +339,25 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
 
             <button
               type="submit"
+              disabled={formState === 'submitting'}
               style={{
                 width: '100%',
                 padding: '10px 16px',
-                background: '#1C1C1C',
+                background: formState === 'submitting' ? '#4B5563' : '#1C1C1C',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '14px',
                 fontWeight: 300,
-                cursor: 'pointer',
+                cursor: formState === 'submitting' ? 'not-allowed' : 'pointer',
                 fontFamily: FONT,
                 marginTop: '4px',
                 transition: 'background 0.15s ease',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#000000'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1C1C1C'; }}
+              onMouseEnter={(e) => { if (formState !== 'submitting') (e.currentTarget as HTMLButtonElement).style.background = '#000000'; }}
+              onMouseLeave={(e) => { if (formState !== 'submitting') (e.currentTarget as HTMLButtonElement).style.background = '#1C1C1C'; }}
             >
-              Submit Interest
+              {formState === 'submitting' ? 'Submitting...' : 'Submit Interest'}
             </button>
 
             <div style={{ textAlign: 'center' as const, marginTop: '8px' }}>
@@ -360,6 +408,50 @@ const TrialCard: React.FC<TrialCardProps> = ({ trial }) => {
           </span>
         </div>
       )}
+
+      {formState === 'error' && (
+        <div
+          style={{
+            background: '#F8F5EE',
+            border: '1px solid #E0D5C0',
+            borderTop: 'none',
+            borderRadius: '0 0 8px 8px',
+            marginTop: '-8px',
+            padding: '20px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}
+        >
+          <AlertCircle size={20} color="#1C1C1C" style={{ flexShrink: 0 }} />
+          <span
+            style={{
+              fontSize: '14px',
+              fontWeight: 300,
+              color: '#000000',
+              fontFamily: FONT,
+            }}
+          >
+            Something went wrong. Please try again or email{' '}
+            <a href="mailto:info@somebodytotalkto.com" style={{ color: '#1C1C1C', fontWeight: 600 }}>info@somebodytotalkto.com</a>.
+          </span>
+          <button
+            onClick={() => setFormState('open')}
+            style={{
+              marginLeft: 'auto',
+              fontSize: '12px',
+              color: '#1C1C1C',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: FONT,
+              flexShrink: 0,
+            }}
+          >
+            Try again
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -380,7 +472,7 @@ export const TrialsSection: React.FC = () => {
               style={{
                 fontSize: '28px',
                 fontWeight: 700,
-                color: '#000000',
+                color: 'var(--oav-text-primary)',
                 margin: 0,
                 lineHeight: 1.3,
                 fontFamily: FONT,

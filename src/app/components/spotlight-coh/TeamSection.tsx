@@ -1240,7 +1240,7 @@ export const TeamSection: React.FC = () => {
               fontFamily: FONT,
             }}
           >
-            Patient and special presenters featured in the Vanderbilt Amyloidosis Multidisciplinary Program
+            Patient and special presenter featured in the Vanderbilt Amyloidosis Multidisciplinary Program
           </p>
 
           <div

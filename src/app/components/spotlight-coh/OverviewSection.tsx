@@ -91,7 +91,6 @@ const directorProfiles: DirectorProfile[] = [
       'Director, Cardiac Amyloidosis Program',
       'Assistant Professor of Medicine',
       'Cardiology · Heart Failure · Cardiac Amyloidosis · Transplantation · LVAD',
-      'Vanderbilt University Medical Center',
     ],
     highlights: [
       'Specializes in heart failure, cardiac amyloidosis, heart transplantation, and LVAD care',
@@ -120,7 +119,6 @@ const directorProfiles: DirectorProfile[] = [
       'Co-chair, VICC Protocol Review and Monitoring System',
       'Associate Professor of Medicine',
       'Hematology-Oncology · Plasma Cell Disorders · Multiple Myeloma · AL Amyloidosis',
-      'Vanderbilt University Medical Center',
     ],
     highlights: [
       'Leads the Vanderbilt Amyloidosis Multidisciplinary Program and Multiple Myeloma Program',
@@ -545,7 +543,7 @@ export const DirectorsSection: React.FC = () => {
     >
       <SectionHeading
         title="Meet the Directors"
-        subtitle="Vanderbilt program leadership across AL amyloidosis, plasma cell disorders, and cardiac amyloidosis care"
+        subtitle="Vanderbilt University Medical Center — the leadership behind the Amyloidosis Program"
         strong
       />
 
