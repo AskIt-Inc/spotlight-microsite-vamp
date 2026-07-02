@@ -47,6 +47,19 @@ function stripHtml(value: string): string {
     .trim();
 }
 
+function cleanProfileBio(profile: ApiProfile): string {
+  const bio = stripHtml(profile.bio ?? '');
+
+  if (/^Muhamed$/i.test(profile.first_name ?? '') && /^Baljevic$/i.test(profile.last_name ?? '')) {
+    return bio.replace(
+      ', and plasma cell disorders research at Vanderbilt-Ingram Cancer Center',
+      ' at Vanderbilt-Ingram Cancer Center',
+    );
+  }
+
+  return bio;
+}
+
 function normalizeLastName(lastName: string, suffix: string): string {
   let normalized = lastName.trim();
 
@@ -73,7 +86,7 @@ function normalizeProfile(profile: ApiProfile): NormalizedProfile {
     specialtyLine2: profile.specialty_line_2 ?? '',
     spotlightCardTag: profile.spotlight_card_tag ?? '',
     titlePrefix: profile.title ?? '',
-    bio: stripHtml(profile.bio ?? ''),
+    bio: cleanProfileBio(profile),
     photoUrl: profile.photo_url ?? '',
     employer: profile.employer ?? '',
     indication: profile.indication ?? '',

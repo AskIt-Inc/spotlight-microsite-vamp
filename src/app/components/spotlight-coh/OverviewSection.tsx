@@ -115,21 +115,19 @@ const directorProfiles: DirectorProfile[] = [
     roles: [
       'Director, Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) of Vanderbilt-Ingram Cancer Center',
       'Director, Multiple Myeloma Program',
-      'Director, Plasma Cell Disorders Research',
       'Co-chair, VICC Protocol Review and Monitoring System',
       'Associate Professor of Medicine',
-      'Hematology-Oncology · Plasma Cell Disorders · Multiple Myeloma · AL Amyloidosis',
+      'Specializes in Hematology-Oncology, Plasma Cell Disorders, Multiple Myeloma and AL',
     ],
     highlights: [
       'Leads the Vanderbilt Amyloidosis Multidisciplinary Program and Multiple Myeloma Program',
       'Directs the Multiple Myeloma Program at Vanderbilt-Ingram Cancer Center',
-      'Serves as director of plasma cell disorders research',
       'Clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders',
       'Investigative focus includes proteasome inhibitor resistance, post-transplant immune recovery, and genomic changes in plasma cell disease',
     ],
     bio: [
       'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist who joined Vanderbilt University Medical Center as faculty in the Department of Medicine in 2021.',
-      'He directs the Vanderbilt Amyloidosis Multidisciplinary Program, the Multiple Myeloma Program, and plasma cell disorders research at Vanderbilt-Ingram Cancer Center.',
+      'He directs the Vanderbilt Amyloidosis Multidisciplinary Program and the Multiple Myeloma Program at Vanderbilt-Ingram Cancer Center.',
       'His clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders, with investigative work focused on therapy resistance, post-transplant immune recovery, and genomic events in plasma cell disease.',
     ],
   },
