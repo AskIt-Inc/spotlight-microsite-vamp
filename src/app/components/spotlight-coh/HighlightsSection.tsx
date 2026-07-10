@@ -6,24 +6,39 @@ const FONT = 'gotham, sans-serif';
 
 const highlights = [
   {
-    eyebrow: 'Milestone',
-    label: 'Dedicated Amyloidosis Program',
-    text: 'Founded in 2011, Vanderbilt describes VAMP as Tennessee’s first dedicated amyloidosis treatment center, built around coordinated care for AL and ATTR amyloidosis.',
-  },
-  {
-    eyebrow: 'Care Model',
-    label: 'Multispecialty Organ-System Expertise',
-    text: 'The program brings hematology, cardiology, neurology, nephrology, gastroenterology, and supportive care together around complex organ involvement.',
-  },
-  {
     eyebrow: 'Contribution',
-    label: 'Clinical Research and Trial Access',
-    text: 'Vanderbilt contributes to amyloidosis research through active recruiting studies and disease monitoring work spanning AL therapy, ATTR care, biomarkers, and diagnostics.',
+    label: 'Defining Landmark ATTR Care',
+    text: 'Vanderbilt has served as a pivotal global study site for foundational trials including ATTR-ACT, APOLLO-B, and CARDIO-TTRansform, and actively contributes to the international THAOS registry to help establish modern therapeutic standards for transthyretin amyloidosis.',
   },
   {
-    eyebrow: 'Publications',
-    label: 'Peer-Reviewed Amyloidosis Work',
-    text: 'VAMP faculty have contributed to peer-reviewed work on plasma cell disorders, AL amyloidosis treatment approaches, cardiac amyloidosis, and multidisciplinary disease management.',
+    eyebrow: 'Innovation',
+    label: 'Establishing Global Standards of Care',
+    text: 'VAMP leads practice-changing clinical research in light chain (AL) amyloidosis, serving as a key contributing site for the landmark ANDROMEDA trial published in the New England Journal of Medicine, which established DARA-CyBorD as the international front-line standard therapy.',
+  },
+  {
+    eyebrow: 'Research Frontiers',
+    label: 'Advanced Non-Invasive Diagnostics',
+    text: 'VAMP faculty pioneer the development of advanced imaging methodologies, novel disease biomarkers, and digital tracking tools to precisely monitor organ responses and long-term disease states without requiring repetitive, invasive tissue biopsies.',
+  },
+  {
+    eyebrow: 'Integrated Care',
+    label: 'Comprehensive Specialty Pharmacy Support',
+    text: 'Serving as a clinical "easy button," the Vanderbilt Specialty Pharmacy handles complex prior authorizations and financial assistance to achieve a median insurance approval of 2.5 days and a 12-month medication adherence rate of 99%.',
+  },
+  {
+    eyebrow: 'Patient Continuity',
+    label: 'Trial-to-Commercial Treatment Bridges',
+    text: 'To eliminate dangerous gaps in care, the integrated pharmacy team transitions patients from clinical trial regimens to commercial, insurance-covered medications while providing a direct-line universal support hotline for medication barriers.',
+  },
+  {
+    eyebrow: 'Holistic Care',
+    label: 'Multi-Disciplinary Ancillary Services',
+    text: 'VAMP embeds specialized supportive service lines directly into patient care plans, providing integrated genetic counseling, dedicated social work and patient advocacy, and tailored nutrition care to help manage complex, organ-specific symptoms.',
+  },
+  {
+    eyebrow: 'Rehabilitation',
+    label: 'Targeted Physical & Occupational Therapy',
+    text: 'The program incorporates customized physical and occupational therapy regimens into the overarching care pathway, directly helping patients maintain mobility, manage peripheral nerve symptoms, and maximize daily independent functioning.',
   },
 ];
 
@@ -59,7 +74,7 @@ export const HighlightsSection: React.FC = () => (
             lineHeight: 1.5,
           }}
         >
-          Select milestones and contributions from Vanderbilt’s amyloidosis program
+          Key differentiators, research leadership, and support services highlighted in the latest VAMP content brief
         </p>
       </div>
 
@@ -118,19 +133,6 @@ export const HighlightsSection: React.FC = () => (
         ))}
       </div>
 
-      {/* Source note */}
-      <p
-        style={{
-          fontSize: '12px',
-          color: '#4B5563',
-          marginTop: '20px',
-          marginBottom: 0,
-          fontFamily: FONT,
-          fontStyle: 'italic',
-        }}
-      >
-        * Program background and publication summary are for review and should be confirmed by VAMP before publication.
-      </p>
     </div>
   </section>
 );

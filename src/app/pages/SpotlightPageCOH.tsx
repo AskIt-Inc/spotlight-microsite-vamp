@@ -27,10 +27,10 @@ export const SpotlightPageCOH: React.FC = () => {
         {/* Left — main content */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <OverviewSection />
-          <DirectorsSection />
-          <TeamSection />
           <AboutProgramSection />
           <HighlightsSection />
+          <DirectorsSection />
+          <TeamSection />
           <TrialsSection />
         </div>
 

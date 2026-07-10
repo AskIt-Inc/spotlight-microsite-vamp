@@ -17,25 +17,24 @@ const ACCENT_TEXT = 'var(--oav-accent-text)';
 const pillars: Array<{ icon: string; label: string; text: string }> = [
   {
     icon: '🩺',
-    label: 'Amyloidosis-Focused Care',
-    text: 'VAMP provides coordinated care for patients with suspected or confirmed amyloidosis, including cardiac, hematologic, neurologic, renal, gastrointestinal, and supportive care needs.',
+    label: 'Exceptional Diagnostic Rigor & Outreach',
+    text: 'VAMP applies hyper-specific criteria to identify the exact type from over 40 variants mimicking other disorders. To broaden access to healthcare, VAMP uses regional outreach locations to bring elite academic diagnostics directly to patients.',
   },
   {
     icon: '🧑‍⚕️',
-    label: 'Specialist Expertise',
-    text: 'The program includes Vanderbilt experts focused on cardiac amyloidosis, AL amyloidosis and plasma cell disorders, ATTR neuropathy, renal involvement, and gastrointestinal symptoms.',
+    label: 'True Multidisciplinary Syncing',
+    text: 'VAMP streamlines complex care by bringing over a dozen collaborating specialists directly to the table. The program unites experts across Hematology, Cardiology, Neurology, Nephrology, and Gastroenterology into one cohesive, synchronized care team.',
   },
   {
     icon: '🔬',
-    label: 'Research and Trials',
-    text: 'Vanderbilt participates in amyloidosis research and recruiting clinical trials, with work spanning treatment advances, biomarkers, disease monitoring, and non-invasive diagnostics.',
+    label: 'Advanced Front-Line Therapeutics',
+    text: 'VAMP pioneers practice-changing treatment strategies that attack amyloidosis right from diagnosis. By serving as a key contributing site for landmark clinical trials, the program helps establish global first-line standard-of-care regimens that significantly optimize patient outcomes.',
   },
 ];
 
 const PROGRAM_ABOUT_PARAGRAPHS = [
-  `Founded in 2011, the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings Vanderbilt specialists into one coordinated program for patients who need amyloidosis-focused evaluation, treatment planning, follow-up, and supportive care.`,
-  `VAMP is built around collaboration across hematology, cardiology, neurology, nephrology, gastroenterology, nursing, nutrition, social work, and other care partners. The goal is to help patients move through complex decisions with a team that is connected and familiar with the program’s approach.`,
-  `The program also connects patients with education, disease monitoring, clinical research, and active trial opportunities when appropriate. That combination of specialty care, coordination, and research access is what makes VAMP more than a single clinic visit.`,
+  `Founded in 2011, the Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) integrates world-class specialists into a single, highly coordinated program for patients requiring expert amyloidosis evaluation, treatment planning, long-term follow-up, and supportive care. VAMP is built upon a vital mission: to provide comprehensive care for all clinical forms of amyloidosis. By fostering seamless collaboration across hematology, cardiology, neurology, nephrology, gastroenterology, specialized nursing, nutrition, and social work, the program focuses on precisely managing complex, organ-specific symptoms while advancing practice-changing clinical research. Notably, Vanderbilt served as a contributing site for the landmark ANDROMEDA trial published in the New England Journal of Medicine, which established the addition of daratumumab to CyBorD (DARA-CyBorD) as the international standard first-line treatment for AL amyloidosis, significantly improving complete response rates and organ function.`,
+  `The VAMP team works collaboratively to raise global disease awareness, reduce critical diagnostic delays, and pioneer individualized treatment plans that place the program at the forefront of the field. Committed to health equity, VAMP actively broadens access to healthcare through dedicated outreach locations that bring elite academic expertise directly into the communities where patients live. By seamlessly connecting individuals with robust patient education, proactive disease monitoring, and premier clinical trial opportunities, VAMP provides a comprehensive ecosystem of support, proving that exceptional care is far more than just a single clinic visit.`,
 ];
 
 const SectionHeading: React.FC<{ title: string; subtitle: string; strong?: boolean }> = ({ title, subtitle, strong = false }) => (
@@ -93,11 +92,8 @@ const directorProfiles: DirectorProfile[] = [
       'Cardiology · Heart Failure · Cardiac Amyloidosis · Transplantation · LVAD',
     ],
     highlights: [
-      'Specializes in heart failure, cardiac amyloidosis, heart transplantation, and LVAD care',
-      'Completed cardiovascular disease and advanced heart failure training at Brigham and Women\'s Hospital / Harvard Medical School',
-      'Clinical interests include advanced heart failure, cardiac amyloidosis, heart transplantation, and LVADs',
-      'Research interests include heart failure, heart transplantation outcomes, and cardiac amyloidosis collaborations',
-      'Active in the American College of Cardiology, American Heart Association, Heart Failure Society of America, and International Society for Heart and Lung Transplantation',
+      'Evaluates patients on both the main campus and at dedicated regional clinics to broaden healthcare access across Tennessee.',
+      'Focuses on bringing cutting-edge, disease-modifying, and life-extending therapies directly to patients\' communities.',
     ],
     bio: [
       'Hasan Siddiqi, MD, MSCR, FACC, is a cardiologist specializing in patients with heart failure, cardiac amyloidosis, and those requiring advanced therapies such as heart transplantation and artificial heart pump support.',
@@ -120,10 +116,8 @@ const directorProfiles: DirectorProfile[] = [
       'Specializes in Hematology-Oncology, Plasma Cell Disorders, Multiple Myeloma and AL',
     ],
     highlights: [
-      'Leads the Vanderbilt Amyloidosis Multidisciplinary Program and Multiple Myeloma Program',
-      'Directs the Multiple Myeloma Program at Vanderbilt-Ingram Cancer Center',
-      'Clinical and research interests include multiple myeloma, AL amyloidosis, and other plasma cell disorders',
-      'Investigative focus includes proteasome inhibitor resistance, post-transplant immune recovery, and genomic changes in plasma cell disease',
+      'Serves as the sole faculty member on the NCCN discussion writing committee while actively advocating for an AL patient handbook and a patient advocate on the national panel.',
+      'Actively champions patient-centric resources by advocating for the creation of a dedicated AL patient education handbook.',
     ],
     bio: [
       'Muhamed Baljevic, MD, FACP, is a hematologist and medical oncologist who joined Vanderbilt University Medical Center as faculty in the Department of Medicine in 2021.',
@@ -464,7 +458,7 @@ export const OverviewSection: React.FC = () => (
             fontFamily: FONT,
           }}
         >
-          The Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) brings together specialists in hematology, cardiology, neurology, nephrology, gastroenterology, and supportive care to diagnose and treat patients with amyloidosis across the organ systems it can affect. The program combines coordinated clinical care, disease-specific expertise, research, and access to active clinical trials for patients living with AL and ATTR amyloidosis.
+          Founded in 2011 as Tennessee&apos;s first dedicated center, the Vanderbilt Amyloid Multidisciplinary Program (VAMP) is a premier referral powerhouse across the southeastern United States. The program mission is to provide comprehensive, individualized care for all forms of amyloidosis. By uniting world-class clinical expertise, advanced clinical trials, and an integrated specialty pharmacy into one synchronized pathway, the program reduces diagnostic delays, manages complex symptoms, and builds an accessible, lifelong partnership for every patient journey.
         </p>
       </blockquote>
 
