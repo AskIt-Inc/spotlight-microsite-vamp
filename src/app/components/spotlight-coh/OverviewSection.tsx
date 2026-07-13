@@ -397,36 +397,56 @@ export const AboutProgramSection: React.FC = () => (
       padding: '32px 0 24px',
     }}
   >
-    <SectionHeading
-      title="About the VAMP"
-      subtitle="How Vanderbilt’s multidisciplinary amyloidosis program coordinates care, education, and research access"
-      strong
-    />
-
-    <div
+    <details
       style={{
         background: 'var(--oav-card-bg)',
         border: '1px solid var(--oav-border)',
         borderRadius: '8px',
-        padding: '20px',
+        overflow: 'hidden',
       }}
     >
-      {PROGRAM_ABOUT_PARAGRAPHS.map((para, i) => (
-        <p
-          key={i}
+      <summary
+        style={{
+          cursor: 'pointer',
+          padding: '18px 20px',
+          fontFamily: FONT,
+          listStylePosition: 'inside',
+        }}
+      >
+        <span style={{ fontSize: '20px', fontWeight: 700, color: '#000000' }}>About VAMP</span>
+        <span
           style={{
-            fontSize: '14px',
+            display: 'block',
+            paddingLeft: '22px',
+            marginTop: '5px',
+            fontSize: '13px',
             fontWeight: 300,
-            color: '#000000',
-            lineHeight: 1.7,
-            margin: i < PROGRAM_ABOUT_PARAGRAPHS.length - 1 ? '0 0 14px 0' : 0,
-            fontFamily: FONT,
+            color: '#4B5563',
+            lineHeight: 1.5,
           }}
         >
-          {para}
-        </p>
-      ))}
-    </div>
+          Learn how Vanderbilt coordinates multidisciplinary amyloidosis care, education, and research access
+        </span>
+      </summary>
+
+      <div style={{ borderTop: '1px solid var(--oav-border)', padding: '20px' }}>
+        {PROGRAM_ABOUT_PARAGRAPHS.map((para, i) => (
+          <p
+            key={i}
+            style={{
+              fontSize: '14px',
+              fontWeight: 300,
+              color: '#000000',
+              lineHeight: 1.7,
+              margin: i < PROGRAM_ABOUT_PARAGRAPHS.length - 1 ? '0 0 14px 0' : 0,
+              fontFamily: FONT,
+            }}
+          >
+            {para}
+          </p>
+        ))}
+      </div>
+    </details>
   </section>
 );
 
