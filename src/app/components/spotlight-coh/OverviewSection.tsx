@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, CheckCircle, ChevronDown, ExternalLink } from 'lucide-react';
+import { Calendar, CheckCircle, ChevronDown, ExternalLink, PlayCircle, X } from 'lucide-react';
 import { buildRegUrlMap, type NormalizedSession, useSpotlightSessions } from './useSpotlightSessions';
 
 const FONT = 'gotham, sans-serif';
@@ -77,6 +77,7 @@ interface DirectorProfile {
   highlights: string[];
   bio: string[];
   appointmentUrl: string;
+  videoUrl?: string;
 }
 
 const directorProfiles: DirectorProfile[] = [
@@ -108,6 +109,7 @@ const directorProfiles: DirectorProfile[] = [
     photoUrl: 'https://somebodytotalkto.com/sites/default/files/pictures/2026-06/Baljevic.jpg',
     photoPosition: 'center 35%',
     appointmentUrl: 'https://www.vanderbilthealth.com/doctors/baljevic-muhamed',
+    videoUrl: 'https://www.youtube.com/embed/YKbLQNF9XxQ',
     roles: [
       'Director, Vanderbilt Amyloidosis Multidisciplinary Program (VAMP) of Vanderbilt-Ingram Cancer Center',
       'Director, Multiple Myeloma Program',
@@ -173,12 +175,38 @@ function formatSessionDate(session?: NormalizedSession): string | undefined {
   return `${lower.charAt(0).toUpperCase()}${lower.slice(1)} ${session.day}`;
 }
 
+const VideoModal: React.FC<{ name: string; videoUrl: string; onClose: () => void }> = ({ name, videoUrl, onClose }) => (
+  <div
+    style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.72)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1001, padding: '24px' }}
+    onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
+  >
+    <div style={{ background: '#ffffff', borderRadius: '12px', maxWidth: '900px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '16px 20px', borderBottom: '1px solid #E8E8E8' }}>
+        <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>{name}</div>
+        <button onClick={onClose} aria-label="Close video" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#4B5563', display: 'flex' }}>
+          <X size={20} />
+        </button>
+      </div>
+      <div style={{ aspectRatio: '16 / 9', width: '100%' }}>
+        <iframe
+          src={videoUrl}
+          title={`${name} video`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          style={{ display: 'block', width: '100%', height: '100%', border: 0, borderRadius: '0 0 12px 12px' }}
+        />
+      </div>
+    </div>
+  </div>
+);
+
 const DirectorSection: React.FC<{
   profile: DirectorProfile;
   regLink?: string;
   session?: NormalizedSession;
 }> = ({ profile, regLink, session }) => {
   const [expanded, setExpanded] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [registerHovered, setRegisterHovered] = useState(false);
   const sessionDate = formatSessionDate(session);
 
@@ -362,6 +390,16 @@ const DirectorSection: React.FC<{
           </a>
         )}
 
+        {profile.videoUrl && (
+          <button
+            onClick={() => setVideoModalOpen(true)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 13px', background: 'transparent', border: '1px solid #E8E8E8', borderRadius: '4px', fontSize: '12px', fontWeight: 300, fontFamily: FONT, color: '#000000', cursor: 'pointer' }}
+          >
+            <PlayCircle size={13} color="#1C1C1C" />
+            Watch video
+          </button>
+        )}
+
         <a
           href={profile.appointmentUrl}
           target="_blank"
@@ -386,6 +424,9 @@ const DirectorSection: React.FC<{
         </a>
 
       </div>
+      {videoModalOpen && profile.videoUrl && (
+        <VideoModal name={profile.name} videoUrl={profile.videoUrl} onClose={() => setVideoModalOpen(false)} />
+      )}
     </div>
   );
 };
