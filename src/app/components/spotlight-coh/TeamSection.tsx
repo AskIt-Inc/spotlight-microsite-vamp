@@ -34,6 +34,9 @@ const APPOINTMENT_URL_BY_PROFILE_NAME: Record<string, string> = {
   'Sara Horst': 'https://www.vanderbilthealth.com/doctors/horst-sara',
   'Hasan Siddiqi': 'https://www.vanderbilthealth.com/doctors/siddiqi-hasan',
 };
+const SUPPORT_STAFF_VIDEO_URL_BY_PROFILE_UID: Record<number, string> = {
+  322: 'https://d1u2fwb6l2zxgk.cloudfront.net/20260720_092742.mp4',
+};
 
 function profileSearchText(profile: NormalizedProfile): string {
   return [
@@ -239,6 +242,7 @@ function supportStaffFromProfile(profile: NormalizedProfile): SupportStaff {
     name: buildProfileBaseName(profile),
     credentials: profile.nameSuffix,
     role: profile.specialtyLine1 || profile.spotlightCardTag || 'Support Staff',
+    videoUrl: SUPPORT_STAFF_VIDEO_URL_BY_PROFILE_UID[profile.uid],
     note: profile.bio,
     photo: profile.photoUrl,
   };
@@ -885,8 +889,47 @@ const StaffDetailModal: React.FC<{
   </div>
 );
 
+const StaffVideoModal: React.FC<{ staff: SupportStaff; onClose: () => void }> = ({ staff, onClose }) => (
+  <div
+    style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0,0,0,0.72)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1001,
+      padding: '24px',
+    }}
+    onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
+  >
+    <div style={{ background: '#ffffff', borderRadius: '12px', maxWidth: '900px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '16px 20px', borderBottom: '1px solid #E8E8E8' }}>
+        <div style={{ fontSize: '17px', fontWeight: 700, color: '#000000', fontFamily: FONT }}>
+          {staff.name}{staff.credentials ? `, ${staff.credentials}` : ''}
+        </div>
+        <button onClick={onClose} aria-label="Close video" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#4B5563', display: 'flex' }}>
+          <X size={20} />
+        </button>
+      </div>
+      <div style={{ aspectRatio: '16 / 9', width: '100%', background: '#000000' }}>
+        <video
+          src={staff.videoUrl}
+          controls
+          autoPlay
+          playsInline
+          style={{ display: 'block', width: '100%', height: '100%', borderRadius: '0 0 12px 12px' }}
+        >
+          Your browser does not support embedded video.
+        </video>
+      </div>
+    </div>
+  </div>
+);
+
 const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, regLink }) => {
   const [open, setOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
   const [registerHovered, setRegisterHovered] = useState(false);
 
   return (
@@ -996,9 +1039,32 @@ const SupportStaffCard: React.FC<SupportStaffCardProps> = ({ staff, session, reg
               Register
             </a>
           )}
+          {staff.videoUrl && (
+            <button
+              onClick={() => setVideoOpen(true)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                fontSize: '12px',
+                fontWeight: 300,
+                color: '#1C1C1C',
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                fontFamily: FONT,
+                whiteSpace: 'nowrap' as const,
+              }}
+            >
+              <PlayCircle size={13} color="#1C1C1C" />
+              Watch video
+            </button>
+          )}
         </div>
       </div>
       {open && <StaffDetailModal staff={staff} session={session} regLink={regLink} onClose={() => setOpen(false)} />}
+      {videoOpen && <StaffVideoModal staff={staff} onClose={() => setVideoOpen(false)} />}
     </>
   );
 };

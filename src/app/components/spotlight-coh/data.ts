@@ -24,6 +24,7 @@ export interface SupportStaff {
   name: string;
   credentials: string;
   role: string;
+  videoUrl?: string;
   email?: string;
   note?: string;
   photo?: string;
